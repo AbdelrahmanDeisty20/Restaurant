@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('otps', function (Blueprint $table) {
             $table->id();
             $table->string('phone');
+            $table->string('email');
             $table->string('code');
             $table->enum('type', ['register', 'reset_password']);
             $table->string('reset_token', 255)->nullable();

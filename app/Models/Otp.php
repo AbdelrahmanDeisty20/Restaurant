@@ -8,6 +8,7 @@ class Otp extends Model
 {
     protected $fillable = [
         'phone',
+        'email',
         'code',
         'type',
         'reset_token',
@@ -15,6 +16,7 @@ class Otp extends Model
         'expires_at',
         'verified_at',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
