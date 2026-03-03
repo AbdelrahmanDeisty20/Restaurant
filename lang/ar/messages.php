@@ -48,4 +48,6 @@ return [
     'invalid_token' => 'توكين تعيين كلمة المرور غير صالح أو منتهي الصلاحية',
     'user_profile_successfully' => 'تم استرجاع معلومات المستخدم بنجاح',
     'social_login_failed' => 'فشل تسجيل الدخول عبر مواقع التواصل الاجتماعي',
+    'products_not_found' => 'لايوجد منتجات',
+    'products_retrieved_successfully' => 'تم استرجاع المنتجات بنجاح',
 ];

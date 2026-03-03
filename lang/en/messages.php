@@ -48,4 +48,6 @@ return [
     'invalid_token' => 'Password reset link is invalid or expired',
     'user_profile_successfully' => 'User profile retrieved successfully',
     'social_login_failed' => 'Social login failed',
+    'products_not_found' => 'No products found',
+    'products_retrieved_successfully' => 'Products retrieved successfully',
 ];
