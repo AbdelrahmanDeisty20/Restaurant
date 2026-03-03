@@ -43,7 +43,7 @@ class AuthService
             $expiresAt = now()->addMinutes(10);
 
             // إرسال OTP على الإيميل في الخلفية (Queue)
-            Mail::to($user->email)->queue(new OtpMail($code, $user->full_name, 'register'));
+            Mail::to($user->email)->locale(app()->getLocale())->queue(new OtpMail($code, $user->full_name, 'register'));
 
             Otp::create([
                 'phone' => $user->phone,

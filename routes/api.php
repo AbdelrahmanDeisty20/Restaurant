@@ -25,6 +25,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::post('forget-password', [ForgetPasswordController::class, 'forgetPassword']);
     Route::post('verify-otp', [ForgetPasswordController::class, 'verifyOtp']);
     Route::post('reset-password', [ForgetPasswordController::class, 'resetPassword']);
+    Route::post('resend-otp-password', [ForgetPasswordController::class, 'resendOtp']);
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);

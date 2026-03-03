@@ -24,7 +24,7 @@ return [
     'invalid_credentials' => 'البريد الالكتروني او كلمة المرور غير صحيحة',
     'otp_invalid' => 'كود التحقق غير صحيح أو منتهي الصلاحية',
     'otp_verified_successfully' => 'تم التحقق بنجاح',
-    'account_not_verified' => ' الحساب غير مفعل، رجاءً تأكد رقم هاتفك',
+    'account_not_verified' => ' الحساب غير مفعل، رجاءً تأكد بريدك الالكتروني',
     'account_already_verified' => 'الحساب متحقق منه بالفعل',
     'password_confirmed' => 'تأكيد كلمة المرور غير مطابق',
     'password_confirmation_required' => 'تأكيد كلمة المرور مطلوب',

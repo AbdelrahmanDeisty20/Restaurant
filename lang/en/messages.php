@@ -24,7 +24,7 @@ return [
     'invalid_credentials' => 'Invalid credentials',
     'otp_invalid' => 'OTP code is invalid or expired',
     'otp_verified_successfully' => 'Phone verified successfully',
-    'account_not_verified' => 'Account not verified, please verify your phone number',
+    'account_not_verified' => 'Account not verified, please verify your email',
     'account_already_verified' => 'Account is already verified',
     'password_confirmed' => 'Password confirmation does not match',
     'password_confirmation_required' => 'Password confirmation is required',

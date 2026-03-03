@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\AUTH;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\AUTH\ForgetPasswordRequest;
+use App\Http\Requests\API\AUTH\ResendOtpRequest;
 use App\Http\Requests\API\AUTH\ResetPasswordRequest;
 use App\Http\Requests\API\AUTH\VerifyForgetPasswordRequest;
 use App\Services\ForgetPasswordService;
@@ -46,6 +47,16 @@ class ForgetPasswordController extends Controller
     public function resetPassword(ResetPasswordRequest $request)
     {
         $result = $this->forgetPasswordService->resetPassword($request->validated());
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 400);
+        }
+
+        return $this->success($result['data'], $result['message'], 200);
+    }
+    public function resendOtp(ResendOtpRequest $request)
+    {
+        $result = $this->forgetPasswordService->resendOtp($request->validated());
 
         if (!$result['status']) {
             return $this->error($result['message'], 400);
