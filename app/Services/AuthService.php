@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Socialite\Facades\Socialite;
+use Str;
 
 class AuthService
 {
@@ -16,12 +18,22 @@ class AuthService
 
     public function register(array $data)
     {
+        $avatarName = null;
+        if (isset($data['avatar']) && $data['avatar'] instanceof \Illuminate\Http\UploadedFile) {
+            $path = public_path('storage/users/avatars');
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+            $avatarName = time() . '.' . $data['avatar']->getClientOriginalExtension();
+            $data['avatar']->move($path, $avatarName);
+        }
+
         $user = User::create([
             'full_name' => $data['full_name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'phone' => $data['phone'],
-            'avatar' => $data['avatar'] ?? null,
+            'avatar' => $avatarName,
             'is_active' => false,
         ]);
 
@@ -31,7 +43,7 @@ class AuthService
             $expiresAt = now()->addMinutes(10);
 
             // إرسال OTP على الإيميل في الخلفية (Queue)
-            Mail::to($user->email)->queue(new OtpMail($code, $user->full_name));
+            Mail::to($user->email)->locale(app()->getLocale())->queue(new OtpMail($code, $user->full_name, 'register'));
 
             Otp::create([
                 'phone' => $user->phone,
@@ -136,6 +148,47 @@ class AuthService
         ];
     }
 
+    public function profile($user)
+    {
+        return [
+            'status' => true,
+            'message' => __('messages.user_profile_successfully'),
+            'data' => [
+                'user' => new UserResource($user),
+            ],
+        ];
+    }
+
+    public function updateProfile($user, array $data): array
+    {
+        if (isset($data['avatar']) && $data['avatar'] instanceof \Illuminate\Http\UploadedFile) {
+            $path = public_path('storage/users/avatars');
+
+            // مسح الصورة القديمة إذا وجدت
+            if ($user->avatar && file_exists($path . '/' . $user->avatar)) {
+                unlink($path . '/' . $user->avatar);
+            }
+
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+            $avatarName = time() . '.' . $data['avatar']->getClientOriginalExtension();
+            $data['avatar']->move($path, $avatarName);
+            $data['avatar'] = $avatarName;
+        }
+
+        $user->update($data);
+
+        return [
+            'status' => true,
+            'message' => __('messages.user_profile_successfully'),
+            'data' => [
+                'user' => new UserResource($user),
+            ],
+        ];
+    }
+
     public function logout($user): array
     {
         $user->currentAccessToken()->delete();
@@ -145,5 +198,102 @@ class AuthService
             'message' => __('messages.user_logged_out_successfully'),
             'data' => [],
         ];
+    }
+
+    public function resendOtp(array $data): array
+    {
+        $user = User::where('email', $data['email'])->first();
+
+        if (!$user) {
+            return [
+                'status' => false,
+                'message' => __('messages.user_not_found'),
+                'data' => [],
+            ];
+        }
+
+        if ($user->email_verified_at) {
+            return [
+                'status' => false,
+                'message' => __('messages.account_already_verified'),
+                'data' => [],
+            ];
+        }
+
+        $code = random_int(100000, 999999);
+        $codeHash = Hash::make((string) $code);
+        $expiresAt = now()->addMinutes(10);
+
+        // إرسال OTP على الإيميل في الخلفية (Queue)
+        Mail::to($user->email)->queue(new OtpMail($code, $user->full_name, 'resend'));
+
+        Otp::create([
+            'phone' => $user->phone,
+            'email' => $user->email,
+            'code' => $codeHash,
+            'type' => 'register',
+            'user_id' => $user->id,
+            'expires_at' => $expiresAt,
+        ]);
+
+        return [
+            'status' => true,
+            'message' => __('messages.otp_sent_successfully'),
+            'data' => [],
+        ];
+    }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->stateless()->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        try {
+            $user = Socialite::driver($provider)->stateless()->user();
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => __('messages.social_login_failed'),
+                'data' => [],
+            ];
+        }
+
+        $existingUser = User::where('email', $user->email)->first();
+
+        if ($existingUser) {
+            $token = $existingUser->createToken('auth_token')->plainTextToken;
+
+            return [
+                'status' => true,
+                'message' => __('messages.user_logged_in_successfully'),
+                'data' => [
+                    'user' => new UserResource($existingUser),
+                    'token' => $token,
+                ],
+            ];
+        } else {
+            // استخدام الـ ID الفريد الخاص بجوجل ككلمة مرور للمستخدم في نظامنا
+            $newUser = User::create([
+                'full_name' => $user->name,
+                'email' => $user->email,
+                'password' => $user->id,  // Laravel سيتعامل مع التشفير تلقائياً من الموديل
+                'avatar' => $user->avatar,
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]);
+
+            $token = $newUser->createToken('auth_token')->plainTextToken;
+
+            return [
+                'status' => true,
+                'message' => __('messages.user_registered_successfully'),
+                'data' => [
+                    'user' => new UserResource($newUser),
+                    'token' => $token,
+                ],
+            ];
+        }
     }
 }

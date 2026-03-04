@@ -11,11 +11,21 @@
 </head>
 <body>
     <div class="container">
-        <h2>مرحباً {{ $name }}</h2>
-        <p>كود التحقق الخاص بتسجيل حسابك:</p>
+        <h2>{{ __('messages.welcome') }} {{ $name }}</h2>
+        <p>
+            @if($type === 'register')
+                {{ __('messages.otp_message_register') }}
+            @elseif($type === 'reset_password')
+                {{ __('messages.otp_message_reset_password') }}
+            @elseif($type === 'resend')
+                {{ __('messages.otp_message_resend') }}
+            @else
+                {{ __('messages.otp_message_register') }}
+            @endif
+        </p>
         <div class="code">{{ $code }}</div>
-        <p class="note">⏱ صالح لمدة <strong>10 دقائق</strong> فقط.</p>
-        <p class="note">إذا لم تطلب هذا الكود، تجاهل هذا الإيميل.</p>
+        <p class="note">{{ __('messages.otp_expiry_notice', ['minutes' => 10]) }}</p>
+        <p class="note">{{ __('messages.otp_ignore_notice') }}</p>
     </div>
 </body>
 </html>

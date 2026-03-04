@@ -76,6 +76,19 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class);
     }
 
+    public function getAvatarPathAttribute()
+    {
+        if (!$this->avatar) {
+            return null;
+        }
+
+        // إذا كانت الصورة رابط كامل (من تسجيل دخول اجتماعي مثلاً)
+        if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+            return $this->avatar;
+        }
+
+        return asset('storage/users/avatars/' . $this->avatar);
+    }
     public function getAvatarUrlAttribute()
     {
         return $this->avatar ? asset('storage/' . $this->avatar) : null;
