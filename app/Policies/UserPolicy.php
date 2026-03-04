@@ -8,15 +8,15 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class UserPolicy
 {
     use HandlesAuthorization;
-
+    
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']);
+        return $authUser->can('ViewAny:User');
     }
 
-    public function view(AuthUser $authUser, \App\Models\User $user): bool
+    public function view(AuthUser $authUser): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']) || $authUser->id === $user->id;
+        return $authUser->can('View:User');
     }
 
     public function create(AuthUser $authUser): bool
@@ -24,15 +24,14 @@ class UserPolicy
         return $authUser->can('Create:User');
     }
 
-    public function update(AuthUser $authUser, \App\Models\User $user): bool
+    public function update(AuthUser $authUser): bool
     {
-        // Admin can update status (handled in Form), but generally can only update own record info.
-        return $authUser->hasRole('super_admin') || ($authUser->hasRole('admin') && $user->id !== $authUser->id) || $authUser->id === $user->id;
+        return $authUser->can('Update:User');
     }
 
-    public function delete(AuthUser $authUser, \App\Models\User $user): bool
+    public function delete(AuthUser $authUser): bool
     {
-        return $authUser->hasRole('super_admin') && $authUser->id !== $user->id;
+        return $authUser->can('Delete:User');
     }
 
     public function restore(AuthUser $authUser): bool
@@ -64,4 +63,5 @@ class UserPolicy
     {
         return $authUser->can('Reorder:User');
     }
+
 }

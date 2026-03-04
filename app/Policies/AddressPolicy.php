@@ -11,7 +11,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class AddressPolicy
 {
     use HandlesAuthorization;
-
+    
     public function viewAny(AuthUser $authUser): bool
     {
         return $authUser->can('ViewAny:Address');
@@ -19,7 +19,7 @@ class AddressPolicy
 
     public function view(AuthUser $authUser, Address $address): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']) || $authUser->id === $address->user_id;
+        return $authUser->can('View:Address');
     }
 
     public function create(AuthUser $authUser): bool
@@ -29,12 +29,12 @@ class AddressPolicy
 
     public function update(AuthUser $authUser, Address $address): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']) || $authUser->id === $address->user_id;
+        return $authUser->can('Update:Address');
     }
 
     public function delete(AuthUser $authUser, Address $address): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']) || $authUser->id === $address->user_id;
+        return $authUser->can('Delete:Address');
     }
 
     public function restore(AuthUser $authUser, Address $address): bool
@@ -66,4 +66,5 @@ class AddressPolicy
     {
         return $authUser->can('Reorder:Address');
     }
+
 }
