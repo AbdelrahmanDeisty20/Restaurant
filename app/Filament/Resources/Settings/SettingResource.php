@@ -20,7 +20,22 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Content');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Setting');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Settings');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
 
     public static function form(Schema $schema): Schema
     {

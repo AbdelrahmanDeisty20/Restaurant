@@ -20,7 +20,22 @@ class AddressResource extends Resource
 {
     protected static ?string $model = Address::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('User Management');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Address');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Addresses');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedMapPin;
 
     public static function form(Schema $schema): Schema
     {

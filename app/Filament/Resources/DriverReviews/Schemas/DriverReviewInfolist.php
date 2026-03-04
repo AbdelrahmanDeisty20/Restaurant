@@ -12,13 +12,18 @@ class DriverReviewInfolist
         return $schema
             ->components([
                 TextEntry::make('driver_id')
+                    ->label(__('Driver'))
                     ->numeric(),
                 TextEntry::make('order_review_id')
+                    ->label(__('Order Review'))
                     ->numeric(),
-                TextEntry::make('rating'),
+                TextEntry::make('rating')
+                    ->label(__('Rating')),
                 TextEntry::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime(),
                 TextEntry::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime(),
             ]);
     }

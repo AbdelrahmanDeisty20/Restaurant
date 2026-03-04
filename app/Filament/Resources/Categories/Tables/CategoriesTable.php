@@ -17,18 +17,21 @@ class CategoriesTable
     {
         return $table
             ->columns([
-                TextColumn::make('name_ar')
-                    ->searchable(),
-                TextColumn::make('name_en')
-                    ->searchable(),
-                ImageColumn::make('image'),
+                TextColumn::make('name')
+                    ->label(__('Name'))
+                    ->searchable(['name_ar', 'name_en']),
+                ImageColumn::make('image')
+                    ->label(__('Image')),
                 IconColumn::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

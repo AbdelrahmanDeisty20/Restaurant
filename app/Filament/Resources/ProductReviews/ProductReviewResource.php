@@ -20,7 +20,22 @@ class ProductReviewResource extends Resource
 {
     protected static ?string $model = ProductReview::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Reviews');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Product Review');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Product Reviews');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedStar;
 
     public static function form(Schema $schema): Schema
     {

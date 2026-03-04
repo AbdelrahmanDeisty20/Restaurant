@@ -20,7 +20,22 @@ class OrderReviewResource extends Resource
 {
     protected static ?string $model = OrderReview::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Reviews');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Order Review');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Order Reviews');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
 
     public static function form(Schema $schema): Schema
     {

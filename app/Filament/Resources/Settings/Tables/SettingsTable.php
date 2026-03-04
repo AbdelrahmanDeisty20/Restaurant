@@ -16,16 +16,21 @@ class SettingsTable
         return $table
             ->columns([
                 TextColumn::make('key')
+                    ->label(__('Key'))
                     ->searchable(),
                 TextColumn::make('value')
+                    ->label(__('Value'))
                     ->searchable(),
                 TextColumn::make('type')
+                    ->label(__('Type'))
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
