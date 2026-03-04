@@ -13,6 +13,10 @@ class Offer extends Model
         'end_date',
         'is_active',
     ];
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
     public function product()
     {
         return $this->belongsTo(Product::class);

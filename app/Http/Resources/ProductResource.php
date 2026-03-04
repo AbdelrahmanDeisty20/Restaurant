@@ -2,8 +2,9 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Request;
+use App\Http\Resources\OfferResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 class ProductResource extends JsonResource
 {
@@ -18,10 +19,11 @@ class ProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'price' => $this->price,
+            'price' => (float) $this->price,
             'image' => $this->image,
             'time' => $this->time,
-            'discount_price' => $this->discount_price,
+            'discount_price' => (float) $this->discount_price,
+            'offers' => OfferResource::collection($this->whenLoaded('offers')),
         ];
     }
 }
