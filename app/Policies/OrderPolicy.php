@@ -11,15 +11,15 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class OrderPolicy
 {
     use HandlesAuthorization;
-
+    
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']);
+        return $authUser->can('ViewAny:Order');
     }
 
     public function view(AuthUser $authUser, Order $order): bool
     {
-        return $authUser->hasRole(['super_admin', 'admin']) || $authUser->id === $order->user_id;
+        return $authUser->can('View:Order');
     }
 
     public function create(AuthUser $authUser): bool
@@ -29,14 +29,12 @@ class OrderPolicy
 
     public function update(AuthUser $authUser, Order $order): bool
     {
-        // Admin can update status. Customer cannot update once created.
-        return $authUser->hasRole(['super_admin', 'admin']);
+        return $authUser->can('Update:Order');
     }
 
     public function delete(AuthUser $authUser, Order $order): bool
     {
-        // Orders should generally not be deleted.
-        return false;
+        return $authUser->can('Delete:Order');
     }
 
     public function restore(AuthUser $authUser, Order $order): bool
@@ -68,4 +66,5 @@ class OrderPolicy
     {
         return $authUser->can('Reorder:Order');
     }
+
 }

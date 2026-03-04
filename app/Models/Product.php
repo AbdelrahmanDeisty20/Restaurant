@@ -49,7 +49,7 @@ class Product extends Model
 
     public function extras()
     {
-        return $this->hasMany(ProductExtra::class);
+        return $this->belongsToMany(ProductExtra::class, 'product_product_extra');
     }
 
     public function orders()

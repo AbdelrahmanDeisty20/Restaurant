@@ -13,9 +13,9 @@ class ProductExtra extends Model
         'price',
         'type',
     ];
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsToMany(Product::class, 'product_product_extra');
     }
     public function getNameAttribute()
     {

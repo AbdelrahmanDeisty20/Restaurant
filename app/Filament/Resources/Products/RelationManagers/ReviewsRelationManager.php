@@ -50,7 +50,9 @@ class ReviewsRelationManager extends RelationManager
             ->columns([
                 TextColumn::make('user.full_name')
                     ->label(__('User'))
-                    ->searchable(),
+                    ->searchable()
+                    ->url(fn($record) => $record->orderReview?->user ? \App\Filament\Resources\Users\UserResource::getUrl('view', ['record' => $record->orderReview->user]) : null)
+                    ->openUrlInNewTab(),
                 TextColumn::make('rating')
                     ->label(__('Rating'))
                     ->sortable(),
@@ -63,7 +65,7 @@ class ReviewsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-               
+
             ])
             ->recordActions([
 
