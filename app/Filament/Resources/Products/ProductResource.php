@@ -20,7 +20,22 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Shop');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Product');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Products');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
 
     public static function form(Schema $schema): Schema
     {
@@ -40,7 +55,8 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ExtrasRelationManager::class,
+            RelationManagers\ReviewsRelationManager::class,
         ];
     }
 

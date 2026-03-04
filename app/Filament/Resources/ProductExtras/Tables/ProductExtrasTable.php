@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Favorites\Tables;
+namespace App\Filament\Resources\ProductExtras\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -9,23 +9,24 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class FavoritesTable
+class ProductExtrasTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->numeric()
+                TextColumn::make('name')
+                    ->label(__('Name'))
+                    ->searchable(['name_ar', 'name_en']),
+                TextColumn::make('price')
+                    ->label(__('Price'))
+                    ->money('EGP')
                     ->sortable(),
-                TextColumn::make('product_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('type')
+                    ->label(__('Type'))
+                    ->searchable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

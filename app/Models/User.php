@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -36,11 +37,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'avatar',
     ];
 
     protected $appends = [
-        'avatar_path',
+        'avatar_url',
     ];
 
     /**
@@ -76,9 +76,9 @@ class User extends Authenticatable
         return $this->hasOne(Cart::class);
     }
 
-    public function getAvatarPathAttribute($value)
+    public function getAvatarUrlAttribute()
     {
-        return asset('storage/users/avatars/' . $value);
+        return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
 
     public function favorites()

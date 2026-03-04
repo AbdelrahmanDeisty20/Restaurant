@@ -17,25 +17,33 @@ class ProductsTable
     {
         return $table
             ->columns([
-                TextColumn::make('name_ar')
-                    ->searchable(),
-                TextColumn::make('name_en')
-                    ->searchable(),
-                ImageColumn::make('main_image'),
-                TextColumn::make('category_id')
-                    ->numeric()
+                TextColumn::make('name')
+                    ->label(__('Name'))
+                    ->searchable(['name_ar', 'name_en']),
+                ImageColumn::make('main_image')
+                    ->label(__('Main Image')),
+                TextColumn::make('category.name')
+                    ->label(__('Category'))
+                    ->sortable(),
+                TextColumn::make('price')
+                    ->label(__('Price'))
+                    ->money('EGP')
                     ->sortable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 IconColumn::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 IconColumn::make('is_featured')
+                    ->label(__('Is Featured'))
                     ->boolean(),
             ])
             ->filters([

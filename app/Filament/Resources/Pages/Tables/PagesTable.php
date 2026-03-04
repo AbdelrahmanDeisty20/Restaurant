@@ -16,14 +16,18 @@ class PagesTable
         return $table
             ->columns([
                 TextColumn::make('title_ar')
+                    ->label(__('Title (Arabic)'))
                     ->searchable(),
                 TextColumn::make('title_en')
+                    ->label(__('Title (English)'))
                     ->searchable(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

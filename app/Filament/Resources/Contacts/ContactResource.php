@@ -20,7 +20,22 @@ class ContactResource extends Resource
 {
     protected static ?string $model = Contact::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Content');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Contact');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Contacts');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedEnvelope;
 
     public static function form(Schema $schema): Schema
     {

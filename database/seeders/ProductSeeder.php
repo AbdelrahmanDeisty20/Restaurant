@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductExtra;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -19,7 +18,6 @@ class ProductSeeder extends Seeder
         $beveragesId = Category::where('name_en', 'Beverages')->first()?->id;
 
         $products = [
-            // Grills
             [
                 'category_id' => $grillsId,
                 'name_ar' => 'مشوي مشكل',
@@ -46,8 +44,6 @@ class ProductSeeder extends Seeder
                 'is_active' => true,
                 'is_featured' => false,
             ],
-
-            // Yemeni
             [
                 'category_id' => $yemeniId,
                 'name_ar' => 'مندي دجاج',
@@ -74,8 +70,6 @@ class ProductSeeder extends Seeder
                 'is_active' => true,
                 'is_featured' => true,
             ],
-
-            // Appetizers
             [
                 'category_id' => $appetizersId,
                 'name_ar' => 'حمص',
@@ -98,8 +92,6 @@ class ProductSeeder extends Seeder
                 'is_active' => true,
                 'is_featured' => false,
             ],
-
-            // Popular
             [
                 'category_id' => $popularId,
                 'name_ar' => 'طبق كشري عائلي',
@@ -111,8 +103,6 @@ class ProductSeeder extends Seeder
                 'is_active' => true,
                 'is_featured' => true,
             ],
-
-            // Desserts
             [
                 'category_id' => $dessertsId,
                 'name_ar' => 'كنافة نابلسية',
@@ -124,8 +114,6 @@ class ProductSeeder extends Seeder
                 'is_active' => true,
                 'is_featured' => true,
             ],
-
-            // Beverages
             [
                 'category_id' => $beveragesId,
                 'name_ar' => 'عصير برتقال فريش',

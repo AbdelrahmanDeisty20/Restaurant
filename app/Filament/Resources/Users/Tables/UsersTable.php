@@ -5,7 +5,6 @@ namespace App\Filament\Resources\Users\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -17,24 +16,28 @@ class UsersTable
         return $table
             ->columns([
                 TextColumn::make('full_name')
+                    ->label(__('Full Name'))
                     ->searchable(),
                 TextColumn::make('phone')
-                    ->searchable(),
-                TextColumn::make('avatar')
+                    ->label(__('Phone'))
                     ->searchable(),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label(__('Email address'))
                     ->searchable(),
                 TextColumn::make('email_verified_at')
+                    ->label(__('Email Verified At'))
                     ->dateTime()
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -43,7 +46,6 @@ class UsersTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

@@ -12,10 +12,13 @@ class SettingForm
         return $schema
             ->components([
                 TextInput::make('key')
+                    ->label(__('Key'))
                     ->required(),
                 TextInput::make('value')
+                    ->label(__('Value'))
                     ->required(),
                 TextInput::make('type')
+                    ->label(__('Type'))
                     ->required()
                     ->default('text'),
             ]);

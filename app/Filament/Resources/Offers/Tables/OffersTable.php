@@ -17,24 +17,31 @@ class OffersTable
         return $table
             ->columns([
                 TextColumn::make('product_id')
+                    ->label(__('Product'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('discount_percentage')
+                    ->label(__('Discount Percentage'))
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('start_date')
+                    ->label(__('Start Date'))
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('end_date')
+                    ->label(__('End Date'))
                     ->dateTime()
                     ->sortable(),
                 IconColumn::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 TextColumn::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

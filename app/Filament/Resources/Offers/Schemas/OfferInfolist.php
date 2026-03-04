@@ -13,18 +13,25 @@ class OfferInfolist
         return $schema
             ->components([
                 TextEntry::make('product_id')
+                    ->label(__('Product'))
                     ->numeric(),
                 TextEntry::make('discount_percentage')
+                    ->label(__('Discount Percentage'))
                     ->numeric(),
                 TextEntry::make('start_date')
+                    ->label(__('Start Date'))
                     ->dateTime(),
                 TextEntry::make('end_date')
+                    ->label(__('End Date'))
                     ->dateTime(),
                 IconEntry::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 TextEntry::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime(),
                 TextEntry::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime(),
             ]);
     }

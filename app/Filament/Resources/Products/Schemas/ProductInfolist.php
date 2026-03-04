@@ -13,18 +13,32 @@ class ProductInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name_ar'),
-                TextEntry::make('name_en'),
-                ImageEntry::make('main_image'),
-                TextEntry::make('category_id')
-                    ->numeric(),
+                TextEntry::make('name_ar')
+                    ->label(__('Name AR')),
+                TextEntry::make('name_en')
+                    ->label(__('Name EN')),
+                ImageEntry::make('main_image')
+                    ->label(__('Main Image'))
+                    ->disk('public'),
+                TextEntry::make('category.name')
+                    ->label(__('Category')),
+                TextEntry::make('price')
+                    ->label(__('Price'))
+                    ->money('EGP'),
+                TextEntry::make('discount_price')
+                    ->label(__('Discount Price'))
+                    ->money('EGP'),
                 TextEntry::make('created_at')
+                    ->label(__('Created At'))
                     ->dateTime(),
                 TextEntry::make('updated_at')
+                    ->label(__('Updated At'))
                     ->dateTime(),
                 IconEntry::make('is_active')
+                    ->label(__('Is Active'))
                     ->boolean(),
                 IconEntry::make('is_featured')
+                    ->label(__('Is Featured'))
                     ->boolean(),
             ]);
     }

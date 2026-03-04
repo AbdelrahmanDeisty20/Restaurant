@@ -14,13 +14,17 @@ class CategoryForm
         return $schema
             ->components([
                 TextInput::make('name_ar')
+                    ->label(__('Name AR'))
                     ->required(),
                 TextInput::make('name_en')
+                    ->label(__('Name EN'))
                     ->required(),
                 FileUpload::make('image')
+                    ->label(__('Image'))
                     ->image()
                     ->required(),
                 Toggle::make('is_active')
+                    ->label(__('Is Active'))
                     ->required(),
             ]);
     }

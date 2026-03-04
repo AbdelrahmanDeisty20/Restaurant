@@ -13,14 +13,18 @@ class DriverReviewForm
         return $schema
             ->components([
                 TextInput::make('driver_id')
+                    ->label(__('Driver'))
                     ->required()
                     ->numeric(),
                 TextInput::make('order_review_id')
+                    ->label(__('Order Review'))
                     ->required()
                     ->numeric(),
                 TextInput::make('rating')
+                    ->label(__('Rating'))
                     ->required(),
                 Textarea::make('comment')
+                    ->label(__('Comment'))
                     ->columnSpanFull(),
             ]);
     }
