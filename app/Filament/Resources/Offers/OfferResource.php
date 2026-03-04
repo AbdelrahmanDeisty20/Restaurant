@@ -20,7 +20,22 @@ class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Shop');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Offer');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Offers');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedGift;
 
     public static function form(Schema $schema): Schema
     {

@@ -20,7 +20,22 @@ class DriverReviewResource extends Resource
 {
     protected static ?string $model = DriverReview::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Reviews');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Driver Review');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Driver Reviews');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedUserCircle;
 
     public static function form(Schema $schema): Schema
     {

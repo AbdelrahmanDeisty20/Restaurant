@@ -13,15 +13,18 @@ class AddressForm
     {
         return $schema
             ->components([
-                TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                TextInput::make('user.full_name')
+                    ->label(__('User'))
+                    ->required(),
                 TextInput::make('title')
+                    ->label(__('Title'))
                     ->required(),
                 Textarea::make('address')
+                    ->label(__('Address'))
                     ->required()
                     ->columnSpanFull(),
                 Toggle::make('is_default')
+                    ->label(__('Is Default'))
                     ->required(),
             ]);
     }

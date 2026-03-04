@@ -17,9 +17,9 @@ class Driver extends Model
     {
         return $this->hasMany(DriverReview::class);
     }
-    public function getAvatarAttribute($value)
+    public function getAvatarUrlAttribute()
     {
-        return asset('storage/drivers/avatars/' . $value);
+        return $this->avatar ? asset('storage/' . $this->avatar) : null;
     }
     public function getRatingAttribute($value)
     {

@@ -13,7 +13,7 @@ class Category extends Model
         'is_active',
     ];
     protected $appends = ['name', 'image_path'];
-    protected $hidden = ['name_ar', 'name_en', 'image'];
+    protected $hidden = [];
     public function getNameAttribute()
     {
         $locale = app()->getLocale();

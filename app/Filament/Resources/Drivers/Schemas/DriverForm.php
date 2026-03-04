@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Drivers\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -12,15 +13,19 @@ class DriverForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('Name'))
                     ->required(),
                 TextInput::make('phone')
+                    ->label(__('Phone'))
                     ->tel()
                     ->required(),
-                TextInput::make('avatar'),
-                TextInput::make('rating')
-                    ->required()
-                    ->numeric(),
+                FileUpload::make('avatar')
+                    ->label(__('Avatar'))
+                    ->disk('public')
+                    ->directory('drivers/avatars')
+                    ->image(),
                 TextInput::make('status')
+                    ->label(__('Status'))
                     ->required()
                     ->default('available'),
             ]);

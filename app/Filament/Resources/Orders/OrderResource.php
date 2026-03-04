@@ -20,7 +20,22 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Sales');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Order');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Orders');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedCreditCard;
 
     public static function form(Schema $schema): Schema
     {
@@ -40,7 +55,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ItemsRelationManager::class,
         ];
     }
 

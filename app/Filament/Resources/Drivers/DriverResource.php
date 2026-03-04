@@ -20,7 +20,22 @@ class DriverResource extends Resource
 {
     protected static ?string $model = Driver::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    public static function getNavigationGroup(): ?string
+    {
+        return __('User Management');
+    }
+
+    public static function getLabel(): ?string
+    {
+        return __('Driver');
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        return __('Drivers');
+    }
+
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedTruck;
 
     public static function form(Schema $schema): Schema
     {
@@ -40,7 +55,7 @@ class DriverResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\DriverReviewsRelationManager::class,
         ];
     }
 

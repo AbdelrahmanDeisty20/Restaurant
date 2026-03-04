@@ -13,14 +13,18 @@ class OrderReviewForm
         return $schema
             ->components([
                 TextInput::make('order_id')
+                    ->label(__('Order'))
                     ->required()
                     ->numeric(),
                 TextInput::make('user_id')
+                    ->label(__('User'))
                     ->required()
                     ->numeric(),
                 TextInput::make('rating')
+                    ->label(__('Rating'))
                     ->required(),
                 Textarea::make('comment')
+                    ->label(__('Comment'))
                     ->columnSpanFull(),
             ]);
     }

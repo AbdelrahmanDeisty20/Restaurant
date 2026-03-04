@@ -13,17 +13,21 @@ class ContactForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label(__('Name'))
                     ->required(),
                 TextInput::make('email')
-                    ->label('Email address')
+                    ->label(__('Email address'))
                     ->email()
                     ->required(),
                 TextInput::make('phone')
+                    ->label(__('Phone'))
                     ->tel()
                     ->required(),
                 TextInput::make('subject')
+                    ->label(__('Subject'))
                     ->required(),
                 Textarea::make('message')
+                    ->label(__('Message'))
                     ->required()
                     ->columnSpanFull(),
             ]);
