@@ -33,12 +33,14 @@ class OrderSeeder extends Seeder
 
                 foreach ($orderProducts as $product) {
                     $qty = rand(1, 2);
-                    $price = $product->price * $qty;
+                    $size = $product->sizes->random();
+                    $price = $size->price * $qty;
                     $total += $price;
 
                     $order->items()->attach($product->id, [
                         'quantity' => $qty,
-                        'price' => $product->price,
+                        'price' => $size->price,
+                        'product_size_id' => $size->id,
                         'extras' => json_encode([]),
                     ]);
                 }

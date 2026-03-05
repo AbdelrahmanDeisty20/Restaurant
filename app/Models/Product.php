@@ -21,18 +21,12 @@ class Product extends Model
         'price',
         'discount_price',
         'time',
+        'included_extras',
     ];
     protected $appends = [
         'image_path',
         'name',
         'description',
-    ];
-    protected $hidden = [
-        'name_ar',
-        'name_en',
-        'description_ar',
-        'description_en',
-        'main_image',
     ];
     public function category()
     {
@@ -58,9 +52,17 @@ class Product extends Model
         return $this->{"description_{$locale}"} ?? $this->description_en;
     }
 
+    public function sizes()
+    {
+        return $this->hasMany(ProductSize::class);
+    }
+
     public function extras()
     {
-        return $this->belongsToMany(ProductExtra::class, 'product_product_extra');
+        // This is now purely for reference if needed, but since it's global,
+        // products don't "have" extras in the same way anymore.
+        // We'll keep it empty or remove it if not used in APIs.
+        return [];
     }
 
     public function orders()
@@ -82,7 +84,6 @@ class Product extends Model
     {
         return $this->hasMany(Offer::class)->where('is_active', true)->where('end_date', '>=', now());
     }
-}
     public function images()
     {
         return $this->hasMany(ProductImage::class);

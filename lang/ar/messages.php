@@ -67,4 +67,5 @@ return [
     'quantity_min' => 'الكمية يجب أن تكون 1 على الأقل',
     'product_extras_not_found' => 'لايوجد إضافات',
     'product_extras_retrieved_successfully' => 'تم استرجاع الإضافات بنجاح',
+    'size_not_found_for_product' => 'الحجم المختار غير متوفر لهذا المنتج',
 ];

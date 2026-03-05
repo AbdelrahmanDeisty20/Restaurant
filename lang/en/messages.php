@@ -50,6 +50,10 @@ return [
     'social_login_failed' => 'Social login failed',
     'products_not_found' => 'No products found',
     'products_retrieved_successfully' => 'Products retrieved successfully',
+    'product_not_found' => 'Product not found',
+    'product_retrieved_successfully' => 'Product retrieved successfully',
+    'offers_not_found' => 'No offers found',
+    'offers_retrieved_successfully' => 'Offers retrieved successfully',
     'search_required' => 'Search is required',
     'search_string' => 'Search must be a string',
     'cart_empty' => 'Cart is empty',
@@ -63,4 +67,5 @@ return [
     'quantity_min' => 'Quantity must be at least 1',
     'product_extras_not_found' => 'No product extras found',
     'product_extras_retrieved_successfully' => 'Product extras retrieved successfully',
+    'size_not_found_for_product' => 'Selected size is not available for this product',
 ];

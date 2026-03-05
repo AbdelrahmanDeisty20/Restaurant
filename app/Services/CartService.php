@@ -37,25 +37,60 @@ class CartService
 
         $cart = Cart::firstOrCreate(['user_id' => $userId]);
 
-        $unitPrice = $product->discount_price > 0 ? $product->discount_price : $product->price;
-        $quantity = $data['quantity'];
-        $extras = $data['extras'] ?? null;
+        $productSize = null;
+        if (!empty($data['product_size_id'])) {
+            $productSize = \App\Models\ProductSize::where('product_id', $product->id)
+                ->find($data['product_size_id']);
 
-        // لو المنتج موجود في السلة → نزيد الكمية
-        $existing = $cart->items()->where('product_id', $product->id)->first();
+            if (!$productSize) {
+                return [
+                    'status' => false,
+                    'message' => __('messages.size_not_found_for_product'),
+                    'data' => [],
+                ];
+            }
+        }
+
+        // Base price
+        $unitPrice = $productSize ? $productSize->price : ($product->discount_price > 0 ? $product->discount_price : $product->price);
+
+        // Extras price
+        $extrasData = [];
+        $extrasPrice = 0;
+        if (!empty($data['extras'])) {
+            $selectedExtras = \App\Models\ProductExtra::findMany($data['extras']);
+            foreach ($selectedExtras as $extra) {
+                $extrasPrice += $extra->price;
+                $extrasData[] = [
+                    'id' => $extra->id,
+                    'name' => $extra->name,
+                    'price' => $extra->price,
+                ];
+            }
+        }
+
+        $totalUnitPrice = $unitPrice + $extrasPrice;
+        $quantity = $data['quantity'];
+
+        // Check for existing item with same product AND same size
+        $existing = $cart->items()
+            ->where('product_id', $product->id)
+            ->wherePivot('product_size_id', $data['product_size_id'] ?? null)
+            ->first();
 
         if ($existing) {
             $newQty = $existing->pivot->quantity + $quantity;
             $cart->items()->updateExistingPivot($product->id, [
                 'quantity' => $newQty,
-                'total_price' => $unitPrice * $newQty,
+                'total_price' => $totalUnitPrice * $newQty,
             ]);
         } else {
             $cart->items()->attach($product->id, [
                 'quantity' => $quantity,
-                'unit_price' => $unitPrice,
-                'total_price' => $unitPrice * $quantity,
-                'extras' => $extras ? json_encode($extras) : null,
+                'unit_price' => $totalUnitPrice,
+                'total_price' => $totalUnitPrice * $quantity,
+                'extras' => !empty($extrasData) ? json_encode($extrasData) : null,
+                'product_size_id' => $data['product_size_id'] ?? null,
             ]);
         }
 

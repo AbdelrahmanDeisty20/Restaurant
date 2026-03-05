@@ -27,7 +27,7 @@ class productService
     }
     public function getProductById($id)
     {
-        $product = Product::with('offers','images','category')->find($id);
+        $product = Product::with('offers', 'images', 'category', 'sizes')->find($id);
         if (!$product) {
             return [
                 'status' => false,

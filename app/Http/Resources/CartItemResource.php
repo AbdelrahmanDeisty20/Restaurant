@@ -14,7 +14,8 @@ class CartItemResource extends JsonResource
             'quantity' => $this->pivot->quantity,
             'unit_price' => (float) $this->pivot->unit_price,
             'total_price' => (float) $this->pivot->total_price,
-            'extras' => $this->pivot->extras ? json_decode($this->pivot->extras) : null,
+            'size' => $this->pivot->product_size_id ? new ProductSizeResource(\App\Models\ProductSize::find($this->pivot->product_size_id)) : null,
+            'extras' => $this->pivot->extras ? json_decode($this->pivot->extras) : [],
             'product' => new ProductResource($this->resource),
         ];
     }

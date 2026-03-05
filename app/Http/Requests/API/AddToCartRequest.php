@@ -15,8 +15,10 @@ class AddToCartRequest extends FormRequest
     {
         return [
             'product_id' => 'required|integer|exists:products,id',
+            'product_size_id' => 'nullable|integer|exists:product_sizes,id',
             'quantity' => 'required|integer|min:1',
             'extras' => 'nullable|array',
+            'extras.*' => 'integer|exists:product_extras,id',
         ];
     }
 

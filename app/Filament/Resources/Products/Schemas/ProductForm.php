@@ -64,6 +64,11 @@ class ProductForm
                     ->required()
                     ->default(false),
 
+                Textarea::make('included_extras')
+                    ->label(__('Included Extras'))
+                    ->placeholder(__('e.g. Ranch Sauce, Pepsi, ...'))
+                    ->columnSpanFull(),
+
             ]);
     }
 }

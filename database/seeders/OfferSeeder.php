@@ -14,16 +14,23 @@ class OfferSeeder extends Seeder
         // حذف العروض القديمة وإعادة الإنشاء
         Offer::truncate();
 
-        $products = Product::take(5)->get();
+        $products = Product::inRandomOrder()->take(10)->get();
 
-        $discounts = [25.0, 15.0, 30.0, 10.0, 20.0];
+        $offers = [
+            ['percentage' => 50.0, 'label' => 'Ramadan Special'],
+            ['percentage' => 30.0, 'label' => 'Summer Deal'],
+            ['percentage' => 20.0, 'label' => 'Flash Sale'],
+            ['percentage' => 15.0, 'label' => 'Weekend Offer'],
+            ['percentage' => 10.0, 'label' => 'Welcome Pack'],
+        ];
 
         foreach ($products as $index => $product) {
+            $offerData = $offers[$index % count($offers)];
             Offer::create([
                 'product_id' => $product->id,
-                'discount_percentage' => $discounts[$index],
+                'discount_percentage' => $offerData['percentage'],
                 'start_date' => Carbon::now(),
-                'end_date' => Carbon::now()->addYear(),
+                'end_date' => Carbon::now()->addMonths(rand(1, 6)),
                 'is_active' => true,
             ]);
         }
