@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\API\AUTH\AuthController;
 use App\Http\Controllers\API\AUTH\ForgetPasswordController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Middleware\setLang;
 use Illuminate\Http\Request;
@@ -11,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
-//api routes
-
+// api routes
 
 Route::group(['middleware' => setLang::class], function () {
     Route::get('categories', [CategoryController::class, 'index']);
     Route::get('categories/{id}', [CategoryController::class, 'show']);
     Route::get('products', [ProductController::class, 'index']);
+    Route::get('products/{id}', [ProductController::class, 'show']);
+    Route::get('search', [ProductController::class, 'search']);
+    Route::get('offers', [OfferController::class, 'index']);
+    Route::get('product-extras', [ProductController::class, 'getProductExtras']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('redirect/{provider}', [AuthController::class, 'redirectToProvider']);
@@ -32,5 +37,11 @@ Route::group(['middleware' => setLang::class], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);
         Route::post('update-profile', [AuthController::class, 'updateProfile']);
+        // Cart
+        Route::get('cart', [CartController::class, 'index']);
+        Route::post('cart', [CartController::class, 'add']);
+        Route::put('cart/{productId}', [CartController::class, 'update']);
+        Route::delete('cart/{productId}', [CartController::class, 'remove']);
+        Route::delete('cart', [CartController::class, 'clear']);
     });
 });

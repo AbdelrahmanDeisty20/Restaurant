@@ -28,7 +28,7 @@ class CategoryService
 
     public function getCategoryById($id)
     {
-        $category = Category::with('products.images', 'products.offers')->find($id);
+        $category = Category::with('products.offers')->find($id);
 
         if (!$category) {
             return [

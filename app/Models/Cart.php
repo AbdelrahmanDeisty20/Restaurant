@@ -10,12 +10,17 @@ class Cart extends Model
         'user_id',
         'guest_token',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function items()
     {
-        return $this->belongsToMany(Product::class, 'cart_items')->withPivot('quantity', 'extras', 'price');
+        return $this
+            ->belongsToMany(Product::class, 'cart_items')
+            ->withPivot('id', 'quantity', 'unit_price', 'total_price', 'extras')
+            ->withTimestamps();
     }
 }
