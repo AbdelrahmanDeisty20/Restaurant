@@ -22,15 +22,26 @@ class Product extends Model
         'discount_price',
         'time',
     ];
-
+    protected $appends = [
+        'image_path',
+        'name',
+        'description',
+    ];
+    protected $hidden = [
+        'name_ar',
+        'name_en',
+        'description_ar',
+        'description_en',
+        'main_image',
+    ];
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function getImageAttribute($value)
+    public function getImagePathAttribute()
     {
-        return asset('storage/products/main_image/' . $value);
+        return asset('storage/products/main_image/' . $this->main_image);
     }
 
     public function getNameAttribute()
@@ -70,5 +81,10 @@ class Product extends Model
     public function offers()
     {
         return $this->hasMany(Offer::class)->where('is_active', true)->where('end_date', '>=', now());
+    }
+}
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
     }
 }

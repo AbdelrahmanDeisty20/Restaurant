@@ -17,7 +17,7 @@ class OfferResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product' => ProductResource::make($this->whenLoaded('product')),
+            'product' => new ProductResource($this->whenLoaded('product')),
             'discount_percentage' => (float) $this->discount_percentage,
         ];
     }
