@@ -25,7 +25,18 @@ class UpdateProfileRequest extends FormRequest
             'full_name' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
             'avatar' => 'nullable|image|max:2048',
+            'password' => 'nullable|string|min:8|confirmed',
         ];
     }
-    
+    public function messages()
+    {
+        return [
+            'full_name.required' => __('messages.full_name_required'),
+            'phone.required' => __('messages.phone_required'),
+            'avatar.required' => __('messages.avatar_required'),
+            'password.required' => __('messages.password_required'),
+            'password.confirmed' => __('messages.password_confirmed'),
+            'password.min' => __('messages.password_min'),
+        ];
+    }
 }

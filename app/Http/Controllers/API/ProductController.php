@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\SearchProductRequest;
+use App\Http\Resources\ProductExtraResource;
 use App\Http\Resources\ProductResource;
 use App\Services\productService;
+use App\Services\SearchProductService;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     use ApiResponse;
     protected $productService;
-    public function __construct(productService $productService)
+    protected $searchProductService;
+    public function __construct(productService $productService, SearchProductService $searchProductService)
     {
         $this->productService = $productService;
+        $this->searchProductService = $searchProductService;
     }
     public function index()
     {
@@ -23,5 +27,29 @@ class ProductController extends Controller
             return $this->error($products['message'], 404);
         }
         return $this->paginated(ProductResource::class, $products['data'], $products['message']);
+    }
+    public function show($id)
+    {
+        $product = $this->productService->getProductById($id);
+        if(!$product['status']){
+            return $this->error($product['message'], 404);
+        }
+        return $this->success($product['data'], $product['message']);
+    }
+    public function search(SearchProductRequest $request)
+    {
+        $products = $this->searchProductService->searchProducts($request->validated());
+        if(!$products['status']){
+            return $this->error($products['message'], 404);
+        }
+        return $this->paginated(ProductResource::class, $products['data'], $products['message']);
+    }
+    public function getProductExtras()
+    {
+        $productExtras = $this->productService->getProductExtras();
+        if(!$productExtras['status']){
+            return $this->error($productExtras['message'], 404);
+        }
+        return $this->paginated(ProductExtraResource::class, $productExtras['data'], $productExtras['message']);
     }
 }
