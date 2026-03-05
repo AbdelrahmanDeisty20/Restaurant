@@ -14,20 +14,23 @@ class ProductForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $locale = app()->getLocale();
+        $otherLocale = $locale === 'ar' ? 'en' : 'ar';
+
         return $schema
             ->components([
-                TextInput::make('name_ar')
-                    ->label(__('Name AR'))
+                TextInput::make("name_{$locale}")
+                    ->label($locale === 'ar' ? __('Name AR') : __('Name EN'))
                     ->required(),
-                TextInput::make('name_en')
-                    ->label(__('Name EN'))
+                TextInput::make("name_{$otherLocale}")
+                    ->label($otherLocale === 'ar' ? __('Name AR') : __('Name EN'))
                     ->required(),
-                Textarea::make('description_ar')
-                    ->label(__('Description AR'))
+                Textarea::make("description_{$locale}")
+                    ->label($locale === 'ar' ? __('Description AR') : __('Description EN'))
                     ->required()
                     ->columnSpanFull(),
-                Textarea::make('description_en')
-                    ->label(__('Description EN'))
+                Textarea::make("description_{$otherLocale}")
+                    ->label($otherLocale === 'ar' ? __('Description AR') : __('Description EN'))
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('main_image')
@@ -36,10 +39,12 @@ class ProductForm
                     ->directory('products/images')
                     ->image()
                     ->required(),
+
                 Select::make('category_id')
                     ->label(__('Category'))
                     ->required()
-                    ->options(fn() => Category::all()->pluck('name', 'id')),
+                    ->options(fn() => \App\Models\Category::all()->pluck('name', 'id')),
+
                 TextInput::make('price')
                     ->label(__('Price'))
                     ->required()
@@ -49,12 +54,16 @@ class ProductForm
                     ->label(__('Discount Price'))
                     ->numeric()
                     ->prefix('EGP'),
+
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
-                    ->required(),
+                    ->required()
+                    ->default(true),
                 Toggle::make('is_featured')
                     ->label(__('Is Featured'))
-                    ->required(),
+                    ->required()
+                    ->default(false),
+
             ]);
     }
 }

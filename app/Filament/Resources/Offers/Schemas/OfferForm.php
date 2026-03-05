@@ -13,10 +13,12 @@ class OfferForm
     {
         return $schema
             ->components([
-                TextInput::make('product_id')
+                \Filament\Forms\Components\Select::make('product_id')
                     ->label(__('Product'))
-                    ->required()
-                    ->numeric(),
+                    ->relationship('product', "name_" . app()->getLocale())
+                    ->searchable()
+                    ->preload()
+                    ->required(),
                 TextInput::make('discount_percentage')
                     ->label(__('Discount Percentage'))
                     ->required()
@@ -27,7 +29,8 @@ class OfferForm
                     ->label(__('End Date')),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
-                    ->required(),
+                    ->required()
+                    ->default(true),
             ]);
     }
 }

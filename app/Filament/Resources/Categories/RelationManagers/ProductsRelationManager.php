@@ -2,13 +2,10 @@
 
 namespace App\Filament\Resources\Categories\RelationManagers;
 
-use Filament\Actions\AttachAction;
+use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\CreateAction;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\DetachAction;
-use Filament\Actions\DetachBulkAction;
+use Filament\Actions\DissociateAction;
+use Filament\Actions\DissociateBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Model;
@@ -28,10 +25,12 @@ class ProductsRelationManager extends RelationManager
 
     public function form(Schema $schema): Schema
     {
+        $locale = app()->getLocale();
+
         return $schema
             ->components([
-                TextInput::make('name_en')
-                    ->label(__('Name EN'))
+                TextInput::make("name_{$locale}")
+                    ->label(__('Name'))
                     ->required()
                     ->maxLength(255),
             ]);
@@ -45,23 +44,25 @@ class ProductsRelationManager extends RelationManager
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable(['name_ar', 'name_en']),
+                TextColumn::make('price')
+                    ->label(__('Price'))
+                    ->money('EGP'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
-                AttachAction::make(),
+                AssociateAction::make()
+                    ->multiple()
+                    ->preloadRecordSelect(),
             ])
             ->recordActions([
                 EditAction::make(),
-                DetachAction::make(),
-
+                DissociateAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DetachBulkAction::make(),
-
+                    DissociateBulkAction::make(),
                 ]),
             ]);
     }
