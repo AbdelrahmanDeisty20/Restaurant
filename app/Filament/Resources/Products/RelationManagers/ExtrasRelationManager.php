@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Products\RelationManagers;
 
 use Filament\Actions\AttachAction;
+use Filament\Actions\CreateAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DetachAction;
 use Filament\Actions\DetachBulkAction;
@@ -10,6 +11,7 @@ use Filament\Actions\EditAction;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -38,9 +40,14 @@ class ExtrasRelationManager extends RelationManager
                     ->required()
                     ->numeric()
                     ->prefix('EGP'),
-                TextInput::make('type')
+                Select::make('type')
                     ->label(__('Type'))
-                    ->required(),
+                    ->options([
+                        'size' => __('Size'),
+                        'extra' => __('Extra'),
+                    ])
+                    ->required()
+                    ->default('size'),
             ]);
     }
 
@@ -57,13 +64,22 @@ class ExtrasRelationManager extends RelationManager
                     ->money('EGP')
                     ->sortable(),
                 TextColumn::make('type')
-                    ->label(__('Type')),
+                    ->label(__('Type'))
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'size' => 'info',
+                        'extra' => 'warning',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn(string $state): string => __($state === 'size' ? 'Size' : 'Extra')),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
+                CreateAction::make(),
                 AttachAction::make()
+                    ->multiple()
                     ->preloadRecordSelect(),
             ])
             ->recordActions([

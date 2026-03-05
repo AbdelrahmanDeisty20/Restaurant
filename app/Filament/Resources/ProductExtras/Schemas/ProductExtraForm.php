@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ProductExtras\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -22,9 +23,14 @@ class ProductExtraForm
                     ->required()
                     ->numeric()
                     ->prefix('EGP'),
-                TextInput::make('type')
+                Select::make('type')
                     ->label(__('Type'))
-                    ->required(),
+                    ->options([
+                        'size' => __('Size'),
+                        'extra' => __('Extra'),
+                    ])
+                    ->required()
+                    ->default('size'),
             ]);
     }
 }

@@ -16,9 +16,9 @@ class OffersTable
     {
         return $table
             ->columns([
-                TextColumn::make('product_id')
+                TextColumn::make('product.name')
                     ->label(__('Product'))
-                    ->numeric()
+                    ->searchable(['name_ar', 'name_en'])
                     ->sortable(),
                 TextColumn::make('discount_percentage')
                     ->label(__('Discount Percentage'))

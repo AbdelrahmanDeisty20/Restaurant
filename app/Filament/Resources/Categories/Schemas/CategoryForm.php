@@ -11,13 +11,16 @@ class CategoryForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $locale = app()->getLocale();
+        $otherLocale = $locale === 'ar' ? 'en' : 'ar';
+
         return $schema
             ->components([
-                TextInput::make('name_ar')
-                    ->label(__('Name AR'))
+                TextInput::make("name_{$locale}")
+                    ->label($locale === 'ar' ? __('Name AR') : __('Name EN'))
                     ->required(),
-                TextInput::make('name_en')
-                    ->label(__('Name EN'))
+                TextInput::make("name_{$otherLocale}")
+                    ->label($otherLocale === 'ar' ? __('Name AR') : __('Name EN'))
                     ->required(),
                 FileUpload::make('image')
                     ->label(__('Image'))
@@ -25,7 +28,9 @@ class CategoryForm
                     ->required(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
-                    ->required(),
+                    ->required()
+                    ->default(true),
+
             ]);
     }
 }

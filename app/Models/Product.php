@@ -82,6 +82,7 @@ class Product extends Model
     {
         return $this->hasMany(Offer::class)->where('is_active', true)->where('end_date', '>=', now());
     }
+}
     public function images()
     {
         return $this->hasMany(ProductImage::class);
