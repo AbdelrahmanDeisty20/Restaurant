@@ -22,16 +22,6 @@ class ProductExtrasTable
                     ->label(__('Price'))
                     ->money('EGP')
                     ->sortable(),
-                TextColumn::make('type')
-                    ->label(__('Type'))
-                    ->badge()
-                    ->color(fn(string $state): string => match ($state) {
-                        'size' => 'info',
-                        'extra' => 'warning',
-                        default => 'gray',
-                    })
-                    ->formatStateUsing(fn(string $state): string => __($state === 'size' ? 'Size' : 'Extra'))
-                    ->searchable(),
                 TextColumn::make('created_at')
                     ->label(__('Created At'))
                     ->dateTime()
