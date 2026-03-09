@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Order Tracking - Demo</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { font-family: 'Inter', sans-serif; margin: 0; padding: 20px; background: #f4f7f6; }
+        #map { height: 500px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .controls { background: white; padding: 20px; border-radius: 12px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+        .info { flex: 1; }
+        .actions { display: flex; gap: 10px; }
+        button { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-update { background: #4a6cf7; color: white; }
+        .btn-update:hover { background: #3a5bd9; }
+        .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 14px; background: #e0e7ff; color: #4338ca; }
+        input { padding: 8px; border: 1px solid #ddd; border-radius: 8px; width: 60px; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 ميزة تتبع الشحنة - العرض التجريبي</h1>
+    
+    <div id="map"></div>
+
+    <div class="controls">
+        <div class="info">
+            <strong>طلب رقم: </strong> <span id="order-id-display">Loading...</span>
+            <span class="status-badge" id="status-display">Preparing</span>
+        </div>
+        <div class="actions">
+            <div>
+                <label>Order ID:</label>
+                <input type="number" id="order-id" value="1">
+            </div>
+            <div>
+                <label>Driver ID:</label>
+                <input type="number" id="driver-id" value="1">
+            </div>
+            <button class="btn-update" onclick="simulateMovement()">تحديث الموقع (محاكاة الحركة) 🛵</button>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Cairo Initial Coords
+        let driverPos = [30.0444, 31.2357];
+        let deliveryPos = [30.0500, 31.2400];
+        
+        const map = L.map('map').setView(driverPos, 15);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        const driverIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/3198/3198336.png', // Bike icon
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+
+        const houseIcon = L.icon({
+            iconUrl: 'https://cdn-icons-png.flaticon.com/512/619/619153.png', // House icon
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+
+        const driverMarker = L.marker(driverPos, {icon: driverIcon}).addTo(map).bindPopup('السائق');
+        const deliveryMarker = L.marker(deliveryPos, {icon: houseIcon}).addTo(map).bindPopup('بيت العميل');
+
+        const polyline = L.polyline([driverPos, deliveryPos], {color: 'blue', dashArray: '5, 10'}).addTo(map);
+
+        function updateTrackingUI(data) {
+            if (data.status) {
+                document.getElementById('order-id-display').innerText = data.data.id;
+                document.getElementById('status-display').innerText = data.data.status;
+                
+                if (data.data.driver && data.data.driver.location) {
+                    const newPos = [data.data.driver.location.lat, data.data.driver.location.lng];
+                    driverMarker.setLatLng(newPos);
+                    polyline.setLatLngs([newPos, deliveryPos]);
+                    map.panTo(newPos);
+                }
+            }
+        }
+
+        async function fetchInitialData() {
+            const orderId = document.getElementById('order-id').value;
+            try {
+                const response = await fetch(`/api/orders/${orderId}/track`, {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const data = await response.json();
+                updateTrackingUI(data);
+            } catch (e) { console.error('Error fetching data', e); }
+        }
+
+        async function simulateMovement() {
+            const driverId = document.getElementById('driver-id').value;
+            const orderId = document.getElementById('order-id').value;
+            
+            // Random small movement
+            driverPos[0] += (Math.random() - 0.5) * 0.001; 
+            driverPos[1] += (Math.random() - 0.5) * 0.001;
+
+            try {
+                // Call the API to update location
+                await fetch('/api/driver/location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        driver_id: driverId,
+                        lat: driverPos[0],
+                        lng: driverPos[1]
+                    })
+                });
+
+                // Fetch new state to update map (in a real app, Reverb would broadcast this)
+                fetchInitialData();
+                
+            } catch (e) {
+                alert('تأكد من اختيار ID صحيح للسائق والطلب');
+            }
+        }
+
+        setInterval(fetchInitialData, 3000); // Check for updates every 3s as fallback
+        fetchInitialData();
+    </script>
+</body>
+</html>
