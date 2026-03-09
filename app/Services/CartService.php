@@ -9,7 +9,7 @@ class CartService
 {
     public function getCart($userId)
     {
-        $cart = Cart::with('items')->where('user_id', $userId)->first();
+        $cart = Cart::with('items.offers')->where('user_id', $userId)->first();
         if (!$cart || $cart->items->isEmpty()) {
             return [
                 'status' => false,
@@ -51,8 +51,21 @@ class CartService
             }
         }
 
-        // Base price
-        $unitPrice = $productSize ? $productSize->price : ($product->discount_price > 0 ? $product->discount_price : $product->price);
+        // Base price — الأولوية: حجم ← عرض فعال ← discount_price ← سعر أصلي
+        if ($productSize) {
+            $unitPrice = $productSize->price;
+        } else {
+            $activeOffer = $product->offers()->first();
+            if ($activeOffer) {
+                $basePrice = $product->price > 0 ? $product->price : $product->sizes()->min('price');
+                $unitPrice = round($basePrice * (1 - $activeOffer->discount_percentage / 100), 2);
+            } elseif (($product->discount_price ?? 0) > 0) {
+                $unitPrice = $product->discount_price;
+            } else {
+                // لو السعر 0 وفيه أحجام، ناخد أقل سعر حجم كـ fallback (رغم إن الـ validation المفروض يمنع ده)
+                $unitPrice = $product->price > 0 ? $product->price : ($product->sizes()->min('price') ?? 0);
+            }
+        }
 
         // Extras price
         $extrasData = [];
@@ -73,7 +86,8 @@ class CartService
         $quantity = $data['quantity'];
 
         // Check for existing item with same product AND same size
-        $existing = $cart->items()
+        $existing = $cart
+            ->items()
             ->where('product_id', $product->id)
             ->wherePivot('product_size_id', $data['product_size_id'] ?? null)
             ->first();
@@ -87,8 +101,8 @@ class CartService
         } else {
             $cart->items()->attach($product->id, [
                 'quantity' => $quantity,
-                'unit_price' => $totalUnitPrice,
-                'total_price' => $totalUnitPrice * $quantity,
+                'unit_price' => $unitPrice,  // سعر الحجم أو المنتج فقط
+                'total_price' => ($unitPrice + $extrasPrice) * $quantity,  // شامل الإضافات
                 'extras' => !empty($extrasData) ? json_encode($extrasData) : null,
                 'product_size_id' => $data['product_size_id'] ?? null,
             ]);
@@ -102,7 +116,7 @@ class CartService
         ];
     }
 
-    public function updateItem($userId, $productId, $quantity)
+    public function updateItem($userId, $productId, array $data)
     {
         $cart = Cart::where('user_id', $userId)->first();
         if (!$cart) {
@@ -116,8 +130,8 @@ class CartService
 
         $unitPrice = $product->pivot->unit_price;
         $cart->items()->updateExistingPivot($productId, [
-            'quantity' => $quantity,
-            'total_price' => $unitPrice * $quantity,
+            'quantity' => $data['quantity'],
+            'total_price' => $unitPrice * $data['quantity'],
         ]);
 
         $cart->load('items');
@@ -128,14 +142,14 @@ class CartService
         ];
     }
 
-    public function removeItem($userId, $productId)
+    public function removeItem($userId, array $data)
     {
         $cart = Cart::where('user_id', $userId)->first();
         if (!$cart) {
             return ['status' => false, 'message' => __('messages.cart_empty'), 'data' => []];
         }
 
-        $cart->items()->detach($productId);
+        $cart->items()->detach($data['product_id']);
         $cart->load('items');
         return [
             'status' => true,

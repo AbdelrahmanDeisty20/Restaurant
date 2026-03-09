@@ -4,7 +4,10 @@ use App\Http\Controllers\API\AUTH\AuthController;
 use App\Http\Controllers\API\AUTH\ForgetPasswordController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\OfferController;
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\OrderTrackingController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Middleware\setLang;
 use Illuminate\Http\Request;
@@ -43,5 +46,14 @@ Route::group(['middleware' => setLang::class], function () {
         Route::put('cart/{productId}', [CartController::class, 'update']);
         Route::delete('cart/{productId}', [CartController::class, 'remove']);
         Route::delete('cart', [CartController::class, 'clear']);
+        // Order
+        Route::post('orders/checkout', [OrderController::class, 'checkout']);
+        // Favorites
+        Route::get('favorites', [FavoriteController::class, 'index']);
+        Route::post('favorites/toggle', [FavoriteController::class, 'toggle']);
+
+        // Order Tracking
+        Route::get('orders/{id}/track', [OrderTrackingController::class, 'show']);
+        Route::post('driver/location', [OrderTrackingController::class, 'updateLocation']);
     });
 });

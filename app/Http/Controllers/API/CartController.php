@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\AddToCartRequest;
+use App\Http\Requests\deleteCartRequest;
+use App\Http\Requests\updateCartRequest;
 use App\Services\CartService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -34,22 +36,21 @@ class CartController extends Controller
         if (!$result['status']) {
             return $this->error($result['message'], 404);
         }
-        return $this->success($result['data'], $result['message']);
+        return $this->messageOnly($result['message']);
     }
 
-    public function update(Request $request, $productId)
+    public function update(updateCartRequest $request, $productId)
     {
-        $request->validate(['quantity' => 'required|integer|min:1']);
-        $result = $this->cartService->updateItem($request->user()->id, $productId, $request->quantity);
+        $result = $this->cartService->updateItem($request->user()->id, $productId, $request->validated());
         if (!$result['status']) {
             return $this->error($result['message'], 404);
         }
-        return $this->success($result['data'], $result['message']);
+        return $this->messageOnly($result['message']);
     }
 
-    public function remove(Request $request, $productId)
+    public function remove(deleteCartRequest $request, $productId)
     {
-        $result = $this->cartService->removeItem($request->user()->id, $productId);
+        $result = $this->cartService->removeItem($request->user()->id, $request->validated());
         if (!$result['status']) {
             return $this->error($result['message'], 404);
         }

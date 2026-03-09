@@ -23,9 +23,19 @@ class OrderSeeder extends Seeder
             for ($i = 0; $i < rand(2, 3); $i++) {
                 $order = Order::create([
                     'user_id' => $user->id,
-                    'total_price' => 0, // Will calculate after adding items
-                    'status' => collect(['pending', 'shipped', 'delivered', 'cancelled'])->random(),
+                    'total_price' => 0,  // Will calculate after adding items
+                    'status' => collect(['pending', 'preparing', 'on_the_way', 'delivered', 'cancelled'])->random(),
                     'notes' => 'Some test order notes',
+                    'customer_name' => $user->name,
+                    'customer_phone' => $user->phone ?? '01000000000',
+                    'delivery_address' => 'Test Address',
+                    'payment_method' => 'cash',
+                ]);
+
+                // Log initial status
+                $order->statusHistories()->create([
+                    'status' => $order->status,
+                    'notes' => 'Order created via seeder',
                 ]);
 
                 $total = 0;
@@ -33,14 +43,15 @@ class OrderSeeder extends Seeder
 
                 foreach ($orderProducts as $product) {
                     $qty = rand(1, 2);
-                    $size = $product->sizes->random();
-                    $price = $size->price * $qty;
+                    $size = $product->sizes->first();  // Use first size as fallback
+                    $unitPrice = $size ? $size->price : ($product->price > 0 ? $product->price : 0);
+                    $price = $unitPrice * $qty;
                     $total += $price;
 
                     $order->items()->attach($product->id, [
                         'quantity' => $qty,
-                        'price' => $size->price,
-                        'product_size_id' => $size->id,
+                        'price' => $unitPrice,
+                        'product_size_id' => $size ? $size->id : null,
                         'extras' => json_encode([]),
                     ]);
                 }
