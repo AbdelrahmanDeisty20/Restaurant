@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\StoreAddressRequest;
+use App\Http\Requests\API\UpdateAddressRequest;
 use App\Http\Resources\AddressResource;
 use App\Services\AddressService;
 use App\Traits\ApiResponse;
@@ -26,40 +28,20 @@ class AddressController extends Controller
         return $this->success(AddressResource::collection($addresses));
     }
 
-    public function store(Request $request)
+    public function store(StoreAddressRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'address' => 'required|string',
-            'is_default' => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->errors()->first(), 422, $validator->errors());
-        }
-
-        $address = $this->addressService->store($request->all());
+        $address = $this->addressService->store($request->validated());
         return $this->created(new AddressResource($address), 'Address created successfully');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateAddressRequest $request, $id)
     {
         $address = auth()->user()->addresses()->find($id);
         if (!$address) {
             return $this->notFound('Address not found');
         }
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'sometimes|required|string|max:255',
-            'address' => 'sometimes|required|string',
-            'is_default' => 'nullable|boolean',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->errors()->first(), 422, $validator->errors());
-        }
-
-        $updatedAddress = $this->addressService->update($address, $request->all());
+        $updatedAddress = $this->addressService->update($address, $request->validated());
         return $this->success(new AddressResource($updatedAddress), 'Address updated successfully');
     }
 

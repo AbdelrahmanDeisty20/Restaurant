@@ -51,7 +51,20 @@ class ReviewService
     }
 
     /**
-     * Get product reviews.
+     * Store an independent product review.
+     */
+    public function storeProductReview(array $data)
+    {
+        return ProductReview::create([
+            'user_id' => auth()->id(),
+            'product_id' => $data['product_id'],
+            'rating' => $data['rating'],
+            'comment' => $data['comment'] ?? null,
+        ]);
+    }
+
+    /**
+     * Get reviews for a specific product.
      */
     public function getProductReviews($productId)
     {

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\StoreProductReviewRequest;
+use App\Http\Requests\API\StoreReviewRequest;
 use App\Http\Resources\OrderReviewResource;
 use App\Http\Resources\ProductReviewResource;
 use App\Services\ReviewService;
@@ -24,29 +26,21 @@ class ReviewController extends Controller
     /**
      * Store a new review.
      */
-    public function store(Request $request)
+    public function store(StoreReviewRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'order_id' => 'required|exists:orders,id',
-            'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string',
-            'product_reviews' => 'nullable|array',
-            'product_reviews.*.product_id' => 'required|exists:products,id',
-            'product_reviews.*.rating' => 'required|integer|min:1|max:5',
-            'product_reviews.*.comment' => 'nullable|string',
-            'driver_review' => 'nullable|array',
-            'driver_review.driver_id' => 'required|exists:drivers,id',
-            'driver_review.rating' => 'required|integer|min:1|max:5',
-            'driver_review.comment' => 'nullable|string',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->errors()->first(), 422, $validator->errors());
-        }
-
-        $review = $this->reviewService->storeReview($request->all());
+        $review = $this->reviewService->storeReview($request->validated());
 
         return $this->created(new OrderReviewResource($review), 'Review submitted successfully');
+    }
+
+    /**
+     * Store an independent product review.
+     */
+    public function storeProductReview(StoreProductReviewRequest $request)
+    {
+        $review = $this->reviewService->storeProductReview($request->validated());
+
+        return $this->created(new ProductReviewResource($review), 'Product review submitted successfully');
     }
 
     /**
