@@ -2,13 +2,17 @@
 
 use App\Http\Controllers\API\AUTH\AuthController;
 use App\Http\Controllers\API\AUTH\ForgetPasswordController;
+use App\Http\Controllers\API\AddressController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\FavoriteController;
+use App\Http\Controllers\API\InformationController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderTrackingController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ReviewController;
 use App\Http\Middleware\setLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +30,13 @@ Route::group(['middleware' => setLang::class], function () {
     Route::get('search', [ProductController::class, 'search']);
     Route::get('offers', [OfferController::class, 'index']);
     Route::get('product-extras', [ProductController::class, 'getProductExtras']);
+
+    // Information & Contact
+    Route::get('pages', [InformationController::class, 'pages']);
+    Route::get('pages/{slug}', [InformationController::class, 'page']);
+    Route::get('settings', [InformationController::class, 'settings']);
+    Route::post('contact', [ContactController::class, 'store']);
+
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('redirect/{provider}', [AuthController::class, 'redirectToProvider']);
@@ -52,8 +63,18 @@ Route::group(['middleware' => setLang::class], function () {
         Route::get('favorites', [FavoriteController::class, 'index']);
         Route::post('favorites/toggle', [FavoriteController::class, 'toggle']);
 
+        // Addresses
+        Route::get('addresses', [AddressController::class, 'index']);
+        Route::post('addresses', [AddressController::class, 'store']);
+        Route::put('addresses/{id}', [AddressController::class, 'update']);
+        Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
+
         // Order Tracking
         Route::get('orders/{id}/track', [OrderTrackingController::class, 'show']);
         Route::post('driver/location', [OrderTrackingController::class, 'updateLocation']);
+
+        // Reviews
+        Route::post('reviews', [ReviewController::class, 'store']);
+        Route::get('products/{id}/reviews', [ReviewController::class, 'getProductReviews']);
     });
 });
