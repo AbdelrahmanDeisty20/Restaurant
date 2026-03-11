@@ -63,9 +63,6 @@ class ReviewService
         ]);
     }
 
-    /**
-     * Get product reviews.
-     */
     public function getProductReviews($productId)
     {
         return ProductReview::with('user')
