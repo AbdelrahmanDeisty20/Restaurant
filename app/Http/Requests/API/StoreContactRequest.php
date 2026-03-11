@@ -21,4 +21,15 @@ class StoreContactRequest extends FormRequest
             'message' => 'required|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => __('messages.contact_name_required'),
+            'email.required' => __('messages.email_required'),
+            'email.email' => __('messages.email_invalid'),
+            'subject.required' => __('messages.contact_subject_required'),
+            'message.required' => __('messages.contact_message_required'),
+        ];
+    }
 }

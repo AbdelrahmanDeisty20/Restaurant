@@ -29,7 +29,7 @@ class InformationController extends Controller
     {
         $page = $this->infoService->getPageBySlug($slug);
         if (!$page) {
-            return $this->notFound('Page not found');
+            return $this->notFound(__('messages.page_not_found'));
         }
         return $this->success(new PageResource($page));
     }

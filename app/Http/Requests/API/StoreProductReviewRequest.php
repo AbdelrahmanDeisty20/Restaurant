@@ -19,4 +19,15 @@ class StoreProductReviewRequest extends FormRequest
             'comment' => 'nullable|string',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'product_id.required' => __('messages.product_id_required'),
+            'product_id.exists' => __('messages.product_not_found'),
+            'rating.required' => __('messages.rating_required'),
+            'rating.min' => __('messages.rating_min'),
+            'rating.max' => __('messages.rating_max'),
+        ];
+    }
 }

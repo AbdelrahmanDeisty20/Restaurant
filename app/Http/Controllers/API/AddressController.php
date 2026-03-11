@@ -31,28 +31,28 @@ class AddressController extends Controller
     public function store(StoreAddressRequest $request)
     {
         $address = $this->addressService->store($request->validated());
-        return $this->created(new AddressResource($address), 'Address created successfully');
+        return $this->created(new AddressResource($address), __('messages.address_created_successfully'));
     }
 
     public function update(UpdateAddressRequest $request, $id)
     {
         $address = auth()->user()->addresses()->find($id);
         if (!$address) {
-            return $this->notFound('Address not found');
+            return $this->notFound(__('messages.address_not_found'));
         }
 
         $updatedAddress = $this->addressService->update($address, $request->validated());
-        return $this->success(new AddressResource($updatedAddress), 'Address updated successfully');
+        return $this->success(new AddressResource($updatedAddress), __('messages.address_updated_successfully'));
     }
 
     public function destroy($id)
     {
         $address = auth()->user()->addresses()->find($id);
         if (!$address) {
-            return $this->notFound('Address not found');
+            return $this->notFound(__('messages.address_not_found'));
         }
 
         $this->addressService->delete($address);
-        return $this->deleted('Address deleted successfully');
+        return $this->deleted(__('messages.address_deleted_successfully'));
     }
 }

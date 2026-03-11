@@ -23,6 +23,6 @@ class ContactController extends Controller
     public function store(StoreContactRequest $request)
     {
         $this->contactService->store($request->validated());
-        return $this->messageOnly('Your message has been sent successfully');
+        return $this->messageOnly(__('messages.contact_message_sent_successfully'));
     }
 }

@@ -19,4 +19,12 @@ class UpdateAddressRequest extends FormRequest
             'is_default' => 'nullable|boolean',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => __('messages.address_title_required'),
+            'address.required' => __('messages.address_required'),
+        ];
+    }
 }

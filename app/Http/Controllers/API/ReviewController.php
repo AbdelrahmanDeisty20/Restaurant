@@ -30,7 +30,7 @@ class ReviewController extends Controller
     {
         $review = $this->reviewService->storeReview($request->validated());
 
-        return $this->created(new OrderReviewResource($review), 'Review submitted successfully');
+        return $this->created(new OrderReviewResource($review), __('messages.review_submitted_successfully'));
     }
 
     /**
@@ -40,7 +40,7 @@ class ReviewController extends Controller
     {
         $review = $this->reviewService->storeProductReview($request->validated());
 
-        return $this->created(new ProductReviewResource($review), 'Product review submitted successfully');
+        return $this->created(new ProductReviewResource($review), __('messages.product_review_submitted_successfully'));
     }
 
     /**
