@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\StoreContactRequest;
 use App\Services\ContactService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -19,21 +20,9 @@ class ContactController extends Controller
         $this->contactService = $contactService;
     }
 
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->error($validator->errors()->first(), 422, $validator->errors());
-        }
-
-        $this->contactService->store($request->all());
-        return $this->messageOnly('Your message has been sent successfully');
+        $this->contactService->store($request->validated());
+        return $this->messageOnly(__('messages.contact_message_sent_successfully'));
     }
 }

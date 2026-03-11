@@ -75,6 +75,7 @@ Route::group(['middleware' => setLang::class], function () {
 
         // Reviews
         Route::post('reviews', [ReviewController::class, 'store']);
+        Route::post('products/{id}/reviews', [ReviewController::class, 'storeProductReview']);
         Route::get('products/{id}/reviews', [ReviewController::class, 'getProductReviews']);
     });
 });
