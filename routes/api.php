@@ -69,13 +69,13 @@ Route::group(['middleware' => setLang::class], function () {
         Route::put('addresses/{id}', [AddressController::class, 'update']);
         Route::delete('addresses/{id}', [AddressController::class, 'destroy']);
 
-        // Order Tracking
-        Route::get('orders/{id}/track', [OrderTrackingController::class, 'show']);
-        Route::post('driver/location', [OrderTrackingController::class, 'updateLocation']);
-
-        // Reviews
+        // reviews
         Route::post('reviews', [ReviewController::class, 'store']);
         Route::post('products/{id}/reviews', [ReviewController::class, 'storeProductReview']);
         Route::get('products/{id}/reviews', [ReviewController::class, 'getProductReviews']);
+
+        // Order Tracking
+        Route::get('orders/{id}/track', [OrderTrackingController::class, 'show']);
+        Route::post('driver/location', [OrderTrackingController::class, 'updateLocation']);
     });
 });

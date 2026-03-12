@@ -24,7 +24,8 @@ class OrderTrackingController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $result = $this->trackingService->getTrackingInfo($id, $request->user()->id);
+        $userId = $request->user()->id;
+        $result = $this->trackingService->getTrackingInfo($id, $userId);
 
         if (!$result['status']) {
             return $this->error($result['message'], 404);
@@ -36,14 +37,8 @@ class OrderTrackingController extends Controller
     /**
      * Update driver location (Mock for now, would be in Driver API normally).
      */
-    public function updateLocation(Request $request)
+    public function updateLocation(\App\Http\Requests\API\UpdateDriverLocationRequest $request)
     {
-        $request->validate([
-            'driver_id' => 'required|exists:drivers,id',
-            'lat' => 'required|numeric',
-            'lng' => 'required|numeric',
-        ]);
-
         $success = $this->trackingService->updateDriverLocation(
             $request->driver_id,
             $request->lat,

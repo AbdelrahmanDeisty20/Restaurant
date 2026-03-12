@@ -98,4 +98,8 @@ return [
     'driver_id_required' => 'Driver ID is required',
     'driver_not_found' => 'Driver not found',
     'page_not_found' => 'Page not found',
+    'lat_required' => 'Latitude is required',
+    'lng_required' => 'Longitude is required',
+    'lat_numeric' => 'Latitude must be a number',
+    'lng_numeric' => 'Longitude must be a number',
 ];
