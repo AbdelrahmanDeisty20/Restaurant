@@ -22,8 +22,7 @@ return new class extends Migration {
             $table->string('notes')->nullable();
             $table->string('customer_name')->nullable();
             $table->string('customer_phone')->nullable();
-            $table->string('delivery_address')->nullable();+
-            
+            $table->string('delivery_address')->nullable();
             $table->string('payment_method')->default('cash');
             $table->decimal('sub_total', 10, 2)->default(0);
             $table->decimal('delivery_fees', 10, 2)->default(0);

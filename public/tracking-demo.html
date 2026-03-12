@@ -39,14 +39,16 @@
                 <label>Driver ID:</label>
                 <input type="number" id="driver-id" value="1">
             </div>
-            <button class="btn-update" onclick="simulateMovement()">تحديث الموقع (محاكاة الحركة) 🛵</button>
+            <button class="btn-update" onclick="simulateMovement()">تحديث يدوي 🛵</button>
+            <button id="btn-auto" class="btn-update" style="background: #10b981;" onclick="toggleAutoMovement()">بدء المحاكاة التلقائية 🚀</button>
         </div>
     </div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Cairo Initial Coords
+        // Coords & Config
+        const baseUrl = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : '';
         let driverPos = [30.0444, 31.2357];
         let deliveryPos = [30.0500, 31.2400];
         
@@ -74,10 +76,17 @@
         const polyline = L.polyline([driverPos, deliveryPos], {color: 'blue', dashArray: '5, 10'}).addTo(map);
 
         function updateTrackingUI(data) {
-            if (data.status) {
+            if (data.status && data.data) {
                 document.getElementById('order-id-display').innerText = data.data.id;
                 document.getElementById('status-display').innerText = data.data.status;
                 
+                // Update Delivery Position (House)
+                if (data.data.delivery_coords) {
+                    deliveryPos = [data.data.delivery_coords.lat, data.data.delivery_coords.lng];
+                    deliveryMarker.setLatLng(deliveryPos);
+                }
+
+                // Update Driver Position
                 if (data.data.driver && data.data.driver.location) {
                     const newPos = [data.data.driver.location.lat, data.data.driver.location.lng];
                     driverMarker.setLatLng(newPos);
@@ -89,26 +98,63 @@
 
         async function fetchInitialData() {
             const orderId = document.getElementById('order-id').value;
+            if (!orderId) return;
             try {
-                const response = await fetch(`/api/orders/${orderId}/track`, {
+                const response = await fetch(`${baseUrl}/api/orders/${orderId}/track`, {
                     headers: { 'Accept': 'application/json' }
                 });
                 const data = await response.json();
+                console.log('Order Data:', data);
                 updateTrackingUI(data);
-            } catch (e) { console.error('Error fetching data', e); }
+            } catch (e) { 
+                console.error('Error fetching data', e); 
+            }
+        }
+
+        let autoInterval = null;
+
+        function toggleAutoMovement() {
+            const btn = document.getElementById('btn-auto');
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+                btn.innerText = 'بدء المحاكاة التلقائية 🚀';
+                btn.style.background = '#10b981';
+            } else {
+                autoInterval = setInterval(simulateMovement, 2000);
+                btn.innerText = 'إيقاف المحاكاة 🛑';
+                btn.style.background = '#ef4444';
+            }
         }
 
         async function simulateMovement() {
             const driverId = document.getElementById('driver-id').value;
             const orderId = document.getElementById('order-id').value;
             
-            // Random small movement
-            driverPos[0] += (Math.random() - 0.5) * 0.001; 
-            driverPos[1] += (Math.random() - 0.5) * 0.001;
+            if (!driverId || !orderId) {
+                if (!autoInterval) alert('يرجى إدخال ID السائق والطلب');
+                return;
+            }
+
+            // Move towards delivery point smoothly
+            const stepSize = 0.0005;
+            const diffLat = deliveryPos[0] - driverPos[0];
+            const diffLng = deliveryPos[1] - driverPos[1];
+            const distance = Math.sqrt(diffLat * diffLat + diffLng * diffLng);
+
+            if (distance < stepSize) {
+                driverPos[0] = deliveryPos[0];
+                driverPos[1] = deliveryPos[1];
+                if (autoInterval) toggleAutoMovement();
+                alert('وصل السائق للوجهة! 🎉');
+            } else {
+                driverPos[0] += (diffLat / distance) * stepSize;
+                driverPos[1] += (diffLng / distance) * stepSize;
+            }
 
             try {
                 // Call the API to update location
-                await fetch('/api/driver/location', {
+                const response = await fetch(`${baseUrl}/api/driver/location`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                     body: JSON.stringify({
@@ -118,11 +164,17 @@
                     })
                 });
 
-                // Fetch new state to update map (in a real app, Reverb would broadcast this)
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'خطأ في تحديث الموقع');
+                }
+
+                // Fetch new state to update map
                 fetchInitialData();
                 
             } catch (e) {
-                alert('تأكد من اختيار ID صحيح للسائق والطلب');
+                console.error(e);
+                if (!autoInterval) alert('فشل التحديث: ' + e.message);
             }
         }
 

@@ -98,4 +98,8 @@ return [
     'driver_id_required' => 'رقم السائق مطلوب',
     'driver_not_found' => 'السائق غير موجود',
     'page_not_found' => 'الصفحة غير موجودة',
+    'lat_required' => 'خط العرض مطلوب',
+    'lng_required' => 'خط الطول مطلوب',
+    'lat_numeric' => 'خط العرض يجب أن يكون رقماً',
+    'lng_numeric' => 'خط الطول يجب أن يكون رقماً',
 ];
