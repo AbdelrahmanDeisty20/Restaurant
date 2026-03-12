@@ -35,30 +35,6 @@ class OrderTrackingService
     }
 
     /**
-     * Update order status and log history.
-     */
-    public function updateStatus(int $orderId, string $status, ?string $notes = null)
-    {
-        return DB::transaction(function () use ($orderId, $status, $notes) {
-            $order = Order::find($orderId);
-            if (!$order)
-                return false;
-
-            $order->update(['status' => $status]);
-
-            $order->statusHistories()->create([
-                'status' => $status,
-                'notes' => $notes
-            ]);
-
-            // If status is out_for_delivery, maybe pick a driver if not assigned?
-            // Broadcast event here...
-
-            return true;
-        });
-    }
-
-    /**
      * Update driver location for real-time tracking.
      */
     public function updateDriverLocation(int $driverId, float $lat, float $lng)
