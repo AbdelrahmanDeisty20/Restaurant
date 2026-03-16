@@ -30,7 +30,6 @@ class ProductResource extends JsonResource
             'discount_price' => $discountPrice,
             'image_path' => $this->image_path,
             'time' => $this->time,
-            'included_extras' => $this->included_extras,
             'category' => new CategoryResource($this->whenLoaded('category')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
