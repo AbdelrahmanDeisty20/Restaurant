@@ -14,20 +14,11 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // منطق السعر: لو فيه أحجام -> السعر = سعر أصغر حجم. مفيش -> السعر الأصلي.
+        // المنتج من الخارج (القائمة العامة): 
+        // السعر: أقل حجم لو موجود، ولو مش موجود نعرض السعر الأصلي
         $hasSizes = $this->relationLoaded('sizes') && $this->sizes->isNotEmpty();
-        
         $price = $hasSizes ? (float) $this->sizes->min('price') : (float) $this->price;
 
-        // جلب الـ extras
-        $extrasData = [];
-        if (!empty($this->included_extras)) {
-            $extraIds = is_array($this->included_extras) ? $this->included_extras : json_decode($this->included_extras, true);
-            if (!empty($extraIds)) {
-                $extrasData = \App\Models\ProductExtra::whereIn('id', $extraIds)->get();
-            }
-        }
-        
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -38,6 +29,7 @@ class ProductResource extends JsonResource
             'category' => new CategoryResource($this->whenLoaded('category')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
+            // هنا مفيش sizes ومفيش extras زى ما طلبت
         ];
     }
 }
