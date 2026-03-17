@@ -25,7 +25,7 @@ class productService
         return [
             'status' => true,
             'message' => __('messages.products_retrieved_successfully'),
-            'data' => ProductListResource::collection($products),
+            'data' => ProductResource::collection($products),
         ];
     }
 
@@ -42,7 +42,7 @@ class productService
         return [
             'status' => true,
             'message' => __('messages.product_retrieved_successfully'),
-            'data' => new ProductResource($product),
+            'data' => new ProductListResource($product),
         ];
     }
 
