@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\SearchProductRequest;
 use App\Http\Resources\ProductExtraResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductSizeResource;
 use App\Services\productService;
 use App\Services\SearchProductService;
 use App\Traits\ApiResponse;
@@ -51,5 +52,13 @@ class ProductController extends Controller
             return $this->error($productExtras['message'], 404);
         }
         return $this->paginated(ProductExtraResource::class, $productExtras['data'], $productExtras['message']);
+    }
+    public function getProductSizes()
+    {
+        $productSizes = $this->productService->getProductSizes();
+        if(!$productSizes['status']){
+            return $this->error($productSizes['message'], 404);
+        }
+        return $this->paginated(ProductSizeResource::class, $productSizes['data'], $productSizes['message']);
     }
 }

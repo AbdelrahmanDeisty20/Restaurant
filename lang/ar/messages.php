@@ -70,6 +70,8 @@ return [
     'product_extras_retrieved_successfully' => 'تم استرجاع الإضافات بنجاح',
     'cart_item_not_found' => 'لم يتم العثور على المنتج في السلة',
     'product_id_exists' => 'المنتج غير موجود',
+    'product_sizes_not_found' => 'لايوجد أحجام',
+    'product_sizes_retrieved_successfully' => 'تم استرجاع الأحجام بنجاح',
     'customer_name_required' => 'اسم العميل مطلوب',
     'customer_phone_required' => 'رقم الهاتف مطلوب',
     'delivery_address_required' => 'عنوان التوصيل مطلوب',
