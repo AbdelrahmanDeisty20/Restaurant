@@ -13,7 +13,7 @@ class productService
 {
     public function getAllProducts()
     {
-        $products = Product::with('offers')->paginate(10);
+        $products = Product::with(['offers', 'sizes'])->paginate(10);
         if ($products->isEmpty()) {
             return [
                 'status' => false,
