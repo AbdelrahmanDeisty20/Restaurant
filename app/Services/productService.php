@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\ProductExtraResource;
+use App\Http\Resources\ProductListResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductSizeResource;
 use App\Models\Product;
@@ -13,7 +14,7 @@ class productService
 {
     public function getAllProducts()
     {
-        $products = Product::with(['offers'])->paginate(10);
+        $products = Product::with(['offers', 'sizes', 'images', 'category'])->paginate(10);
         if ($products->isEmpty()) {
             return [
                 'status' => false,
@@ -24,13 +25,13 @@ class productService
         return [
             'status' => true,
             'message' => __('messages.products_retrieved_successfully'),
-            'data' => ProductResource::collection($products),
+            'data' => ProductListResource::collection($products),
         ];
     }
 
     public function getProductById($id)
     {
-        $product = Product::with('offers', 'images', 'category', 'sizes')->find($id);
+        $product = Product::with(['offers', 'images', 'category', 'sizes'])->find($id);
         if (!$product) {
             return [
                 'status' => false,

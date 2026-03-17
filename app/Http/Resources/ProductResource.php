@@ -19,7 +19,7 @@ class ProductResource extends JsonResource
         
         $price = $hasSizes ? (float) $this->sizes->min('price') : (float) $this->price;
 
-        // جلب الـ extras بناءً على الـ IDs المخزنة في included_extras
+        // جلب الـ extras
         $extrasData = [];
         if (!empty($this->included_extras)) {
             $extraIds = is_array($this->included_extras) ? $this->included_extras : json_decode($this->included_extras, true);
@@ -38,6 +38,8 @@ class ProductResource extends JsonResource
             'category' => new CategoryResource($this->whenLoaded('category')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
+            'sizes' => ProductSizeResource::collection($this->whenLoaded('sizes')),
+            'extras' => ProductExtraResource::collection($extrasData),
         ];
     }
 }
