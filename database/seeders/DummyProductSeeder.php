@@ -56,10 +56,9 @@ class DummyProductSeeder extends Seeder
             }
         });
 
-        // 3. Create 50 products with extras and price = 0
+        // 3. Create 50 products with extras and normal price
         Product::factory()->count(50)->create([
             'discount_price' => null,
-            'price' => 0,
             'included_extras' => json_encode(array_slice($extrasIds, 0, rand(1, 3)))
         ]);
     }

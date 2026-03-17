@@ -15,11 +15,10 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // القاعدة الجديدة: لو فيه أحجام أو إضافات → السعر في المنتج نفسه يكون 0
+        // القاعدة الجديدة: لو فيه أحجام → السعر يكون سعر أصغر حجم. مفيش أحجام → السعر الأصلي عادي
         $sizes = $this->whenLoaded('sizes');
         $hasSizes = is_iterable($sizes) && collect($sizes)->isNotEmpty();
-        $hasExtras = !empty($this->included_extras);
-        $price = ($hasSizes || $hasExtras) ? 0 : (float) $this->price;
+        $price = $hasSizes ? (float) collect($sizes)->min('price') : (float) $this->price;
         
         return [
             'id' => $this->id,
