@@ -14,17 +14,18 @@ class ProductListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // القاعدة: في القائمة السعر = أقل سعر حجم أو السعر الأصلي
+        $hasSizes = $this->relationLoaded('sizes') && $this->sizes->isNotEmpty();
+        $price = $hasSizes ? (float) $this->sizes->min('price') : (float) $this->price;
+
         return [
-            'id'=>$this->id,
+            'id' => $this->id,
             'name' => $this->name,
-            'price' => $this->price,
-            'category' => CategoryResource::collection($this->whenLoaded('category')),
             'description' => $this->description,
-            "offer"=>OfferResource::collection($this->whenLoaded('offer')),
-            "time"=>$this->time,
-            "discount_price"=>(float)$this->discount_price,
-            "image_path"=>$this->image_path,
-            'images_path'=>new ProductImagesResource($this->whenLoaded('images')),
+            'price' => $price,
+            'image_path' => $this->image_path,
+            'time' => $this->time,
+            'offers' => OfferResource::collection($this->whenLoaded('offers')),
         ];
     }
 }

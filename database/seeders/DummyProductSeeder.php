@@ -56,10 +56,21 @@ class DummyProductSeeder extends Seeder
             }
         });
 
-        // 3. Create 50 products with extras and normal price
+        // 3. Create 50 products with extras, sizes, and price = 0
         Product::factory()->count(50)->create([
             'discount_price' => null,
-            'included_extras' => json_encode(array_slice($extrasIds, 0, rand(1, 3)))
-        ]);
+            'price' => 0,
+            'included_extras' => json_encode(array_slice($extrasIds, 0, rand(1, 4)))
+        ])->each(function ($product) {
+            $numberOfSizes = rand(2, 3);
+            for ($i = 1; $i <= $numberOfSizes; $i++) {
+                ProductSize::create([
+                    'product_id' => $product->id,
+                    'name_ar' => 'حجم ' . $i,
+                    'name_en' => 'Size ' . $i,
+                    'price' => rand(150, 300),
+                ]);
+            }
+        });
     }
 }

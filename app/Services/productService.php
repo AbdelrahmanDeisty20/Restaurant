@@ -27,6 +27,7 @@ class productService
             'data' => ProductResource::collection($products),
         ];
     }
+
     public function getProductById($id)
     {
         $product = Product::with('offers', 'images', 'category', 'sizes')->find($id);
@@ -43,6 +44,7 @@ class productService
             'data' => new ProductResource($product),
         ];
     }
+
     public function getProductExtras()
     {
         $productExtras = ProductExtra::paginate(10);
@@ -59,6 +61,7 @@ class productService
             'data' => ProductExtraResource::collection($productExtras),
         ];
     }
+
     public function getProductSizes()
     {
         $productSizes = ProductSize::paginate(10);

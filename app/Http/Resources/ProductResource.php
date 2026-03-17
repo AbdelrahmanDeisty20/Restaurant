@@ -28,7 +28,7 @@ class ProductResource extends JsonResource
                 $extras = \App\Models\ProductExtra::whereIn('id', $extraIds)->get();
             }
         }
-        
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -39,7 +39,6 @@ class ProductResource extends JsonResource
             'category' => new CategoryResource($this->whenLoaded('category')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
-            'extras' => ProductExtraResource::collection($extras),
         ];
     }
 }
