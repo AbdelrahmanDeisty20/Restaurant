@@ -54,7 +54,7 @@ class CartController extends Controller
         if (!$result['status']) {
             return $this->error($result['message'], 404);
         }
-        return $this->success($result['data'], $result['message']);
+        return $this->messageOnly($result['message']);
     }
 
     public function clear(Request $request)
