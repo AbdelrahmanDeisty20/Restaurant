@@ -18,6 +18,7 @@ class CartItemResource extends JsonResource
 
         // الـ size المختار
         $size = null;
+        $sizeModel = null;
         if ($this->pivot->product_size_id) {
             $sizeModel = ProductSize::find($this->pivot->product_size_id);
             $size = $sizeModel ? new ProductSizeResource($sizeModel) : null;
@@ -36,7 +37,6 @@ class CartItemResource extends JsonResource
             'quantity' => $quantity,
             'size' => $size,
             'unit_price' => $originalUnitPrice, // السعر الأصلي كما طلب المستخدم
-            'discount_price' => $paidUnitPrice, // السعر بعد الخصم (العرض)
             'extras_price' => round((float) $extrasPrice, 2),
             'total_price' => round($totalPrice, 2), // الإجمالي الفعلي المدفوع
             'extras' => $extrasRaw,
