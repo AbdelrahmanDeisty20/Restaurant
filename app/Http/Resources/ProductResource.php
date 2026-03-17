@@ -20,14 +20,12 @@ class ProductResource extends JsonResource
         $hasSizes = is_iterable($sizes) && collect($sizes)->isNotEmpty();
 
         $price = $hasSizes ? (float) collect($sizes)->min('price') : (float) $this->price;
-        $discountPrice = $hasSizes ? null : (float) $this->discount_price;
-
+        
         return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => $price,
-            'discount_price' => $discountPrice,
             'image_path' => $this->image_path,
             'time' => $this->time,
             'category' => new CategoryResource($this->whenLoaded('category')),
