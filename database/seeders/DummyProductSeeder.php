@@ -14,7 +14,7 @@ class DummyProductSeeder extends Seeder
     public function run(): void
     {
         // 1. Create 10 products with discount_price and NO sizes
-        Product::factory()->count(50)->create([
+        Product::factory()->count(100)->create([
             'discount_price' => function (array $attributes) {
                 return $attributes['price'] * 0.8;
             }
