@@ -39,6 +39,8 @@ class ProductResource extends JsonResource
             'category' => new CategoryResource($this->whenLoaded('category')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
+            'sizes' => ProductSizeResource::collection($this->whenLoaded('sizes')),
+            'extras' => ProductExtraResource::collection($extras),
         ];
     }
 }
