@@ -13,14 +13,21 @@ class DummyProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Create 10 products with discount_price and NO sizes
-        Product::factory()->count(50)->create([
+        // مسح المنتجات والأحجام القديمة
+        \Illuminate\Support\Facades\Schema::disableForeignKeyConstraints();
+        \App\Models\ProductExtra::truncate();
+        \App\Models\ProductSize::truncate();
+        Product::truncate();
+        \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
+
+        // 1. Create 100 products with discount_price and NO sizes
+        Product::factory()->count(100)->create([
             'discount_price' => function (array $attributes) {
                 return $attributes['price'] * 0.8;
             }
         ]);
 
-        // 2. Create 10 products with NO discount_price and 2-3 sizes each
+        // 2. Create 100 products with NO discount_price and 2-3 sizes each
         Product::factory()->count(100)->create([
             'discount_price' => null
         ])->each(function ($product) {
