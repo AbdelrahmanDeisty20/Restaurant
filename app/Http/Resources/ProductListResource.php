@@ -18,6 +18,15 @@ class ProductListResource extends JsonResource
         $hasSizes = $this->relationLoaded('sizes') && $this->sizes->isNotEmpty();
         $price = $hasSizes ? (float) $this->sizes->min('price') : (float) $this->price;
 
+        // جلب الـ extras بناءً على الـ IDs المخزنة
+        $extras = [];
+        if (!empty($this->included_extras)) {
+            $extraIds = is_array($this->included_extras) ? $this->included_extras : json_decode($this->included_extras, true);
+            if (!empty($extraIds)) {
+                $extras = \App\Models\ProductExtra::whereIn('id', $extraIds)->get();
+            }
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -26,6 +35,8 @@ class ProductListResource extends JsonResource
             'image_path' => $this->image_path,
             'time' => $this->time,
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
+            'sizes' => ProductSizeResource::collection($this->whenLoaded('sizes')),
+            'extras' => ProductExtraResource::collection($extras),
         ];
     }
 }
