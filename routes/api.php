@@ -30,7 +30,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::get('search', [ProductController::class, 'search']);
     Route::get('offers', [OfferController::class, 'index']);
     Route::get('product-extras', [ProductController::class, 'getProductExtras']);
-
+    Route::get('product-sizes', [ProductController::class, 'getProductSizes']);
     // Information & Contact
     Route::get('pages', [InformationController::class, 'pages']);
     Route::get('pages/{slug}', [InformationController::class, 'page']);

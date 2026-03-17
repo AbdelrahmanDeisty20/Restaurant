@@ -70,6 +70,8 @@ return [
     'product_extras_retrieved_successfully' => 'Product extras retrieved successfully',
     'cart_item_not_found' => 'Cart item not found',
     'product_id_exists' => 'Product not found',
+    'product_sizes_not_found' => 'No product sizes found',
+    'product_sizes_retrieved_successfully' => 'Product sizes retrieved successfully',
     'customer_name_required' => 'Customer name is required',
     'customer_phone_required' => 'Customer phone is required',
     'delivery_address_required' => 'Delivery address is required',

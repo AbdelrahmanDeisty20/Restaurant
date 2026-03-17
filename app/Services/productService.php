@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Http\Resources\ProductExtraResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductSizeResource;
 use App\Models\Product;
 use App\Models\ProductExtra;
+use App\Models\ProductSize;
 
 class productService
 {
@@ -55,6 +57,22 @@ class productService
             'status' => true,
             'message' => __('messages.product_extras_retrieved_successfully'),
             'data' => ProductExtraResource::collection($productExtras),
+        ];
+    }
+    public function getProductSizes()
+    {
+        $productSizes = ProductSize::paginate(10);
+        if ($productSizes->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.product_sizes_not_found'),
+                'data' => [],
+            ];
+        }
+        return [
+            'status' => true,
+            'message' => __('messages.product_sizes_retrieved_successfully'),
+            'data' => ProductSizeResource::collection($productSizes),
         ];
     }
 }
