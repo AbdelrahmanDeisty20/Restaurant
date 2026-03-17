@@ -27,9 +27,10 @@ class DummyProductSeeder extends Seeder
             }
         ]);
 
-        // 2. Create 100 products with NO discount_price and 2-3 sizes each
+        // 2. Create 100 products with NO discount_price, price = 0, and 2-3 sizes each
         Product::factory()->count(100)->create([
-            'discount_price' => null
+            'discount_price' => null,
+            'price' => 0 // تصفير السعر الأصلي للمنتج عند وجود أحجام بناءً على طلب المستخدم
         ])->each(function ($product) {
             $numberOfSizes = rand(2, 3);
             for ($i = 1; $i <= $numberOfSizes; $i++) {
@@ -37,7 +38,7 @@ class DummyProductSeeder extends Seeder
                     'product_id' => $product->id,
                     'name_ar' => 'حجم ' . $i,
                     'name_en' => 'Size ' . $i,
-                    'price' => $product->price + ($i * 10),
+                    'price' => rand(150, 300), // أسعار عشوائية للأحجام
                 ]);
             }
         });
