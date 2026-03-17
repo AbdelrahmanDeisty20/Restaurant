@@ -20,8 +20,8 @@ class DummyProductSeeder extends Seeder
             }
         ]);
 
-        // 2. Create 10 products with NO discount_price and 2-3 sizes each
-        Product::factory()->count(100)->create([
+        // 2. Create 50 products with NO discount_price and 2-3 sizes each
+        Product::factory()->count(50)->create([
             'discount_price' => null
         ])->each(function ($product) {
             $numberOfSizes = rand(2, 3);
