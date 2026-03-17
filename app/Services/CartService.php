@@ -149,6 +149,11 @@ class CartService
             return ['status' => false, 'message' => __('messages.cart_empty'), 'data' => []];
         }
 
+        $exists = $cart->items()->where('product_id', $data['product_id'])->exists();
+        if (!$exists) {
+            return ['status' => false, 'message' => __('messages.cart_item_not_found'), 'data' => []];
+        }
+
         $cart->items()->detach($data['product_id']);
         $cart->load('items');
         return [
