@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             PageSeeder::class,
             RolesSeeder::class,
+            DummyProductSeeder::class,
         ]);
     }
 }
