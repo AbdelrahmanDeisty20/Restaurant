@@ -2,9 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ProductSizeResource;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductResource extends JsonResource
 {
@@ -15,20 +14,20 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // القاعدة: لو فيه أحجام → السعر يكون سعر أصغر حجم. مفيش أحجام → السعر الأصلي عادي
-        // نستخدم relationLoaded للـ sizes عشان نتجنب السعر 0 لو مش محملة
+        // منطق السعر: لو فيه أحجام -> السعر = سعر أصغر حجم. مفيش -> السعر الأصلي.
         $hasSizes = $this->relationLoaded('sizes') && $this->sizes->isNotEmpty();
+        
         $price = $hasSizes ? (float) $this->sizes->min('price') : (float) $this->price;
 
-        // جلب الـ extras بناءً على الـ IDs المخزنة
-        $extras = [];
+        // جلب الـ extras بناءً على الـ IDs المخزنة في included_extras
+        $extrasData = [];
         if (!empty($this->included_extras)) {
             $extraIds = is_array($this->included_extras) ? $this->included_extras : json_decode($this->included_extras, true);
             if (!empty($extraIds)) {
-                $extras = \App\Models\ProductExtra::whereIn('id', $extraIds)->get();
+                $extrasData = \App\Models\ProductExtra::whereIn('id', $extraIds)->get();
             }
         }
-
+        
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -39,6 +38,8 @@ class ProductResource extends JsonResource
             'category' => new CategoryResource($this->whenLoaded('category')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
+            'sizes' => ProductSizeResource::collection($this->whenLoaded('sizes')),
+            'extras' => ProductExtraResource::collection($extrasData),
         ];
     }
 }
