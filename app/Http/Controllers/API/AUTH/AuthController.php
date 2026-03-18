@@ -102,14 +102,11 @@ class AuthController extends Controller
     {
         return $this->authService->redirectToProvider($provider);
     }
+
     public function handleProviderCallback($provider)
     {
         $result = $this->authService->handleProviderCallback($provider);
 
-        if (!$result['status']) {
-            return $this->error($result['message'], 400);
-        }
-
-        return $this->success($result['data'], $result['message'], 200);
+        return redirect($result['data']['redirect_url']);
     }
 }

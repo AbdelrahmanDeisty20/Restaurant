@@ -250,50 +250,53 @@ class AuthService
 
     public function handleProviderCallback($provider)
     {
+        $frontendUrl = rtrim(env('FRONTEND_URL', 'http://localhost:5173'), '/');
+        $callbackPath = '/auth/google-callback';
+
         try {
-            $user = Socialite::driver($provider)->stateless()->user();
+            $socialUser = Socialite::driver($provider)->stateless()->user();
         } catch (\Exception $e) {
             return [
                 'status' => false,
                 'message' => __('messages.social_login_failed'),
-                'data' => [],
+                'data' => [
+                    'redirect_url' => $frontendUrl . $callbackPath . '?error=' . urlencode(__('messages.social_login_failed')),
+                ],
             ];
         }
 
-        $existingUser = User::where('email', $user->email)->first();
+        $existingUser = User::where('email', $socialUser->email)->first();
 
         if ($existingUser) {
             $token = $existingUser->createToken('auth_token')->plainTextToken;
-
-            return [
-                'status' => true,
-                'message' => __('messages.user_logged_in_successfully'),
-                'data' => [
-                    'user' => new UserResource($existingUser),
-                    'token' => $token,
-                ],
-            ];
+            $userResource = new UserResource($existingUser);
         } else {
-            // استخدام الـ ID الفريد الخاص بجوجل ككلمة مرور للمستخدم في نظامنا
             $newUser = User::create([
-                'full_name' => $user->name,
-                'email' => $user->email,
-                'password' => $user->id,  // Laravel سيتعامل مع التشفير تلقائياً من الموديل
-                'avatar' => $user->avatar,
-                'is_active' => true,
+                'full_name'         => $socialUser->name,
+                'email'             => $socialUser->email,
+                'password'          => $socialUser->id,
+                'avatar'            => $socialUser->avatar,
+                'is_active'         => true,
                 'email_verified_at' => now(),
             ]);
-
             $token = $newUser->createToken('auth_token')->plainTextToken;
-
-            return [
-                'status' => true,
-                'message' => __('messages.user_registered_successfully'),
-                'data' => [
-                    'user' => new UserResource($newUser),
-                    'token' => $token,
-                ],
-            ];
+            $userResource = new UserResource($newUser);
         }
+
+        $query = http_build_query([
+            'token'       => $token,
+            'id'          => $userResource->id,
+            'full_name'   => $userResource->full_name,
+            'email'       => $userResource->email,
+            'avatar_path' => $userResource->avatar_path ?? '',
+        ]);
+
+        return [
+            'status'  => true,
+            'message' => __('messages.user_logged_in_successfully'),
+            'data'    => [
+                'redirect_url' => $frontendUrl . $callbackPath . '?' . $query,
+            ],
+        ];
     }
 }
