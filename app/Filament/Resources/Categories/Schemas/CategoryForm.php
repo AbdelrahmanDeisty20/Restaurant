@@ -11,22 +11,24 @@ class CategoryForm
 {
     public static function configure(Schema $schema): Schema
     {
-        $locale = app()->getLocale();
-        $otherLocale = $locale === 'ar' ? 'en' : 'ar';
-
         return $schema
             ->components([
-                TextInput::make("name_{$locale}")
-                    ->label($locale === 'ar' ? __('Name AR') : __('Name EN'))
+                TextInput::make('name_ar')
+                    ->label(__('Name AR'))
                     ->nullable(),
-                TextInput::make("name_{$otherLocale}")
-                    ->label($otherLocale === 'ar' ? __('Name AR') : __('Name EN'))
+                TextInput::make('name_en')
+                    ->label(__('Name EN'))
                     ->nullable(),
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
+                    ->disk('public')
                     ->directory('categories')
-                    ->nullable(),
+                    ->formatStateUsing(fn($state) => $state && !str_starts_with($state, 'categories/') ? "categories/{$state}" : $state)
+                    ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
+                    ->nullable()
+                    ->imagePreviewHeight('150')
+                    ->downloadable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
                     ->default(true),
