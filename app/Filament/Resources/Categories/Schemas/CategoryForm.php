@@ -22,7 +22,12 @@ class CategoryForm
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
+                    ->disk('public')
                     ->directory('categories')
+                    // This hook ensures Filament finds the file in 'categories/' for the preview
+                    ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "categories/{$state}" : $state)
+                    // This hook strips the 'categories/' prefix before saving to DB, to match your Model accessor
+                    ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
                     ->nullable()
                     ->downloadable(),
                 Toggle::make('is_active')
