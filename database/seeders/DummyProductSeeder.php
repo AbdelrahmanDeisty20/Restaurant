@@ -127,9 +127,20 @@ class DummyProductSeeder extends Seeder
             ],
         ];
 
-        // 4. Seed Products
+        // 4. Seed Products with Realistic Images
+        $categoryImages = [
+            'Grills' => ['grill_1.png', 'grill_2.png'],
+            'Yemeni Dishes' => ['yemeni_1.png', 'yemeni_2.png'],
+            'Appetizers' => ['starter_1.png', 'starter_2.png'],
+            'Popular Dishes' => ['popular_1.png', 'popular_2.png'],
+            'Desserts' => ['dessert_1.png', 'dessert_2.png'],
+            'Beverages' => ['drink_1.png', 'drink_2.png'],
+        ];
+
         foreach ($productsData as $catName => $products) {
             $catId = $categoryMap[$catName] ?? null;
+            $images = $categoryImages[$catName] ?? ['default_product.jpg'];
+
             if ($catId) {
                 foreach ($products as $p) {
                     $product = Product::create([
@@ -139,7 +150,7 @@ class DummyProductSeeder extends Seeder
                         'description_ar' => 'وصف لذيذ لمنتج ' . $p['ar'] . ' يتم تحضيره يومياً طازجاً بأفضل المكونات.',
                         'description_en' => 'A delicious ' . $p['en'] . ' prepared fresh daily with the finest ingredients and special spices.',
                         'price' => $p['price'],
-                        'main_image' => 'default_product.jpg',
+                        'main_image' => $images[array_rand($images)],
                         'is_active' => true,
                         'is_featured' => (bool)rand(0, 1),
                         'time' => '00:' . rand(15, 59) . ':00',
