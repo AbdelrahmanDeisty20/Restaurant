@@ -30,7 +30,7 @@ class Category extends Model
 
     public function getImagePathAttribute()
     {
-        return asset('storage/categories/' . $this->image);
+        return asset('storage/' . $this->image);
     }
 
     public function products()
