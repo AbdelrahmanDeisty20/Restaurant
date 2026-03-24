@@ -28,9 +28,7 @@ class CategoryForm
                     ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "categories/{$state}" : $state)
                     // This hook strips the 'categories/' prefix before saving to DB, to match your Model accessor
                     ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
-                    ->nullable()
-                    ->imagePreviewHeight('150')
-                    ->downloadable(),
+                    ->nullable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
                     ->default(true),
