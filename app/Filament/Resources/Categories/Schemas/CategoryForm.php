@@ -22,6 +22,7 @@ class CategoryForm
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
+                    ->disk('public')
                     ->directory('categories')
                     ->nullable()
                     ->downloadable(),
