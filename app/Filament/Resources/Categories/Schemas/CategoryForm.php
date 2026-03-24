@@ -22,7 +22,7 @@ class CategoryForm
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
-                    ->disk('public')
+                    ->disk('public/storage')
                     ->directory('categories')
                     // This hook ensures Filament finds the file in 'categories/' for the preview
                     ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "categories/{$state}" : $state)
