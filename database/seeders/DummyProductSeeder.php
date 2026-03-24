@@ -122,7 +122,7 @@ class DummyProductSeeder extends Seeder
                         'main_image' => 'default_product.jpg',
                         'is_active' => true,
                         'is_featured' => (bool)rand(0, 1),
-                        'time' => rand(15, 60) . ' دقيقة',
+                        'time' => '00:' . rand(15, 59) . ':00',
                         'included_extras' => json_encode(array_rand(array_flip($extraIds), min(3, count($extraIds)))),
                     ]);
 
