@@ -14,7 +14,7 @@ class InformationService
 
     public function getPageBySlug($slug)
     {
-        return Page::where('slug', $slug)->first();
+        return Page::all();
     }
 
     public function getSettings()

@@ -13,6 +13,8 @@ class Page extends Model
         'content_en',
         'sections',
     ];
+    protected $appends = ['title', 'content'];
+    protected $hidden = ['title_ar', 'title_en', 'content_ar', 'content_en'];
     protected $casts = [
         'sections' => 'array',
     ];
