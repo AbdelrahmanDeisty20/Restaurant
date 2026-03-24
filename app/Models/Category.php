@@ -41,7 +41,7 @@ class Category extends Model
             : 'categories/' . $this->image;
 
         // Correct public URL path - WITHOUT 'app/public'
-        return asset('storage/' . $path);
+        return asset('storage/app/public/' . $path);
     }
 
     public function products()
