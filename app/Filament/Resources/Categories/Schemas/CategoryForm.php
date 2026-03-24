@@ -22,7 +22,7 @@ class CategoryForm
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
-                    ->directory('categories')
+                    ->disk('public')
                     ->nullable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
