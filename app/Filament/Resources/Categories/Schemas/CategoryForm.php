@@ -24,8 +24,6 @@ class CategoryForm
                     ->image()
                     ->disk('public')
                     ->directory('categories')
-                    ->formatStateUsing(fn($state) => $state && !str_starts_with($state, 'categories/') ? "categories/{$state}" : $state)
-                    ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
                     ->nullable()
                     ->imagePreviewHeight('150')
                     ->downloadable(),
