@@ -25,7 +25,6 @@ class CategoryForm
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
-                    ->disk('public')
                     ->directory('categories')
                     ->nullable(),
                 Toggle::make('is_active')
