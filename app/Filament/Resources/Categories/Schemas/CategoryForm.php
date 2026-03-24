@@ -23,7 +23,14 @@ class CategoryForm
                     ->label(__('Image'))
                     ->image()
                     ->disk('public')
-                    ->nullable(),
+                    ->directory('categories')
+                    // This hook ensures Filament finds the file in 'categories/' for the preview
+                    ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "categories/{$state}" : $state)
+                    // This hook strips the 'categories/' prefix before saving to DB, to match your Model accessor
+                    ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
+                    ->nullable()
+                    ->imagePreviewHeight('150')
+                    ->downloadable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
                     ->default(true),
