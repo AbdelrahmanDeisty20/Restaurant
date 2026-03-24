@@ -30,17 +30,7 @@ class Category extends Model
 
     public function getImagePathAttribute()
     {
-        if (!$this->image) {
-            return null;
-        }
-
-        // Handle both bare filenames (seeded: yemeni.jpg) and full paths (Filament: categories/xyz.jpg)
-        $path = str_starts_with($this->image, 'categories/')
-            ? $this->image
-            : 'categories/' . $this->image;
-
-        // Use the standard 'storage/' link which points to 'storage/app/public'
-        return asset('storage/' . $path);
+        return asset('storage/app/public/categories/' . $this->image);
     }
 
     public function products()
