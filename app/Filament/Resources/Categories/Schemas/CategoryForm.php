@@ -18,19 +18,21 @@ class CategoryForm
             ->components([
                 TextInput::make("name_{$locale}")
                     ->label($locale === 'ar' ? __('Name AR') : __('Name EN'))
-                    ->required(),
+                    ->nullable(),
                 TextInput::make("name_{$otherLocale}")
                     ->label($otherLocale === 'ar' ? __('Name AR') : __('Name EN'))
-                    ->required(),
+                    ->nullable(),
                 FileUpload::make('image')
                     ->label(__('Image'))
                     ->image()
-                    ->required(),
+                    ->disk('public')
+                    ->directory('categories')
+                    ->nullable()
+                    ->imagePreviewHeight('150')
+                    ->downloadable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
-                    ->required()
                     ->default(true),
-
             ]);
     }
 }

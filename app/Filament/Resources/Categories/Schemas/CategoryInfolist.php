@@ -18,7 +18,9 @@ class CategoryInfolist
                 TextEntry::make('name_en')
                     ->label(__('Name EN')),
                 ImageEntry::make('image')
-                    ->label(__('Image')),
+                    ->label(__('Image'))
+                    ->disk('public')
+                    ->directory('categories'),
                 IconEntry::make('is_active')
                     ->label(__('Is Active'))
                     ->boolean(),
