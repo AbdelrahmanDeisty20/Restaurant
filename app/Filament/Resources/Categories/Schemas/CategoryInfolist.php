@@ -20,7 +20,7 @@ class CategoryInfolist
                 ImageEntry::make('image')
                     ->label(__('Image'))
                     ->disk('public')
-                    ->directory('categories'),
+                    ->formatStateUsing(fn($state) => $state ? "categories/{$state}" : null),
                 IconEntry::make('is_active')
                     ->label(__('Is Active'))
                     ->boolean(),
