@@ -13,14 +13,36 @@ class DummyProductSeeder extends Seeder
 {
     public function run(): void
     {
-        // 0. Truncate existing data to avoid duplicates
+        // 0. Truncate existing data to avoid duplicates and reset IDs
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         ProductSize::truncate();
         Product::truncate();
         ProductExtra::truncate();
+        Category::truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        // 1. Create Global Extras
+        // 1. Create 6 Core Categories
+        $categoriesData = [
+            ['name_ar' => 'المشويات', 'name_en' => 'Grills', 'image' => 'grills.jpg'],
+            ['name_ar' => 'الأطباق اليمنية', 'name_en' => 'Yemeni Dishes', 'image' => 'yemeni.jpg'],
+            ['name_ar' => 'المقبلات', 'name_en' => 'Appetizers', 'image' => 'appetizers.jpg'],
+            ['name_ar' => 'الشعبيات', 'name_en' => 'Popular Dishes', 'image' => 'popular.jpg'],
+            ['name_ar' => 'الحلويات', 'name_en' => 'Desserts', 'image' => 'desserts.jpg'],
+            ['name_ar' => 'المشروبات', 'name_en' => 'Beverages', 'image' => 'beverages.jpg'],
+        ];
+
+        $categoryMap = [];
+        foreach ($categoriesData as $cat) {
+            $category = Category::create([
+                'name_ar' => $cat['name_ar'],
+                'name_en' => $cat['name_en'],
+                'image' => $cat['image'],
+                'is_active' => true,
+            ]);
+            $categoryMap[$cat['name_en']] = $category->id;
+        }
+
+        // 2. Create Global Extras
         $extras = [
             ['name_ar' => 'ثومية إضافية', 'name_en' => 'Extra Garlic Sauce', 'price' => 2],
             ['name_ar' => 'خبز إضافي', 'name_en' => 'Extra Bread', 'price' => 1],
@@ -38,7 +60,7 @@ class DummyProductSeeder extends Seeder
             $extraIds[] = $createdExtra->id;
         }
 
-        // 2. Define Products Data (Expanded for ~50 products)
+        // 3. Define Products Data
         $productsData = [
             'Grills' => [
                 ['ar' => 'دجاج شواية كامل', 'en' => 'Full Grilled Chicken', 'price' => 50],
@@ -93,9 +115,9 @@ class DummyProductSeeder extends Seeder
                 ['ar' => 'لوتس كنافة', 'en' => 'Lotus Konafa', 'price' => 30],
             ],
             'Beverages' => [
-                ['ar' => 'عصير برتقال', 'en' => 'Orange Juice', 'price' => 12],
-                ['ar' => 'عصير رمان', 'en' => 'Pomegranate Juice', 'price' => 15],
-                ['ar' => 'عصير مشكل', 'en' => 'Mixed Juice', 'price' => 12],
+                ['ar' => 'عصير برتقال طازج', 'en' => 'Fresh Orange Juice', 'price' => 12],
+                ['ar' => 'عصير رمان طازج', 'en' => 'Fresh Pomegranate Juice', 'price' => 15],
+                ['ar' => 'عصير مشكل طازج', 'en' => 'Fresh Mixed Juice', 'price' => 12],
                 ['ar' => 'ليمون بالنعناع', 'en' => 'Lemon Mint', 'price' => 10],
                 ['ar' => 'بيبسي عائلي', 'en' => 'Family Pepsi', 'price' => 15],
                 ['ar' => 'شاي أحمر فنجان', 'en' => 'Red Tea Cup', 'price' => 2],
@@ -105,19 +127,17 @@ class DummyProductSeeder extends Seeder
             ],
         ];
 
-        // 3. Seed Products for each Category
-        $categories = Category::all();
-
-        foreach ($categories as $category) {
-            $categoryName = $category->name_en;
-            if (isset($productsData[$categoryName])) {
-                foreach ($productsData[$categoryName] as $p) {
+        // 4. Seed Products
+        foreach ($productsData as $catName => $products) {
+            $catId = $categoryMap[$catName] ?? null;
+            if ($catId) {
+                foreach ($products as $p) {
                     $product = Product::create([
-                        'category_id' => $category->id,
+                        'category_id' => $catId,
                         'name_ar' => $p['ar'],
                         'name_en' => $p['en'],
-                        'description_ar' => 'وصف لذيذ لمنتج ' . $p['ar'] . ' يتم تحضيره يومياً طازجاً.',
-                        'description_en' => 'A delicious ' . $p['en'] . ' prepared fresh daily with the finest ingredients.',
+                        'description_ar' => 'وصف لذيذ لمنتج ' . $p['ar'] . ' يتم تحضيره يومياً طازجاً بأفضل المكونات.',
+                        'description_en' => 'A delicious ' . $p['en'] . ' prepared fresh daily with the finest ingredients and special spices.',
                         'price' => $p['price'],
                         'main_image' => 'default_product.jpg',
                         'is_active' => true,
@@ -126,7 +146,7 @@ class DummyProductSeeder extends Seeder
                         'included_extras' => json_encode(array_rand(array_flip($extraIds), min(3, count($extraIds)))),
                     ]);
 
-                    // Add Sizes with integer prices
+                    // Add Sizes
                     ProductSize::create([
                         'product_id' => $product->id,
                         'name_ar' => 'صغير',
