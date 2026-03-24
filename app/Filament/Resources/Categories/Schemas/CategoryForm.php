@@ -27,9 +27,7 @@ class CategoryForm
                     ->image()
                     ->disk('public')
                     ->directory('categories')
-                    ->nullable()
-                    ->imagePreviewHeight('150')
-                    ->downloadable(),
+                    ->nullable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
                     ->default(true),
