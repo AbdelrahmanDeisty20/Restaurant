@@ -26,7 +26,7 @@ class CategoryForm
                     ->label(__('Image'))
                     ->image()
                     ->disk('public')
-                    ->directory('storage/categories')
+                    ->directory('categories')
                     ->nullable(),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
