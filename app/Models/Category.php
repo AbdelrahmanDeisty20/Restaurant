@@ -30,7 +30,18 @@ class Category extends Model
 
     public function getImagePathAttribute()
     {
-        return asset('storage/app/public/categories/' . $this->image);
+        if (!$this->image) {
+            return null;
+        }
+
+        // Handle both bare filenames (seeded: yemeni.jpg) and full paths (Filament: categories/xyz.jpg)
+        // This solves the "categories/categories/" duplication issue.
+        $path = str_starts_with($this->image, 'categories/')
+            ? $this->image
+            : 'categories/' . $this->image;
+
+        // Correct public URL path - WITHOUT 'app/public'
+        return asset('storage/' . $path);
     }
 
     public function products()
