@@ -16,7 +16,7 @@ class StoreContactRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|string|max:20|regex:/^01[0125][0-9]{8}$/',
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ];
@@ -29,6 +29,7 @@ class StoreContactRequest extends FormRequest
             'email.required' => __('messages.email_required'),
             'email.email' => __('messages.email_invalid'),
             'phone.required' => __('messages.phone_required'),
+            'phone.regex' => __('messages.phone_invalid'),
             'subject.required' => __('messages.contact_subject_required'),
             'message.required' => __('messages.contact_message_required'),
         ];
