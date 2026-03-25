@@ -16,7 +16,7 @@ class StoreProductReviewRequest extends FormRequest
         return [
             'product_id' => 'required|exists:products,id',
             'rating' => 'required|integer|min:1|max:5',
-            'comment' => 'nullable|string',
+            'comment' => 'required|string',
         ];
     }
 
@@ -28,6 +28,7 @@ class StoreProductReviewRequest extends FormRequest
             'rating.required' => __('messages.rating_required'),
             'rating.min' => __('messages.rating_min'),
             'rating.max' => __('messages.rating_max'),
+            'comment.required' => __('messages.comment_required'),
         ];
     }
 }

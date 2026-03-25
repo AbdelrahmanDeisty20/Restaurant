@@ -104,4 +104,5 @@ return [
     'lng_required' => 'Longitude is required',
     'lat_numeric' => 'Latitude must be a number',
     'lng_numeric' => 'Longitude must be a number',
+    'comment_required' => 'Comment is required',
 ];

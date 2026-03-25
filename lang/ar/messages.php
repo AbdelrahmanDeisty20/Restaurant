@@ -104,5 +104,5 @@ return [
     'lng_required' => 'خط الطول مطلوب',
     'lat_numeric' => 'خط العرض يجب أن يكون رقماً',
     'lng_numeric' => 'خط الطول يجب أن يكون رقماً',
-    
+    'comment_required' => 'التعليق مطلوب',
 ];
