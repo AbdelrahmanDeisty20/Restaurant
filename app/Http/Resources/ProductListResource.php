@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\ProductExtra;
+use App\Http\Resources\ProductReviewResource;
 
 class ProductListResource extends JsonResource
 {
@@ -39,6 +40,7 @@ class ProductListResource extends JsonResource
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images')),
             // هنا بنعرض sizes و extras دايماً حتى لو المصفوفة فاضية
+            'reviews' => ProductReviewResource::collection($this->whenLoaded('productReviews')),
             'sizes' => ProductSizeResource::collection($this->sizes),
             'extras' => ProductExtraResource::collection($extrasData),
         ];
