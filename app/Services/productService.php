@@ -14,7 +14,7 @@ class productService
     public function getAllProducts()
     {
         // بنحمل الـ sizes عشان نعرف نجيب أقل سعر بره
-        $products = Product::with(['offers', 'sizes', 'images', 'category'])->paginate(10);
+        $products = Product::with(['offers'])->paginate(10);
         if ($products->isEmpty()) {
             return [
                 'status' => false,
@@ -31,7 +31,7 @@ class productService
 
     public function getProductById($id)
     {
-        $product = Product::with(['offers', 'images', 'category', 'sizes'])->find($id);
+        $product = Product::with(['offers', 'images', 'category', 'sizes', 'productReviews'])->find($id);
         if (!$product) {
             return [
                 'status' => false,
