@@ -75,6 +75,10 @@ Route::group(['middleware' => setLang::class], function () {
         Route::post('reviews', [ReviewController::class, 'store']);
         Route::post('products/{id}/reviews', [ReviewController::class, 'storeProductReview']);
         Route::get('products/{id}/reviews', [ReviewController::class, 'getProductReviews']);
+        Route::put('product-reviews/{id}', [ReviewController::class, 'updateProductReview']);
+        Route::delete('product-reviews/{id}', [ReviewController::class, 'deleteProductReview']);
+        Route::put('order-reviews/{id}', [ReviewController::class, 'updateOrderReview']);
+        Route::delete('order-reviews/{id}', [ReviewController::class, 'deleteOrderReview']);
 
         // Order Tracking
         Route::get('orders/{id}/track', [OrderTrackingController::class, 'show']);

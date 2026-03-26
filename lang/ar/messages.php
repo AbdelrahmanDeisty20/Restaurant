@@ -107,4 +107,7 @@ return [
     'lat_numeric' => 'خط العرض يجب أن يكون رقماً',
     'lng_numeric' => 'خط الطول يجب أن يكون رقماً',
     'comment_required' => 'التعليق مطلوب',
+    'review_updated_successfully' => 'تم تحديث التقييم بنجاح',
+    'review_deleted_successfully' => 'تم حذف التقييم بنجاح',
+    'unauthorized_review_action' => 'غير مصرح لك بتعديل أو حذف هذا التقييم',
 ];
