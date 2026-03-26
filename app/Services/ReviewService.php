@@ -73,4 +73,100 @@ class ReviewService
             ->latest()
             ->paginate(10);
     }
+
+    /**
+     * Update a product review.
+     */
+    public function updateProductReview($id, array $data)
+    {
+        $review = ProductReview::findOrFail($id);
+
+        if ($review->user_id !== auth()->id()) {
+            return [
+                'status' => false,
+                'message' => __('messages.unauthorized_review_action'),
+            ];
+        }
+
+        $review->update([
+            'rating' => $data['rating'],
+            'comment' => $data['comment'] ?? $review->comment,
+        ]);
+
+        return [
+            'status' => true,
+            'message' => __('messages.review_updated_successfully'),
+            'data' => $review,
+        ];
+    }
+
+    /**
+     * Delete a product review.
+     */
+    public function deleteProductReview($id)
+    {
+        $review = ProductReview::findOrFail($id);
+
+        if ($review->user_id !== auth()->id()) {
+            return [
+                'status' => false,
+                'message' => __('messages.unauthorized_review_action'),
+            ];
+        }
+
+        $review->delete();
+
+        return [
+            'status' => true,
+            'message' => __('messages.review_deleted_successfully'),
+        ];
+    }
+
+    /**
+     * Update an order review.
+     */
+    public function updateOrderReview($id, array $data)
+    {
+        $review = OrderReview::findOrFail($id);
+
+        if ($review->user_id !== auth()->id()) {
+            return [
+                'status' => false,
+                'message' => __('messages.unauthorized_review_action'),
+            ];
+        }
+
+        $review->update([
+            'rating' => $data['rating'],
+            'comment' => $data['comment'] ?? $review->comment,
+        ]);
+
+        return [
+            'status' => true,
+            'message' => __('messages.review_updated_successfully'),
+            'data' => $review,
+        ];
+    }
+
+    /**
+     * Delete an order review.
+     */
+    public function deleteOrderReview($id)
+    {
+        $review = OrderReview::findOrFail($id);
+
+        if ($review->user_id !== auth()->id()) {
+            return [
+                'status' => false,
+                'message' => __('messages.unauthorized_review_action'),
+            ];
+        }
+
+        $review->delete(); // This will cascade delete related product_reviews and driver_reviews
+
+        return [
+            'status' => true,
+            'message' => __('messages.review_deleted_successfully'),
+        ];
+    }
 }

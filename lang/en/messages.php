@@ -107,4 +107,7 @@ return [
     'lat_numeric' => 'Latitude must be a number',
     'lng_numeric' => 'Longitude must be a number',
     'comment_required' => 'Comment is required',
+    'review_updated_successfully' => 'Review updated successfully',
+    'review_deleted_successfully' => 'Review deleted successfully',
+    'unauthorized_review_action' => 'You are not authorized to update or delete this review',
 ];
