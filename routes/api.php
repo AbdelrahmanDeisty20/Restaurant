@@ -59,6 +59,8 @@ Route::group(['middleware' => setLang::class], function () {
         Route::delete('cart', [CartController::class, 'clear']);
         // Order
         Route::post('orders/checkout', [OrderController::class, 'checkout']);
+        Route::get('orders', [OrderController::class, 'index']);
+        Route::get('orders/{id}', [OrderController::class, 'show']);
         // Favorites
         Route::get('favorites', [FavoriteController::class, 'index']);
         Route::post('favorites/toggle', [FavoriteController::class, 'toggle']);

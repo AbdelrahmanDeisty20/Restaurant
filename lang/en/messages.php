@@ -81,6 +81,8 @@ return [
     'added_to_favorites' => 'Added to favorites successfully',
     'removed_from_favorites' => 'Removed from favorites successfully',
     'order_not_found' => 'Order not found',
+    'orders_retrieved_successfully' => 'Orders retrieved successfully',
+    'order_retrieved_successfully' => 'Order retrieved successfully',
     'rating_required' => 'Rating is required',
     'rating_min' => 'Rating must be at least 1',
     'rating_max' => 'Rating must be at most 5',

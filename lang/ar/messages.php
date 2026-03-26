@@ -81,6 +81,8 @@ return [
     'added_to_favorites' => 'تم الإضافة إلى المفضلات بنجاح',
     'removed_from_favorites' => 'تم الحذف من المفضلات بنجاح',
     'order_not_found' => 'لم يتم العثور على الطلب',
+    'orders_retrieved_successfully' => 'تم استرجاع الطلبات بنجاح',
+    'order_retrieved_successfully' => 'تم استرجاع الطلب بنجاح',
     'rating_required' => 'التقييم مطلوب',
     'rating_min' => 'التقييم يجب أن يكون 1 على الأقل',
     'rating_max' => 'التقييم يجب أن يكون 5 على الأكثر',

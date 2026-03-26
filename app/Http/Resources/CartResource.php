@@ -11,13 +11,14 @@ class CartResource extends JsonResource
     {
         $items = $this->items;
 
-        // مجموع ما دُفع فعلاً
-        $subTotal = $items->sum(fn($item) => $item->pivot->total_price);
+        // نحسب sub_total من الـ CartItemResource مباشرة عشان نضمن تطبيق الخصم
+        $itemResources = CartItemResource::collection($this->whenLoaded('items'));
+        $subTotal = collect($itemResources->resolve())->sum('total_price');
 
         return [
-            'id' => $this->id,
-            'items' => CartItemResource::collection($this->whenLoaded('items')),
-            'count' => $items->count(),
+            'id'        => $this->id,
+            'items'     => $itemResources,
+            'count'     => $items->count(),
             'sub_total' => round($subTotal, 2),
         ];
     }

@@ -108,7 +108,7 @@ class CartService
             ]);
         }
 
-        $cart->load('items');
+        $cart->load('items.offers');
         return [
             'status' => true,
             'message' => __('messages.cart_item_added'),
@@ -134,7 +134,7 @@ class CartService
             'total_price' => $unitPrice * $data['quantity'],
         ]);
 
-        $cart->load('items');
+        $cart->load('items.offers');
         return [
             'status' => true,
             'message' => __('messages.cart_item_updated'),
@@ -155,7 +155,7 @@ class CartService
         }
 
         $cart->items()->detach($data['product_id']);
-        $cart->load('items');
+        $cart->load('items.offers');
         return [
             'status' => true,
             'message' => __('messages.cart_item_removed'),

@@ -6,6 +6,8 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\OrderListResource;
 
 class OrderService
 {
@@ -39,8 +41,10 @@ class OrderService
             return 0;
         });
 
+
         return DB::transaction(function () use ($userId, $data, $cart, $subTotal, $totalDiscount) {
             $order = Order::create([
+                'order_number' => 'ORD-' . rand(100000, 999999),
                 'user_id' => $userId,
                 'customer_name' => $data['customer_name'],
                 'customer_phone' => $data['customer_phone'],
@@ -80,5 +84,34 @@ class OrderService
                 'data' => new \App\Http\Resources\OrderResource($order->load(['items.category', 'items.sizes'])),
             ];
         });
+    }
+
+    public function getOrders($userId)
+    {
+        $orders = Order::where('user_id', $userId)->get();
+        return [
+            'status' => true,
+            'message' => __('messages.orders_retrieved_successfully'),
+            'data' => OrderResource::collection($orders),
+        ];
+    }
+
+    public function getOrder($userId, $orderId)
+    {
+        $order = Order::with('items')
+            ->where('user_id', $userId)
+            ->find($orderId);
+        if (!$order) {
+            return [
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+                'data' => [],
+            ];
+        }
+        return [
+            'status' => true,
+            'message' => __('messages.order_retrieved_successfully'),
+            'data' => new OrderListResource($order),
+        ];
     }
 }

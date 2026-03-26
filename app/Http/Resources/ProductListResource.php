@@ -18,8 +18,10 @@ class ProductListResource extends JsonResource
     {
         // المنتج من الداخل (التفاصيل):
         // السعر: أقل حجم لو موجود، ولو مش موجود نعرض السعر الأصلي
-        $hasSizes = $this->relationLoaded('sizes') && $this->sizes->isNotEmpty();
-        $price = $hasSizes ? (float) $this->sizes->min('price') : (float) $this->price;
+        $price = (float) $this->price;
+        if ($price <= 0) {
+            $price = (float) ($this->sizes->min('price') ?: 0);
+        }
 
         $extrasData = [];
         if (!empty($this->included_extras)) {

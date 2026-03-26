@@ -27,6 +27,24 @@ class OrderController extends Controller
             return $this->error($result['message'], 400);
         }
 
+        return $this->success($result['data'], $result['message'], 201);
+    }
+
+    public function index(Request $request)
+    {
+        $result = $this->orderService->getOrders($request->user()->id);
+
+        return $this->success($result['data'], $result['message']);
+    }
+
+    public function show(Request $request, $id)
+    {
+        $result = $this->orderService->getOrder($request->user()->id, $id);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 404);
+        }
+
         return $this->success($result['data'], $result['message']);
     }
 }
