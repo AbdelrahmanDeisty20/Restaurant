@@ -20,7 +20,11 @@ class ProductReviewResource extends JsonResource
                 'id' => $this->user_id,
                 'name' => $this->user->name ?? null,
             ],
-            'product_id' => $this->product_id,
+            'product' => [
+                'id' => $this->product_id,
+                'name' => $this->product->name ?? null,
+                'image_path' => $this->product->image_path ?? null,
+            ],
             'rating' => $this->rating,
             'comment' => $this->comment,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

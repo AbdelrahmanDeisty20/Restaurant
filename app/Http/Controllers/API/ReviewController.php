@@ -108,4 +108,13 @@ class ReviewController extends Controller
 
         return $this->success(null, $result['message']);
     }
+
+    /**
+     * Get authenticated user's reviews.
+     */
+    public function myReviews()
+    {
+        $reviews = $this->reviewService->getUserReviews();
+        return $this->paginated(ProductReviewResource::class, $reviews, __('messages.reviews_retrieved_successfully'));
+    }
 }

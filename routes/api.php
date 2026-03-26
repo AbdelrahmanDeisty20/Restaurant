@@ -60,6 +60,7 @@ Route::group(['middleware' => setLang::class], function () {
         // Order
         Route::post('orders/checkout', [OrderController::class, 'checkout']);
         Route::get('orders', [OrderController::class, 'index']);
+        Route::get('orders/search', [OrderController::class, 'search']);
         Route::get('orders/{id}', [OrderController::class, 'show']);
         // Favorites
         Route::get('favorites', [FavoriteController::class, 'index']);
@@ -75,6 +76,7 @@ Route::group(['middleware' => setLang::class], function () {
         Route::post('reviews', [ReviewController::class, 'store']);
         Route::post('products/{id}/reviews', [ReviewController::class, 'storeProductReview']);
         Route::get('products/{id}/reviews', [ReviewController::class, 'getProductReviews']);
+        Route::get('my-reviews', [ReviewController::class, 'myReviews']);
         Route::put('product-reviews/{id}', [ReviewController::class, 'updateProductReview']);
         Route::delete('product-reviews/{id}', [ReviewController::class, 'deleteProductReview']);
         Route::put('order-reviews/{id}', [ReviewController::class, 'updateOrderReview']);

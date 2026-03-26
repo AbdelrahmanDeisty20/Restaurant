@@ -114,4 +114,25 @@ class OrderService
             'data' => new OrderListResource($order),
         ];
     }
+
+    public function searchOrders($userId, $searchTerm)
+    {
+        $orders = Order::where('user_id', $userId)
+            ->where('order_number', 'like', "%{$searchTerm}%")
+            ->paginate(10);
+
+        if ($orders->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+                'data' => [],
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.orders_retrieved_successfully'),
+            'data' => $orders,
+        ];
+    }
 }

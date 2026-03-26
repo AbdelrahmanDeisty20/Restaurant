@@ -110,4 +110,5 @@ return [
     'review_updated_successfully' => 'Review updated successfully',
     'review_deleted_successfully' => 'Review deleted successfully',
     'unauthorized_review_action' => 'You are not authorized to update or delete this review',
+    'reviews_retrieved_successfully' => 'Your reviews retrieved successfully',
 ];

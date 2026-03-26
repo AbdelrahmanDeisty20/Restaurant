@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CheckoutRequest;
+use App\Http\Requests\API\OrderSearchRequest;
+use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -46,5 +48,16 @@ class OrderController extends Controller
         }
 
         return $this->success($result['data'], $result['message']);
+    }
+
+    public function search(OrderSearchRequest $request)
+    {
+        $result = $this->orderService->searchOrders($request->user()->id, $request->search);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 404);
+        }
+
+        return $this->paginated(OrderResource::class, $result['data'], $result['message']);
     }
 }

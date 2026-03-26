@@ -169,4 +169,15 @@ class ReviewService
             'message' => __('messages.review_deleted_successfully'),
         ];
     }
+
+    /**
+     * Get authenticated user's reviews.
+     */
+    public function getUserReviews()
+    {
+        return ProductReview::with(['product', 'user'])
+            ->where('user_id', auth()->id())
+            ->latest()
+            ->paginate(10);
+    }
 }
