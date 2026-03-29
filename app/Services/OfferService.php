@@ -9,7 +9,7 @@ class OfferService
 {
     public function getAllOffers()
     {
-        $offers = Offer::with('product')->paginate(10);
+        $offers = Offer::with('product.productReviews')->paginate(10);
         if ($offers->isEmpty()) {
             return [
                 'status' => false,
