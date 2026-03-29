@@ -22,16 +22,20 @@ class ProductForm
             ->components([
                 TextInput::make("name_{$locale}")
                     ->label($locale === 'ar' ? __('Name AR') : __('Name EN'))
+                    ->afterStateHydrated(fn($component, $record) => $component->state($record?->{"name_{$locale}"}))
                     ->required(),
                 TextInput::make("name_{$otherLocale}")
                     ->label($otherLocale === 'ar' ? __('Name AR') : __('Name EN'))
+                    ->afterStateHydrated(fn($component, $record) => $component->state($record?->{"name_{$otherLocale}"}))
                     ->required(),
                 Textarea::make("description_{$locale}")
                     ->label($locale === 'ar' ? __('Description AR') : __('Description EN'))
+                    ->afterStateHydrated(fn($component, $record) => $component->state($record?->{"description_{$locale}"}))
                     ->required()
                     ->columnSpanFull(),
                 Textarea::make("description_{$otherLocale}")
                     ->label($otherLocale === 'ar' ? __('Description AR') : __('Description EN'))
+                    ->afterStateHydrated(fn($component, $record) => $component->state($record?->{"description_{$otherLocale}"}))
                     ->required()
                     ->columnSpanFull(),
                 FileUpload::make('main_image')
@@ -41,6 +45,7 @@ class ProductForm
                     ->image()
                     ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/main_image/{$state}" : $state)
                     ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
+                    ->afterStateHydrated(fn($component, $record) => $component->state($record?->main_image))
                     ->required(),
                 Repeater::make('images')
                     ->relationship('images')
