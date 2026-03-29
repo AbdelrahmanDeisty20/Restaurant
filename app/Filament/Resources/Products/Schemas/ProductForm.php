@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use App\Models\Category;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -40,14 +41,20 @@ class ProductForm
                     ->image()
                     ->required(),
 
-                FileUpload::make('images')
+                Repeater::make('images')
+                    ->relationship('images')
                     ->label(__('Product Gallery'))
-                    ->disk('public')
-                    ->directory('products/images')
-                    ->image()
-                    ->multiple()
-                    ->reorderable()
-                    ->relationship('images', 'images'),
+                    ->schema([
+                        FileUpload::make('images')
+                            ->label(__('Image'))
+                            ->disk('public')
+                            ->directory('products/images')
+                            ->image()
+                            ->required(),
+                    ])
+                    ->grid(3)
+                    ->columnSpanFull()
+                    ->reorderable('sort'),
 
                 Select::make('category_id')
                     ->label(__('Category'))
