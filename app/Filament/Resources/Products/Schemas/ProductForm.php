@@ -3,11 +3,11 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use App\Models\Category;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
@@ -41,8 +41,7 @@ class ProductForm
                     ->image()
                     ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/main_image/{$state}" : $state)
                     ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
-                    ->nullable(),
-
+                    ->required(),
                 Repeater::make('images')
                     ->relationship('images')
                     ->label(__('Product Gallery'))
@@ -54,18 +53,16 @@ class ProductForm
                             ->image()
                             ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/images/{$state}" : $state)
                             ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
-                            ->nullable(),
+                            ->required(),
                     ])
                     ->grid(['default' => 3])
                     ->columnSpanFull()
                     ->reorderable()
                     ->orderColumn('sort'),
-
                 Select::make('category_id')
                     ->label(__('Category'))
                     ->required()
                     ->options(fn() => \App\Models\Category::all()->pluck('name', 'id')),
-
                 TextInput::make('price')
                     ->label(__('Price'))
                     ->required()
@@ -75,7 +72,6 @@ class ProductForm
                     ->label(__('Discount Price'))
                     ->numeric()
                     ->prefix('EGP'),
-
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
                     ->required()
@@ -84,12 +80,10 @@ class ProductForm
                     ->label(__('Is Featured'))
                     ->required()
                     ->default(false),
-
                 Textarea::make('included_extras')
                     ->label(__('Included Extras'))
                     ->placeholder(__('e.g. Ranch Sauce, Pepsi, ...'))
                     ->columnSpanFull(),
-
             ]);
     }
 }
