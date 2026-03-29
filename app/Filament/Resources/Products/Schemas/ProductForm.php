@@ -39,6 +39,8 @@ class ProductForm
                     ->disk('public')
                     ->directory('products/main_image')
                     ->image()
+                    ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/main_image/{$state}" : $state)
+                    ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
                     ->required(),
 
                 Repeater::make('images')
@@ -50,6 +52,8 @@ class ProductForm
                             ->disk('public')
                             ->directory('products/images')
                             ->image()
+                            ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/images/{$state}" : $state)
+                            ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
                             ->required(),
                     ])
                     ->grid(3)
