@@ -28,6 +28,13 @@ class Product extends Model
         'name',
         'description',
     ];
+    protected $hidden = [
+        'name_ar',
+        'name_en',
+        'description_ar',
+        'description_en',
+        'main_image',
+    ];
     public function category()
     {
         return $this->belongsTo(Category::class);
