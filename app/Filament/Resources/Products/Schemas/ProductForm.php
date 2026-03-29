@@ -41,7 +41,7 @@ class ProductForm
                     ->image()
                     ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/main_image/{$state}" : $state)
                     ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
-                    ->required(),
+                    ->nullable(),
 
                 Repeater::make('images')
                     ->relationship('images')
@@ -54,7 +54,7 @@ class ProductForm
                             ->image()
                             ->formatStateUsing(fn($state) => $state && !str_contains($state, '/') ? "products/images/{$state}" : $state)
                             ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
-                            ->required(),
+                            ->nullable(),
                     ])
                     ->grid(['default' => 3])
                     ->columnSpanFull()
