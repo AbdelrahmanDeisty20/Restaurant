@@ -63,7 +63,6 @@ class FavoriteService
     public function getFavorites(int $userId, int $perPage = 15)
     {
         return Favorite::where('user_id', $userId)
-            ->where('is_active', true)
             ->with(['product.category', 'product.images', 'product.sizes', 'product.offers'])
             ->latest()
             ->paginate($perPage);
