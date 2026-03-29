@@ -56,9 +56,10 @@ class ProductForm
                             ->dehydrateStateUsing(fn($state) => $state ? basename($state) : null)
                             ->required(),
                     ])
-                    ->grid(3)
+                    ->grid(['default' => 3])
                     ->columnSpanFull()
-                    ->reorderable('sort'),
+                    ->reorderable()
+                    ->orderColumn('sort'),
 
                 Select::make('category_id')
                     ->label(__('Category'))
