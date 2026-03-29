@@ -16,14 +16,4 @@ class ViewProduct extends ViewRecord
             EditAction::make(),
         ];
     }
-
-    protected function mutateFormDataBeforeFill(array $data): array
-    {
-        $data['name_ar'] = $this->record->name_ar;
-        $data['name_en'] = $this->record->name_en;
-        $data['description_ar'] = $this->record->description_ar;
-        $data['description_en'] = $this->record->description_en;
-        $data['main_image'] = $this->record->image_path;
-        return $data;
-    }
 }
