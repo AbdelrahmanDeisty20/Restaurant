@@ -23,7 +23,7 @@ class ViewProduct extends ViewRecord
         $data['name_en'] = $this->record->name_en;
         $data['description_ar'] = $this->record->description_ar;
         $data['description_en'] = $this->record->description_en;
-        $data['image_path'] = $this->record->main_image;
+        $data['image_path'] = $this->record->image_path;
 
         return $data;
     }
