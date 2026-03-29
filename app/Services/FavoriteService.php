@@ -17,7 +17,7 @@ class FavoriteService
      */
     public function toggleFavorite(int $userId, int $productId)
     {
-        $product = Product::find($productId);
+        $product = Product::with('productReviews')->find($productId);
         if (!$product) {
             return [
                 'status' => false,

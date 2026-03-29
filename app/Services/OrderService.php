@@ -80,14 +80,14 @@ class OrderService
             return [
                 'status' => true,
                 'message' => __('messages.checkout_success'),
-                'data' => new \App\Http\Resources\OrderResource($order->load(['items.category', 'items.sizes'])),
+                'data' => new \App\Http\Resources\OrderResource($order->load(['items.category', 'items.sizes', 'driver'])),
             ];
         });
     }
 
     public function getOrders($userId)
     {
-        $orders = Order::where('user_id', $userId)->with('items')->get();
+        $orders = Order::where('user_id', $userId)->with(['items', 'driver'])->get();
         return [
             'status' => true,
             'message' => __('messages.orders_retrieved_successfully'),
@@ -97,7 +97,7 @@ class OrderService
 
     public function getOrder($userId, $orderId)
     {
-        $order = Order::with('items')
+        $order = Order::with(['items', 'driver'])
             ->where('user_id', $userId)
             ->find($orderId);
         if (!$order) {

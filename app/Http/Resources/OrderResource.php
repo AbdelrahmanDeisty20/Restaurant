@@ -15,6 +15,7 @@ class OrderResource extends JsonResource
             'status' => $this->status,
             'total_price' => (float) $this->total_price,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'driver' => new DriverResource($this->whenLoaded('driver')),
             'items' => OrderItemResource::collection($this->whenLoaded('items')),
         ];
     }
