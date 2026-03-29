@@ -15,26 +15,34 @@ class StoreReviewRequest extends FormRequest
     {
         $raw = $this->all();
 
-        // Handle driver_review flat keys (e.g. driver_review.driver_id from form-data)
-        if (isset($raw['driver_review.driver_id'])) {
-            $this->merge([
-                'driver_review' => [
-                    'driver_id' => $raw['driver_review.driver_id'] ?? null,
-                    'rating'    => $raw['driver_review.rating'] ?? null,
-                    'comment'   => $raw['driver_review.comment'] ?? null,
-                ],
-            ]);
+        // 1. Process Driver Review
+        // Check for dot notation OR underscore notation (common in PHP form-data)
+        if (!isset($raw['driver_review'])) {
+            $driverId = $raw['driver_review.driver_id'] ?? $raw['driver_review_driver_id'] ?? null;
+            $rating = $raw['driver_review.rating'] ?? $raw['driver_review_rating'] ?? null;
+            $comment = $raw['driver_review.comment'] ?? $raw['driver_review_comment'] ?? null;
+
+            if ($driverId) {
+                $this->merge([
+                    'driver_review' => [
+                        'driver_id' => $driverId,
+                        'rating'    => $rating,
+                        'comment'   => $comment,
+                    ],
+                ]);
+            }
         }
 
-        // Handle product_reviews flat keys (e.g. product_reviews.0.product_id)
+        // 2. Process Product Reviews
         if (!isset($raw['product_reviews'])) {
             $productReviews = [];
             $i = 0;
-            while (isset($raw["product_reviews.$i.product_id"])) {
+            // Check for dot notation (product_reviews.0.product_id) OR underscore notation (product_reviews_0_product_id)
+            while (isset($raw["product_reviews.$i.product_id"]) || isset($raw["product_reviews_{$i}_product_id"])) {
                 $productReviews[] = [
-                    'product_id' => $raw["product_reviews.$i.product_id"],
-                    'rating'     => $raw["product_reviews.$i.rating"] ?? null,
-                    'comment'    => $raw["product_reviews.$i.comment"] ?? null,
+                    'product_id' => $raw["product_reviews.$i.product_id"] ?? $raw["product_reviews_{$i}_product_id"],
+                    'rating'     => $raw["product_reviews.$i.rating"] ?? $raw["product_reviews_{$i}_rating"] ?? null,
+                    'comment'    => $raw["product_reviews.$i.comment"] ?? $raw["product_reviews_{$i}_comment"] ?? null,
                 ];
                 $i++;
             }
