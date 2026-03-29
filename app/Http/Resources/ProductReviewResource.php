@@ -19,6 +19,7 @@ class ProductReviewResource extends JsonResource
             'user' => [
                 'id' => $this->user_id,
                 'name' => $this->user->name ?? null,
+                'avatar' => $this->user->avatar_path ?? null,
             ],
             'product' => [
                 'id' => $this->product_id,

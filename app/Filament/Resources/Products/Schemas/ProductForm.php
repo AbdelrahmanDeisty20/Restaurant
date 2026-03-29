@@ -36,9 +36,18 @@ class ProductForm
                 FileUpload::make('main_image')
                     ->label(__('Main Image'))
                     ->disk('public')
-                    ->directory('products/images')
+                    ->directory('products/main_image')
                     ->image()
                     ->required(),
+
+                FileUpload::make('images')
+                    ->label(__('Product Gallery'))
+                    ->disk('public')
+                    ->directory('products/images')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->relationship('images', 'images'),
 
                 Select::make('category_id')
                     ->label(__('Category'))

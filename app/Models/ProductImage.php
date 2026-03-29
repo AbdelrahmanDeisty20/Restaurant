@@ -11,13 +11,13 @@ class ProductImage extends Model
         'images',
         'sort',
     ];
-    protected $appends = ['images_path'];
+    protected $appends = ['image_path'];
     protected $hidden = ['images'];
-    public function variant()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }
-    public function getImagesPathAttribute()
+    public function getImagePathAttribute()
     {
         return asset('storage/products/images/' . $this->images);
     }

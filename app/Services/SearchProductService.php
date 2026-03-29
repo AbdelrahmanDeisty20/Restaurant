@@ -8,7 +8,7 @@ class SearchProductService
 {
     public function searchProducts(array $data)
     {
-        $products = Product::with(['offers', 'sizes', 'productReviews'])->where('name_ar', 'like', "%{$data['search']}%")->orWhere('name_en', 'like', "%{$data['search']}%")->paginate(10);
+        $products = Product::with(['offers', 'images', 'sizes', 'productReviews'])->where('name_ar', 'like', "%{$data['search']}%")->orWhere('name_en', 'like', "%{$data['search']}%")->paginate(10);
         if ($products->isEmpty()) {
             return [
                 'status' => false,
