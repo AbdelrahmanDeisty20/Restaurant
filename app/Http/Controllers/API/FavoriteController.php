@@ -36,7 +36,7 @@ class FavoriteController extends Controller
             return $this->error($result['message'], 404);
         }
 
-        return $this->messageOnly($result['message']);
+        return $this->success($result['data'], $result['message']);
     }
 
     /**
