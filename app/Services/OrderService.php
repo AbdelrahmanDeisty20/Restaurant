@@ -116,7 +116,7 @@ class OrderService
 
     public function searchOrders($userId, $searchTerm)
     {
-        $orders = Order::where('user_id', $userId)
+        $orders = Order::with(['items', 'driver'])->where('user_id', $userId)
             ->where('order_number', 'like', "%{$searchTerm}%")
             ->paginate(10);
 
