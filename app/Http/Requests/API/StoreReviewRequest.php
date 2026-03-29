@@ -13,27 +13,28 @@ class StoreReviewRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
+        $raw = $this->all();
+
         // Handle driver_review flat keys (e.g. driver_review.driver_id from form-data)
-        if ($this->has('driver_review.driver_id') && !$this->has('driver_review')) {
+        if (isset($raw['driver_review.driver_id'])) {
             $this->merge([
                 'driver_review' => [
-                    'driver_id' => $this->input('driver_review.driver_id'),
-                    'rating' => $this->input('driver_review.rating'),
-                    'comment' => $this->input('driver_review.comment'),
+                    'driver_id' => $raw['driver_review.driver_id'] ?? null,
+                    'rating'    => $raw['driver_review.rating'] ?? null,
+                    'comment'   => $raw['driver_review.comment'] ?? null,
                 ],
             ]);
         }
 
-        // Handle product_reviews flat keys if needed
-        // (This is more complex for multiple items, but we can support simple case if user sends it)
-        if (!$this->has('product_reviews') && $this->anyFilled(['product_reviews.0.product_id'])) {
+        // Handle product_reviews flat keys (e.g. product_reviews.0.product_id)
+        if (!isset($raw['product_reviews'])) {
             $productReviews = [];
             $i = 0;
-            while ($this->has("product_reviews.$i.product_id")) {
+            while (isset($raw["product_reviews.$i.product_id"])) {
                 $productReviews[] = [
-                    'product_id' => $this->input("product_reviews.$i.product_id"),
-                    'rating' => $this->input("product_reviews.$i.rating"),
-                    'comment' => $this->input("product_reviews.$i.comment"),
+                    'product_id' => $raw["product_reviews.$i.product_id"],
+                    'rating'     => $raw["product_reviews.$i.rating"] ?? null,
+                    'comment'    => $raw["product_reviews.$i.comment"] ?? null,
                 ];
                 $i++;
             }
