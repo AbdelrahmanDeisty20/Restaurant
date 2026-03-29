@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             AddressSeeder::class,
             DriverSeeder::class,
             OfferSeeder::class,
+            OfferProductSeeder::class,
             OrderSeeder::class,
             ReviewSeeder::class,
             FavoriteSeeder::class,

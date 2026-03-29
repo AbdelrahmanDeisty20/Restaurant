@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
+use App\Http\Resources\OrderListResource;
+use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\OrderResource;
-use App\Http\Resources\OrderListResource;
 
 class OrderService
 {
@@ -40,7 +40,6 @@ class OrderService
             }
             return 0;
         });
-
 
         return DB::transaction(function () use ($userId, $data, $cart, $subTotal, $totalDiscount) {
             $order = Order::create([
