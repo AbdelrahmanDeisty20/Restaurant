@@ -16,6 +16,7 @@ class FavoriteResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'is_active' => (bool)$this->is_active,
             'product' => new ProductResource($this->whenLoaded('product')),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];

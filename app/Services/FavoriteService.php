@@ -31,23 +31,25 @@ class FavoriteService
             ->first();
 
         if ($favorite) {
-            $favorite->delete();
+            $favorite->update(['is_active' => !$favorite->is_active]);
+            $message = $favorite->is_active ? __('messages.added_to_favorites') : __('messages.removed_from_favorites');
             return [
                 'status' => true,
-                'message' => __('messages.removed_from_favorites'),
-                'data' => []
+                'message' => $message,
+                'data' => new \App\Http\Resources\FavoriteResource($favorite->load('product'))
             ];
         }
 
-        Favorite::create([
+        $favorite = Favorite::create([
             'user_id' => $userId,
             'product_id' => $productId,
+            'is_active' => true,
         ]);
 
         return [
             'status' => true,
             'message' => __('messages.added_to_favorites'),
-            'data' => []
+            'data' => new \App\Http\Resources\FavoriteResource($favorite->load('product'))
         ];
     }
 
@@ -61,6 +63,7 @@ class FavoriteService
     public function getFavorites(int $userId, int $perPage = 15)
     {
         return Favorite::where('user_id', $userId)
+            ->where('is_active', true)
             ->with(['product.category', 'product.images', 'product.sizes', 'product.offers'])
             ->latest()
             ->paginate($perPage);
