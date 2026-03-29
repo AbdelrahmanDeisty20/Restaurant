@@ -88,7 +88,7 @@ class OrderService
 
     public function getOrders($userId)
     {
-        $orders = Order::where('user_id', $userId)->get();
+        $orders = Order::where('user_id', $userId)->with('items')->get();
         return [
             'status' => true,
             'message' => __('messages.orders_retrieved_successfully'),
