@@ -13,6 +13,7 @@ class Category extends Model
         'is_active',
     ];
 
+    /*
     protected $appends = ['name', 'image_path'];
 
     protected $hidden = [
@@ -20,6 +21,7 @@ class Category extends Model
         'name_en',
         'image',
     ];
+    */
 
     public function getNameAttribute()
     {
