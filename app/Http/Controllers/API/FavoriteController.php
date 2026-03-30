@@ -47,7 +47,7 @@ class FavoriteController extends Controller
      */
     public function index(Request $request)
     {
-        $favorites = $this->favoriteService->getFavorites($request->user()->id, $request->per_page ?? 15);
-        return $this->success(FavoriteResource::collection($favorites)->response()->getData(true), __('messages.success'));
+        $favorites = $this->favoriteService->getFavorites($request->user()->id);
+        return $this->paginated(FavoriteResource::collection($favorites), __('messages.success'));
     }
 }

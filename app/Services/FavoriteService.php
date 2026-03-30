@@ -60,11 +60,11 @@ class FavoriteService
      * @param int $perPage
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getFavorites(int $userId, int $perPage = 15)
+    public function getFavorites(int $userId)
     {
         return Favorite::where('user_id', $userId)
             ->with(['product.category', 'product.images', 'product.sizes', 'product.offers'])
             ->latest()
-            ->paginate($perPage);
+            ->paginate(10);
     }
 }
