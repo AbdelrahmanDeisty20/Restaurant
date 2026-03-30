@@ -14,7 +14,6 @@ class Order extends Model
         'delivery_address',
         'payment_method',
         'sub_total',
-        'delivery_fees',
         'governorate_id',
         'total_discount',
         'total_price',
