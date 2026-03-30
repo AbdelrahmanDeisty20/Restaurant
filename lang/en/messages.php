@@ -111,4 +111,6 @@ return [
     'review_deleted_successfully' => 'Review deleted successfully',
     'unauthorized_review_action' => 'You are not authorized to update or delete this review',
     'reviews_retrieved_successfully' => 'Your reviews retrieved successfully',
+    'favorites_not_found' => 'No favorites found',
+    'favorites_retrieved_successfully' => 'Favorites retrieved successfully',
 ];

@@ -57,14 +57,27 @@ class FavoriteService
      * Get the list of favorite products for a specific user.
      *
      * @param int $userId
-     * @param int $perPage
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return array
      */
     public function getFavorites(int $userId)
     {
-        return Favorite::where('user_id', $userId)
+        $favorites = Favorite::where('user_id', $userId)
             ->with(['product.category', 'product.images', 'product.sizes', 'product.offers'])
             ->latest()
             ->paginate(10);
+
+        if ($favorites->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.favorites_not_found'),
+                'data' => [],
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.favorites_retrieved_successfully'),
+            'data' => $favorites,
+        ];
     }
 }

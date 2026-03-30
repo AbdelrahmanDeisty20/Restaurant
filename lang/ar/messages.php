@@ -111,4 +111,6 @@ return [
     'review_deleted_successfully' => 'تم حذف التقييم بنجاح',
     'unauthorized_review_action' => 'غير مصرح لك بتعديل أو حذف هذا التقييم',
     'reviews_retrieved_successfully' => 'تم استرجاع تقييماتك بنجاح',
+    'favorites_not_found' => 'لايوجد مفضلات',
+    'favorites_retrieved_successfully' => 'تم استرجاع المفضلات بنجاح',
 ];
