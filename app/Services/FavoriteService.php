@@ -63,6 +63,7 @@ class FavoriteService
     {
         $favorites = Favorite::where('user_id', $userId)
             ->with(['product.category', 'product.images', 'product.sizes', 'product.offers'])
+            ->where('is_active', true)
             ->latest()
             ->paginate(10);
 
