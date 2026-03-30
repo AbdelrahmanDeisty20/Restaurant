@@ -113,4 +113,6 @@ return [
     'reviews_retrieved_successfully' => 'Your reviews retrieved successfully',
     'favorites_not_found' => 'No favorites found',
     'favorites_retrieved_successfully' => 'Favorites retrieved successfully',
+    'governorate_required' => 'Governorate is required',
+    'governorate_exists' => 'Governorate does not exist',
 ];

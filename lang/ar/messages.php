@@ -113,4 +113,6 @@ return [
     'reviews_retrieved_successfully' => 'تم استرجاع تقييماتك بنجاح',
     'favorites_not_found' => 'لايوجد مفضلات',
     'favorites_retrieved_successfully' => 'تم استرجاع المفضلات بنجاح',
+    'governorate_required' => 'المحافظة مطلوبة',
+    'governorate_exists' => 'المحافظة غير موجودة',
 ];
