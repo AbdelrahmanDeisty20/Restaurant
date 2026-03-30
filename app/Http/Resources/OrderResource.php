@@ -14,6 +14,7 @@ class OrderResource extends JsonResource
             'order_number' => $this->order_number,
             'status' => $this->status,
             'total_price' => (float) $this->total_price,
+            'delivery_fees' => (float) ($this->governorate->delivery_fee ?? 0),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'driver' => new DriverResource($this->whenLoaded('driver')),
             'items' => OrderItemResource::collection($this->whenLoaded('items')),

@@ -14,7 +14,7 @@ class Order extends Model
         'delivery_address',
         'payment_method',
         'sub_total',
-        'delivery_fees',
+        'governorate_id',
         'total_discount',
         'total_price',
         'status',
@@ -43,5 +43,9 @@ class Order extends Model
     public function statusHistories()
     {
         return $this->hasMany(OrderStatusHistory::class);
+    }
+    public function governorate()
+    {
+        return $this->belongsTo(Governorate::class);
     }
 }

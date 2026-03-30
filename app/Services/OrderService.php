@@ -41,7 +41,10 @@ class OrderService
             return 0;
         });
 
-        return DB::transaction(function () use ($userId, $data, $cart, $subTotal, $totalDiscount) {
+        $governorate = \App\Models\Governorate::find($data['governorate_id'] ?? null);
+        $deliveryFee = $governorate ? $governorate->delivery_fee : 0;
+
+        return DB::transaction(function () use ($userId, $data, $cart, $subTotal, $totalDiscount, $deliveryFee) {
             $order = Order::create([
                 'order_number' => 'ORD-' . rand(100000, 999999),
                 'user_id' => $userId,
@@ -52,9 +55,9 @@ class OrderService
                 'delivery_lng' => $data['delivery_lng'] ?? null,
                 'payment_method' => $data['payment_method'] ?? 'cash',
                 'sub_total' => $subTotal,
-                'delivery_fees' => $data['delivery_fees'] ?? 0,
+                'governorate_id' => $data['governorate_id'] ?? null,
                 'total_discount' => $totalDiscount,
-                'total_price' => $subTotal + ($data['delivery_fees'] ?? 0),  // sub_total is already net (after unit discounts)
+                'total_price' => $subTotal + $deliveryFee,  // sub_total is already net (after unit discounts)
                 'notes' => $data['notes'] ?? null,
                 'status' => 'pending',
             ]);
