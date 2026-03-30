@@ -23,6 +23,7 @@ class Product extends Model
         'time',
         'included_extras',
     ];
+    /*
     protected $appends = [
         'image_path',
         'name',
@@ -35,6 +36,7 @@ class Product extends Model
         'description_en',
         'main_image',
     ];
+    */
     public function category()
     {
         return $this->belongsTo(Category::class);
