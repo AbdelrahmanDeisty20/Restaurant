@@ -41,25 +41,17 @@ class CartItemResource extends JsonResource
         $discountedPrice = round($originalUnitPrice * $discountMultiplier, 2);
         $totalPrice = ($discountedPrice + $extrasPrice) * $quantity;
 
-        $productData = [
-            'id'          => $this->id,
-            'name'        => $this->name,
-            'description' => $this->description,
-            'price'       => $originalUnitPrice,
-            'image_path'  => $this->image_path,
-            'time'        => $this->time,
-            'offers'      => OfferResource::collection($this->whenLoaded('offers')),
-        ];
+        $productData = new ProductResource($this->resource);
 
         return [
-            'cart_item_id'  => $this->pivot->id,
-            'quantity'      => $quantity,
-            'size'          => $size,
-            'unit_price'    => $originalUnitPrice,   // السعر الأصلي بدون خصم
-            'extras_price'  => round((float) $extrasPrice, 2),
-            'total_price'   => round($totalPrice, 2), // بعد الخصم + الإضافات
-            'extras'        => $extrasRaw,
-            'product'       => $productData,
+            'cart_item_id' => $this->pivot->id,
+            'quantity' => $quantity,
+            'size' => $size,
+            'unit_price' => $originalUnitPrice,  // السعر الأصلي بدون خصم
+            'extras_price' => round((float) $extrasPrice, 2),
+            'total_price' => round($totalPrice, 2),  // بعد الخصم + الإضافات
+            'extras' => $extrasRaw,
+            'product' => $productData,
         ];
     }
 }

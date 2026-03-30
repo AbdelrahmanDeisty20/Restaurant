@@ -25,6 +25,7 @@ class ProductReviewResource extends JsonResource
                 'id' => $this->product_id,
                 'name' => $this->product->name ?? null,
                 'image_path' => $this->product->image_path ?? null,
+                'is_favorite' => auth('sanctum')->check() ? $this->product->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,
             ],
             'rating' => $this->rating,
             'comment' => $this->comment,
