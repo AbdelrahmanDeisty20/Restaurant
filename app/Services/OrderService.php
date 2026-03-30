@@ -80,14 +80,14 @@ class OrderService
             return [
                 'status' => true,
                 'message' => __('messages.checkout_success'),
-                'data' => new \App\Http\Resources\OrderResource($order->load(['items.category', 'items.sizes', 'driver'])),
+                'data' => new \App\Http\Resources\OrderResource($order->load(['items.category', 'items.sizes', 'items.images', 'items.offers', 'driver'])),
             ];
         });
     }
 
     public function getOrders($userId)
     {
-        $orders = Order::where('user_id', $userId)->with(['items', 'driver'])->get();
+        $orders = Order::where('user_id', $userId)->with(['items.category', 'items.images', 'items.offers', 'driver'])->get();
         return [
             'status' => true,
             'message' => __('messages.orders_retrieved_successfully'),
@@ -97,7 +97,7 @@ class OrderService
 
     public function getOrder($userId, $orderId)
     {
-        $order = Order::with(['items', 'driver'])
+        $order = Order::with(['items.category', 'items.images', 'items.offers', 'driver', 'statusHistories'])
             ->where('user_id', $userId)
             ->find($orderId);
         if (!$order) {
@@ -116,7 +116,7 @@ class OrderService
 
     public function searchOrders($userId, $searchTerm)
     {
-        $orders = Order::with(['items', 'driver'])->where('user_id', $userId)
+        $orders = Order::with(['items.category', 'items.images', 'items.offers', 'driver'])->where('user_id', $userId)
             ->where('order_number', 'like', "%{$searchTerm}%")
             ->paginate(10);
 
