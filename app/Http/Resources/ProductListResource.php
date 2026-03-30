@@ -45,6 +45,7 @@ class ProductListResource extends JsonResource
             'reviews' => ProductReviewResource::collection($this->whenLoaded('productReviews')),
             'sizes' => ProductSizeResource::collection($this->sizes),
             'extras' => ProductExtraResource::collection($extrasData),
+            'is_favorite' => auth('sanctum')->check() ? $this->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,
         ];
     }
 }
