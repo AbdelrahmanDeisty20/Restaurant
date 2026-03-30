@@ -20,6 +20,7 @@ class CheckoutRequest extends FormRequest
             'delivery_lat' => 'nullable|numeric',
             'delivery_lng' => 'nullable|numeric',
             'payment_method' => 'nullable|string|in:cash,card',
+            'governorate_id' => 'required|exists:governorates,id',
             'notes' => 'nullable|string',
         ];
     }
@@ -30,6 +31,8 @@ class CheckoutRequest extends FormRequest
             'customer_name.required' => __('messages.customer_name_required'),
             'customer_phone.required' => __('messages.customer_phone_required'),
             'delivery_address.required' => __('messages.delivery_address_required'),
+            'governorate_id.required' => __('messages.governorate_required'),
+            'governorate_id.exists' => __('messages.governorate_exists'),
         ];
     }
 }
