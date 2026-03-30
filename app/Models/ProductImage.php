@@ -11,8 +11,8 @@ class ProductImage extends Model
         'images',
         'sort',
     ];
-    protected $appends = ['image_path'];
-    protected $hidden = ['images'];
+    // protected $appends = ['image_path'];
+    // protected $hidden = ['images'];
     public function product()
     {
         return $this->belongsTo(Product::class);
