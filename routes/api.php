@@ -62,6 +62,7 @@ Route::group(['middleware' => setLang::class], function () {
         Route::delete('cart', [CartController::class, 'clear']);
         // Coupons
         Route::post('coupons/check', [CouponController::class, 'check']);
+        Route::post('coupons/info', [CouponController::class, 'info']);
         // Order
         Route::post('orders/checkout', [OrderController::class, 'checkout']);
         Route::get('orders', [OrderController::class, 'index']);
