@@ -7,6 +7,7 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\FavoriteController;
+use App\Http\Controllers\API\GovernorateController;
 use App\Http\Controllers\API\InformationController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\OrderController;
