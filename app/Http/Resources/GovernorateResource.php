@@ -17,7 +17,6 @@ class GovernorateResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'delivery_fee' => $this->delivery_fee,
         ];
     }
 }
