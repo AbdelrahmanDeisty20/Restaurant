@@ -130,6 +130,12 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Address::class);
     }
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class, 'coupon_user')
+            ->withPivot('order_id')
+            ->withTimestamps();
+    }
     public function getNameAttribute()
     {
         return $this->full_name;

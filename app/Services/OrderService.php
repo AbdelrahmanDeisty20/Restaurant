@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\DB;
 class OrderService
 {
     protected $cartService;
+    protected $couponService;
 
-    public function __construct(CartService $cartService)
+    public function __construct(CartService $cartService, CouponService $couponService)
     {
         $this->cartService = $cartService;
+        $this->couponService = $couponService;
     }
 
     public function checkout(int $userId, array $data)
@@ -44,7 +46,18 @@ class OrderService
         $governorate = \App\Models\Governorate::find($data['governorate_id'] ?? null);
         $deliveryFee = $governorate ? $governorate->delivery_fee : 0;
 
-        return DB::transaction(function () use ($userId, $data, $cart, $subTotal, $totalDiscount, $deliveryFee) {
+        $coupon = null;
+        $couponDiscount = 0;
+        if (!empty($data['coupon_code'])) {
+            $couponResult = $this->couponService->check($data['coupon_code'], $userId, $subTotal);
+            if (!$couponResult['status']) {
+                return $couponResult;
+            }
+            $coupon = $couponResult['data']['coupon'];
+            $couponDiscount = $couponResult['data']['discount'];
+        }
+
+        return DB::transaction(function () use ($userId, $data, $cart, $subTotal, $totalDiscount, $deliveryFee, $coupon, $couponDiscount) {
             $order = Order::create([
                 'order_number' => 'ORD-' . rand(100000, 999999),
                 'user_id' => $userId,
@@ -56,8 +69,9 @@ class OrderService
                 'payment_method' => $data['payment_method'] ?? 'cash',
                 'sub_total' => $subTotal,
                 'governorate_id' => $data['governorate_id'] ?? null,
-                'total_discount' => $totalDiscount,
-                'total_price' => $subTotal + $deliveryFee,  // sub_total is already net (after unit discounts)
+                'coupon_id' => $coupon ? $coupon->id : null,
+                'total_discount' => $totalDiscount + $couponDiscount,
+                'total_price' => $subTotal + $deliveryFee - $couponDiscount,
                 'notes' => $data['notes'] ?? null,
                 'status' => 'pending',
             ]);
@@ -79,6 +93,10 @@ class OrderService
 
             // مسح السلة بعد نجاح العملية
             $cart->items()->detach();
+
+            if ($coupon) {
+                $this->couponService->applyUsage($coupon, $userId, $order->id);
+            }
 
             return [
                 'status' => true,

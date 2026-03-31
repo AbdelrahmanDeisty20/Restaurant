@@ -20,6 +20,7 @@ class OrderListResource extends JsonResource
             'notes'             => $this->notes,
             'sub_total'         => (float) $this->sub_total,
             'delivery_fees'     => (float) $this->delivery_fees,
+            'total_discount'    => (float) $this->total_discount,
             'total_price'       => (float) $this->total_price,
             'created_at'        => $this->created_at->format('Y-m-d H:i:s'),
             'driver'            => new DriverResource($this->whenLoaded('driver')),
