@@ -97,4 +97,55 @@ class CouponService
         $coupon->increment('used_count');
         $coupon->users()->attach($userId, ['order_id' => $orderId]);
     }
+
+    /**
+     * Get basic coupon info and status without cart dependency.
+     */
+    public function getCouponInfo(string $code, ?int $userId = null)
+    {
+        $coupon = Coupon::where('code', $code)->first();
+
+        if (!$coupon) {
+            return [
+                'status' => false,
+                'message' => __('messages.coupon_not_found'),
+                'data' => null,
+            ];
+        }
+
+        $isValid = $coupon->is_active;
+        $message = $isValid ? __('messages.success') : __('messages.coupon_not_active');
+
+        if ($isValid && $coupon->start_date && now()->lt($coupon->start_date)) {
+            $isValid = false;
+            $message = __('messages.coupon_not_started');
+        }
+
+        if ($isValid && $coupon->end_date && now()->gt($coupon->end_date)) {
+            $isValid = false;
+            $message = __('messages.coupon_expired');
+        }
+
+        if ($isValid && $coupon->usage_limit !== null && $coupon->used_count >= $coupon->usage_limit) {
+            $isValid = false;
+            $message = __('messages.coupon_usage_limit_reached');
+        }
+
+        if ($isValid && $userId) {
+            $userUsage = $coupon->users()->where('user_id', $userId)->count();
+            if ($userUsage >= $coupon->user_usage_limit) {
+                $isValid = false;
+                $message = __('messages.coupon_user_usage_limit_reached');
+            }
+        }
+
+        return [
+            'status' => true,
+            'message' => $message,
+            'data' => [
+                'coupon' => $coupon,
+                'is_valid' => $isValid,
+            ],
+        ];
+    }
 }
