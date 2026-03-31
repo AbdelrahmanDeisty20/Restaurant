@@ -7,6 +7,7 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\FavoriteController;
+use App\Http\Controllers\API\GovernorateController;
 use App\Http\Controllers\API\InformationController;
 use App\Http\Controllers\API\OfferController;
 use App\Http\Controllers\API\OrderController;
@@ -31,6 +32,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::get('offers', [OfferController::class, 'index']);
     Route::get('product-extras', [ProductController::class, 'getProductExtras']);
     Route::get('product-sizes', [ProductController::class, 'getProductSizes']);
+    Route::get('governorates', [GovernorateController::class, 'index']);
     // Information & Contact
     Route::get('pages', [InformationController::class, 'pages']);
     Route::get('pages/{slug}', [InformationController::class, 'page']);
