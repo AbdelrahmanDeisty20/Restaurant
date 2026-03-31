@@ -116,6 +116,7 @@ return [
     'governorate_required' => 'المحافظة مطلوبة',
     'governorate_exists' => 'المحافظة غير موجودة',
     'governorates_retrieved_successfully' => 'تم استرجاع المحافظات بنجاح',
+    'coupons_retrieved_successfully' => 'تم استرجاع الكوبونات بنجاح',
     'coupon_not_found' => 'الكوبون غير موجود',
     'coupon_not_active' => 'هذا الكوبون غير نشط حالياً',
     'coupon_not_started' => 'هذا الكوبون لم يبدأ العمل به بعد',
