@@ -29,8 +29,6 @@ class CouponController extends Controller
     {
         $userId = $request->user()->id;
         
-        // Get current cart subtotal
-        // We need to calculate it from the cart items
         $cart = \App\Models\Cart::with('items')->where('user_id', $userId)->first();
         
         if (!$cart || $cart->items->isEmpty()) {
@@ -46,5 +44,25 @@ class CouponController extends Controller
         }
 
         return $this->success($result['data'], $result['message']);
+    }
+
+    /**
+     * Get basic coupon info and validity status.
+     */
+    public function info(CheckCouponRequest $request)
+    {
+        $userId = $request->user()?->id;
+        $result = $this->couponService->getCouponInfo($request->code, $userId);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 404);
+        }
+
+        $data = $result['data'];
+        return $this->success([
+            'coupon' => new \App\Http\Resources\CouponResource($data['coupon']),
+            'is_valid' => $data['is_valid'],
+            'status_message' => $result['message'],
+        ], __('messages.success'));
     }
 }
