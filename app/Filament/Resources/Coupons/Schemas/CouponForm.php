@@ -19,19 +19,13 @@ class CouponForm
                     ->required()
                     ->unique('coupons', 'code', ignoreRecord: true)
                     ->maxLength(50),
-                Select::make('type')
-                    ->label(__('Type'))
-                    ->options([
-                        'fixed' => __('Fixed Amount'),
-                        'percentage' => __('Percentage'),
-                    ])
-                    ->required()
-                    ->native(false),
                 TextInput::make('value')
-                    ->label(__('Value'))
+                    ->label(__('Discount Percentage'))
                     ->required()
                     ->numeric()
-                    ->minValue(0),
+                    ->prefix('%')
+                    ->minValue(0)
+                    ->maxValue(100),
                 TextInput::make('min_order_value')
                     ->label(__('Min Order Value'))
                     ->numeric()

@@ -20,10 +20,6 @@ class CouponsTable
                     ->label(__('Code'))
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('type')
-                    ->label(__('Type'))
-                    ->formatStateUsing(fn ($state) => ucfirst($state))
-                    ->sortable(),
                 TextColumn::make('value')
                     ->label(__('Value'))
                     ->numeric()

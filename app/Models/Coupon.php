@@ -85,14 +85,10 @@ class Coupon extends Model
             return 0;
         }
 
-        $discount = 0;
-        if ($this->type === 'fixed') {
-            $discount = $this->value;
-        } elseif ($this->type === 'percentage') {
-            $discount = ($subTotal * $this->value) / 100;
-            if ($this->max_discount !== null && $discount > $this->max_discount) {
-                $discount = $this->max_discount;
-            }
+        $discount = ($subTotal * $this->value) / 100;
+        
+        if ($this->max_discount !== null && $discount > $this->max_discount) {
+            $discount = $this->max_discount;
         }
 
         return min($discount, $subTotal);

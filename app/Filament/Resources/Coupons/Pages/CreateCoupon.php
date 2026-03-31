@@ -12,6 +12,12 @@ class CreateCoupon extends CreateRecord
 {
     protected static string $resource = CouponResource::class;
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['type'] = 'percentage';
+        return $data;
+    }
+
     protected function afterCreate(): void
     {
         $coupon = $this->record;

@@ -91,7 +91,7 @@
 
             <p class="details">
                 <strong>{{ __('Discount') }}:</strong> 
-                {{ $coupon->value }}{{ $coupon->type === 'percentage' ? '%' : ' ' . __('EGP') }}
+                {{ $coupon->value }}%
                 @if($coupon->min_order_value > 0)
                     <br><small>{{ __('Minimum Order') }}: {{ $coupon->min_order_value }}</small>
                 @endif
