@@ -116,4 +116,12 @@ return [
     'governorate_required' => 'Governorate is required',
     'governorate_exists' => 'Governorate does not exist',
     'governorates_retrieved_successfully' => 'Governorates retrieved successfully',
+    'coupon_not_found' => 'Coupon not found',
+    'coupon_not_active' => 'This coupon is not active',
+    'coupon_not_started' => 'This coupon is not available yet',
+    'coupon_expired' => 'This coupon has expired',
+    'coupon_usage_limit_reached' => 'This coupon has reached its usage limit',
+    'coupon_user_usage_limit_reached' => 'You have already used this coupon',
+    'coupon_min_order_value_not_reached' => 'Minimum order value for this coupon is :min',
+    'coupon_valid' => 'Coupon applied successfully',
 ];

@@ -22,6 +22,7 @@ class CheckoutRequest extends FormRequest
             'payment_method' => 'nullable|string|in:cash,card',
             'governorate_id' => 'required|exists:governorates,id',
             'notes' => 'nullable|string',
+            'coupon_code' => 'nullable|string|exists:coupons,code',
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AddressController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ContactController;
+use App\Http\Controllers\API\CouponController;
 use App\Http\Controllers\API\FavoriteController;
 use App\Http\Controllers\API\GovernorateController;
 use App\Http\Controllers\API\InformationController;
@@ -59,6 +60,9 @@ Route::group(['middleware' => setLang::class], function () {
         Route::put('cart/{productId}', [CartController::class, 'update']);
         Route::delete('cart/{productId}', [CartController::class, 'remove']);
         Route::delete('cart', [CartController::class, 'clear']);
+        // Coupons
+        Route::get('coupons', [CouponController::class, 'index']);
+        Route::post('coupons/check', [CouponController::class, 'check']);
         // Order
         Route::post('orders/checkout', [OrderController::class, 'checkout']);
         Route::get('orders', [OrderController::class, 'index']);

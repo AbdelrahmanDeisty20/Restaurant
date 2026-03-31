@@ -116,4 +116,12 @@ return [
     'governorate_required' => 'المحافظة مطلوبة',
     'governorate_exists' => 'المحافظة غير موجودة',
     'governorates_retrieved_successfully' => 'تم استرجاع المحافظات بنجاح',
+    'coupon_not_found' => 'الكوبون غير موجود',
+    'coupon_not_active' => 'هذا الكوبون غير نشط حالياً',
+    'coupon_not_started' => 'هذا الكوبون لم يبدأ العمل به بعد',
+    'coupon_expired' => 'هذا الكوبون منتهي الصلاحية',
+    'coupon_usage_limit_reached' => 'لقد تم الوصول للحد الأقصى لاستخدام هذا الكوبون',
+    'coupon_user_usage_limit_reached' => 'لقد استخدمت هذا الكوبون من قبل',
+    'coupon_min_order_value_not_reached' => 'الحد الأدنى للطلب لاستخدام هذا الكوبون هو :min',
+    'coupon_valid' => 'تم تطبيق الكوبون بنجاح',
 ];
