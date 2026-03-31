@@ -61,7 +61,6 @@ Route::group(['middleware' => setLang::class], function () {
         Route::delete('cart/{productId}', [CartController::class, 'remove']);
         Route::delete('cart', [CartController::class, 'clear']);
         // Coupons
-        Route::get('coupons', [CouponController::class, 'index']);
         Route::post('coupons/check', [CouponController::class, 'check']);
         // Order
         Route::post('orders/checkout', [OrderController::class, 'checkout']);

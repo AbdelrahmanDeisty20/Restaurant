@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CheckCouponRequest;
-use App\Http\Resources\CouponResource;
 use App\Services\CartService;
 use App\Services\CouponService;
 use App\Traits\ApiResponse;
@@ -21,34 +20,6 @@ class CouponController extends Controller
     {
         $this->couponService = $couponService;
         $this->cartService = $cartService;
-    }
-
-    /**
-     * List coupons that are active and available for the user.
-     */
-    public function index(Request $request)
-    {
-        $userId = $request->user()->id;
-        $now = now();
-
-        $coupons = \App\Models\Coupon::where('is_active', true)
-            ->where(function ($query) use ($now) {
-                $query->whereNull('start_date')->orWhere('start_date', '<=', $now);
-            })
-            ->where(function ($query) use ($now) {
-                $query->whereNull('end_date')->orWhere('end_date', '>=', $now);
-            })
-            ->where(function ($query) {
-                $query->whereNull('usage_limit')->orWhereColumn('used_count', '<', 'usage_limit');
-            })
-            ->get();
-
-        // Filter out coupons that the user has already used to their limit
-        $availableCoupons = $coupons->filter(function ($coupon) use ($request) {
-            return $coupon->isValidForUser($request->user());
-        });
-
-        return $this->success(CouponResource::collection($availableCoupons), __('messages.coupons_retrieved_successfully'));
     }
 
     /**
