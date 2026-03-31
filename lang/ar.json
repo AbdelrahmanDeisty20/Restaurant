@@ -81,5 +81,16 @@
     "Review": "تقييم",
     "Title (Arabic)": "العنوان (بالعربي)",
     "Title (English)": "العنوان (بالإنجليزي)",
-    "Full Address": "العنوان الكامل"
+    "Full Address": "العنوان الكامل",
+    "Coupon": "كوبون",
+    "Coupons": "الكوبونات",
+    "Code": "الكود",
+    "Fixed Amount": "مبلغ ثابت",
+    "Percentage": "نسبة مئوية",
+    "Min Order Value": "الحد الأدنى للطلب",
+    "Max Discount Amount": "أقصى مبلغ للخصم",
+    "Total Usage Limit": "الحد الأقصى للاستخدام الكلي",
+    "Per User Limit": "الحد الأقصى لكل مستخدم",
+    "Only for percentage type": "لنوع النسبة المئوية فقط",
+    "Leave empty for unlimited": "اتركه فارغاً للاستخدام غير المحدود"
 }
