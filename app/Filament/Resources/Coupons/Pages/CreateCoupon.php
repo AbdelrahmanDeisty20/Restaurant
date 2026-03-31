@@ -23,7 +23,7 @@ class CreateCoupon extends CreateRecord
 
             foreach ($users as $user) {
                 // Queue the email to avoid timeout in the dashboard
-                Mail::to($user->email)->queue(new NewCouponMail($coupon));
+                Mail::to($user->email)->locale('ar')->queue(new NewCouponMail($coupon));
             }
         }
     }
