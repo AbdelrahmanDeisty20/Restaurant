@@ -115,4 +115,5 @@ return [
     'favorites_retrieved_successfully' => 'تم استرجاع المفضلات بنجاح',
     'governorate_required' => 'المحافظة مطلوبة',
     'governorate_exists' => 'المحافظة غير موجودة',
+    'governorates_retrieved_successfully' => 'تم استرجاع المحافظات بنجاح',
 ];

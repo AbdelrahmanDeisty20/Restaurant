@@ -115,4 +115,5 @@ return [
     'favorites_retrieved_successfully' => 'Favorites retrieved successfully',
     'governorate_required' => 'Governorate is required',
     'governorate_exists' => 'Governorate does not exist',
+    'governorates_retrieved_successfully' => 'Governorates retrieved successfully',
 ];
