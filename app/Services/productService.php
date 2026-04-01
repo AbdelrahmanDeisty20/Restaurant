@@ -80,7 +80,7 @@ class productService
             $query->orderByDesc('id');
         }
 
-        $products = $query->paginate(12);
+        $products = $query->paginate(10);
 
         if ($products->isEmpty()) {
             return [
