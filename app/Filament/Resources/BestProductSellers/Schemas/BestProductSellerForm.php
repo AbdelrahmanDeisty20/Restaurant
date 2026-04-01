@@ -20,12 +20,13 @@ class BestProductSellerForm
                     ->label(__('Product'))
                     ->options(function () {
                         // نجيب المنتجات اللي ليها مبيعات فعلاً
-                        $soldProducts = \App\Models\Product::withSum('orders', 'order_items.quantity')
+                        // نستخدم alias واضح 'total_sales' لتفادي أخطاء التسمية التلقائية
+                        $soldProducts = \App\Models\Product::withSum('orders as total_sales', 'order_items.quantity')
                             ->has('orders')
-                            ->orderByDesc('orders_sum_order_items_quantity')
+                            ->orderByDesc('total_sales')
                             ->get()
                             ->mapWithKeys(function ($product) {
-                                return [$product->id => $product->name . " ( المبيعات: " . (int)$product->orders_sum_order_items_quantity . " )"];
+                                return [$product->id => $product->name . " ( المبيعات: " . (int)$product->total_sales . " )"];
                             });
 
                         // لو مفيش مبيعات خالص، نعرض كل المنتجات عادي عشان القائمة متبقاش فاضية
