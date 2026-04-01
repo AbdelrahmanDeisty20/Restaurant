@@ -44,13 +44,23 @@ class productService
             $max = $filters['max_price'] ?? 999999;
 
             $query->where(function ($q) use ($min, $max) {
+                // الحالة الأولى: المنتج له سعر أساسي (> 0)
+                // في هذه الحالة، السعر الأساسي هو اللي بيظهر للعميل، فلازم يكون هو اللي في النطاق
                 $q->where(function ($sub) use ($min, $max) {
                     $sub->where('price', '>', 0)
                         ->whereBetween('price', [$min, $max]);
                 })
-                    ->orWhereHas('sizes', function ($sub) use ($min, $max) {
-                        $sub->whereBetween('price', [$min, $max]);
-                    });
+                // الحالة الثانية: المنتج سعره الأساسي 0
+                // هنا بنعتمد على "أقل" سعر في الأحجام (Sizes) كما هو في الـ Resource
+                ->orWhere(function ($sub) use ($min, $max) {
+                    $sub->where('price', '<=', 0)
+                        ->whereHas('sizes', function ($sizeQuery) use ($min, $max) {
+                            // نتحقق أن أقل سعر في الأحجام موجود في النطاق
+                            $sizeQuery->selectRaw('min(price)')
+                                ->havingRaw('min(price) >= ?', [$min])
+                                ->havingRaw('min(price) <= ?', [$max]);
+                        });
+                });
             });
         }
 
