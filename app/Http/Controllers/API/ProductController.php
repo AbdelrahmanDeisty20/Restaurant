@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\FilterProductRequest;
 use App\Http\Requests\API\SearchProductRequest;
 use App\Http\Resources\BestProductSellerResource;
 use App\Http\Resources\ProductExtraResource;
@@ -28,6 +29,15 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->getAllProducts();
+        if (!$products['status']) {
+            return $this->error($products['message'], 404);
+        }
+        return $this->paginated(ProductResource::class, $products['data'], $products['message']);
+    }
+
+    public function filter(FilterProductRequest $request)
+    {
+        $products = $this->productService->filterProducts($request->validated());
         if (!$products['status']) {
             return $this->error($products['message'], 404);
         }

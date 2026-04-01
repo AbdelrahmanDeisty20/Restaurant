@@ -29,6 +29,74 @@ class productService
         ];
     }
 
+    public function filterProducts(array $filters = [])
+    {
+        $query = Product::with(['offers', 'images', 'productReviews', 'sizes']);
+
+        // 1. الفلترة بالتصنيف (Category Filter)
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        // 2. الفلترة بالسعر (Price Range)
+        if (isset($filters['min_price']) || isset($filters['max_price'])) {
+            $min = $filters['min_price'] ?? 0;
+            $max = $filters['max_price'] ?? 999999;
+
+            $query->where(function ($q) use ($min, $max) {
+                $q->where(function ($sub) use ($min, $max) {
+                    $sub->where('price', '>', 0)
+                        ->whereBetween('price', [$min, $max]);
+                })
+                    ->orWhereHas('sizes', function ($sub) use ($min, $max) {
+                        $sub->whereBetween('price', [$min, $max]);
+                    });
+            });
+        }
+
+        // 3. عروض خاصة (Special Offers)
+        if (!empty($filters['special_offers'])) {
+            $query->whereHas('offers', function ($q) {
+                $q->where('is_active', true)->where('end_date', '>=', now());
+            });
+        }
+
+        // 4. الأكثر مبيعاً (Most Sold)
+        if (!empty($filters['most_sold'])) {
+            $query->withSum('orders as total_sales', 'order_items.quantity')
+                ->orderByDesc('total_sales');
+        }
+
+        // 5. التقييمات (Ratings)
+        if (!empty($filters['ratings'])) {
+            $query->withAvg('productReviews', 'rating')
+                ->having('product_reviews_avg_rating', '>=', $filters['ratings']);
+        }
+
+        // 6. وصل حديثاً (New Arrivals)
+        if (!empty($filters['new_arrivals'])) {
+            $query->orderByDesc('created_at');
+        } else if (empty($filters['most_sold'])) {
+            $query->orderByDesc('id');
+        }
+
+        $products = $query->paginate(12);
+
+        if ($products->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.products_not_found'),
+                'data' => [],
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.products_retrieved_successfully'),
+            'data' => $products,
+        ];
+    }
+
     public function getProductById($id)
     {
         $product = Product::with(['offers', 'images', 'category', 'sizes', 'productReviews'])->find($id);

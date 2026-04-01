@@ -25,6 +25,7 @@ class SearchProductRequest extends FormRequest
             'search' => 'required|string',
         ];
     }
+
     public function messages(): array
     {
         return [
