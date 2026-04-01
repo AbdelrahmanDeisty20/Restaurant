@@ -65,29 +65,49 @@ class productService
         }
 
         // 3. عروض خاصة (Special Offers)
+        // الفلترة فقط
         if (!empty($filters['special_offers'])) {
             $query->whereHas('offers', function ($q) {
                 $q->where('is_active', true)->where('end_date', '>=', now());
             });
         }
 
-        // 4. الأكثر مبيعاً (Most Sold)
-        if (!empty($filters['most_sold'])) {
-            $query->withSum('orders as total_sales', 'order_items.quantity')
-                ->orderByDesc('total_sales');
-        }
-
-        // 5. التقييمات (Ratings)
+        // 4. التقييمات (Ratings)
         if (!empty($filters['ratings'])) {
             $query->withAvg('productReviews', 'rating')
                 ->having('product_reviews_avg_rating', '>=', $filters['ratings']);
         }
 
-        // 6. وصل حديثاً (New Arrivals)
-        if (!empty($filters['new_arrivals'])) {
-            $query->orderByDesc('created_at');
-        } else if (empty($filters['most_sold'])) {
-            $query->orderByDesc('id');
+        // 5. الترتيب (Sorting)
+        // هذا هو الجزء الذي يطلبه يوسف الآن
+        $sort = $filters['sort'] ?? 'latest';
+
+        switch ($sort) {
+            case 'min_price':
+            case 'max_price':
+                // نستخدم selectRaw لحساب السعر المعروض (displayed_price) بدقة للترتيب عليه
+                $query->selectRaw('*, CASE 
+                        WHEN price > 0 THEN price 
+                        ELSE (SELECT MIN(price) FROM product_sizes WHERE product_id = products.id)
+                    END as displayed_price')
+                    ->orderBy('displayed_price', $sort === 'min_price' ? 'asc' : 'desc');
+                break;
+
+            case 'offers':
+                // ترتيب المنتجات التي لديها عروض نشطة لتظهر في البداية
+                $query->leftJoin('offers', function($join) {
+                        $join->on('products.id', '=', 'offers.product_id')
+                            ->where('offers.is_active', true)
+                            ->where('offers.end_date', '>=', now());
+                    })
+                    ->select('products.*')
+                    ->orderByRaw('CASE WHEN offers.id IS NOT NULL THEN 0 ELSE 1 END');
+                break;
+
+            case 'latest':
+            default:
+                $query->orderByDesc('id');
+                break;
         }
 
         $products = $query->paginate(10);

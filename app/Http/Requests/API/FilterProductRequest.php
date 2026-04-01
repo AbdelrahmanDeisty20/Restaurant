@@ -25,9 +25,7 @@ class FilterProductRequest extends FormRequest
             'category_id' => 'nullable|exists:categories,id',
             'min_price' => 'nullable|numeric|min:0',
             'max_price' => 'nullable|numeric|min:0',
-            'most_sold' => 'nullable|boolean',
-            'new_arrivals' => 'nullable|boolean',
-            'special_offers' => 'nullable|boolean',
+            'sort' => 'nullable|string|in:min_price,max_price,latest,offers',
             'ratings' => 'nullable|integer|min:1|max:5',
         ];
     }
