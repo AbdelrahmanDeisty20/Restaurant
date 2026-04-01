@@ -97,4 +97,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+
+    public function bestProductSeller()
+    {
+        return $this->hasOne(BestProductSeller::class);
+    }
 }

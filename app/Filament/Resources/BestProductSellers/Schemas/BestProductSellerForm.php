@@ -18,7 +18,23 @@ class BestProductSellerForm
             ->components([
                 Select::make('product_id')
                     ->label(__('Product'))
-                    ->options(Product::all()->pluck('name_ar', 'id'))
+                    ->options(function () {
+                        // نجيب المنتجات اللي ليها مبيعات فعلاً
+                        $soldProducts = \App\Models\Product::withSum('orders', 'order_items.quantity')
+                            ->has('orders')
+                            ->orderByDesc('orders_sum_order_items_quantity')
+                            ->get()
+                            ->mapWithKeys(function ($product) {
+                                return [$product->id => $product->name . " ( المبيعات: " . (int)$product->orders_sum_order_items_quantity . " )"];
+                            });
+
+                        // لو مفيش مبيعات خالص، نعرض كل المنتجات عادي عشان القائمة متبقاش فاضية
+                        if ($soldProducts->isEmpty()) {
+                            return \App\Models\Product::all()->pluck('name_ar', 'id');
+                        }
+
+                        return $soldProducts;
+                    })
                     ->searchable()
                     ->required(),
                 TextInput::make('name_ar')

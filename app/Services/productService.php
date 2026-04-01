@@ -25,7 +25,7 @@ class productService
         return [
             'status' => true,
             'message' => __('messages.products_retrieved_successfully'),
-            'data' => $products, // نرجع الموديل نفسه عشان المتحكم يقدر يعمله Pagination صح
+            'data' => $products,  // نرجع الموديل نفسه عشان المتحكم يقدر يعمله Pagination صح
         ];
     }
 
@@ -42,7 +42,7 @@ class productService
         return [
             'status' => true,
             'message' => __('messages.product_retrieved_successfully'),
-            'data' => new ProductListResource($product), // المورد اللي جواه كل حاجة (تفاصيل)
+            'data' => new ProductListResource($product),  // المورد اللي جواه كل حاجة (تفاصيل)
         ];
     }
 
