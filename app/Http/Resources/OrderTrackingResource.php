@@ -23,6 +23,10 @@ class OrderTrackingResource extends JsonResource
                 'lat' => (float) $this->delivery_lat,
                 'lng' => (float) $this->delivery_lng,
             ],
+            'restaurant_coords' => [
+                'lat' => (float) \App\Models\Setting::getValue('restaurant_lat', 30.0444),
+                'lng' => (float) \App\Models\Setting::getValue('restaurant_lng', 31.2357),
+            ],
             'driver' => $this->driver ? [
                 'id' => $this->driver->id,
                 'name' => $this->driver->name,
