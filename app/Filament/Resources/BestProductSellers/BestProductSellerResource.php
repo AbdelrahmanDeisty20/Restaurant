@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\BestProductSellers;
 
-use App\Filament\Resources\BestProductSellers\Pages\CreateBestProductSeller;
 use App\Filament\Resources\BestProductSellers\Pages\EditBestProductSeller;
 use App\Filament\Resources\BestProductSellers\Pages\ListBestProductSellers;
 use App\Filament\Resources\BestProductSellers\Schemas\BestProductSellerForm;
@@ -44,11 +43,20 @@ class BestProductSellerResource extends Resource
         return BestProductSellersTable::configure($table);
     }
 
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canDelete($record): bool
+    {
+        return false;
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => ListBestProductSellers::route('/'),
-            'create' => CreateBestProductSeller::route('/create'),
             'edit' => EditBestProductSeller::route('/{record}/edit'),
         ];
     }
