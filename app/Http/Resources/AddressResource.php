@@ -19,6 +19,8 @@ class AddressResource extends JsonResource
             'title' => $this->title,
             'address' => $this->address,
             'is_default' => (bool) $this->is_default,
+            'lat' => (float) $this->lat,
+            'lng' => (float) $this->lng,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
         ];
     }

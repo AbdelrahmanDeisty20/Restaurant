@@ -11,6 +11,8 @@ class Address extends Model
         'title',
         'address',
         'is_default',
+        'lat',
+        'lng',
     ];
     public function user()
     {

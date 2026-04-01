@@ -17,6 +17,8 @@ class UpdateAddressRequest extends FormRequest
             'title' => 'sometimes|required|string|max:255',
             'address' => 'sometimes|required|string',
             'is_default' => 'nullable|boolean',
+            'lat' => 'nullable|numeric',
+            'lng' => 'nullable|numeric',
         ];
     }
 
