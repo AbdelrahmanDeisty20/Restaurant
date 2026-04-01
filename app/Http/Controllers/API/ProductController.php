@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\SearchProductRequest;
+use App\Http\Resources\BestProductSellerResource;
 use App\Http\Resources\ProductExtraResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductSizeResource;
@@ -67,5 +68,14 @@ class ProductController extends Controller
             return $this->error($productSizes['message'], 404);
         }
         return $this->paginated(ProductSizeResource::class, $productSizes['data'], $productSizes['message']);
+    }
+
+    public function getBestSellers()
+    {
+        $bestSellers = $this->productService->getBestSellers();
+        if (!$bestSellers['status']) {
+            return $this->error($bestSellers['message'], 404);
+        }
+        return $this->success(BestProductSellerResource::collection($bestSellers['data']), $bestSellers['message']);
     }
 }

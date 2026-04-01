@@ -28,6 +28,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::get('categories', [CategoryController::class, 'index']);
     Route::get('categories/{id}', [CategoryController::class, 'show']);
     Route::get('products', [ProductController::class, 'index']);
+    Route::get('best-sellers', [ProductController::class, 'getBestSellers']);
     Route::get('products/{id}', [ProductController::class, 'show']);
     Route::get('search', [ProductController::class, 'search']);
     Route::get('offers', [OfferController::class, 'index']);

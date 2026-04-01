@@ -79,4 +79,25 @@ class productService
             'data' => $productSizes,
         ];
     }
+
+    public function getBestSellers()
+    {
+        $bestSellers = \App\Models\BestProductSeller::with(['product.offers', 'product.images', 'product.productReviews', 'product.sizes'])
+            ->where('is_active', true)
+            ->get();
+
+        if ($bestSellers->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.products_not_found'),
+                'data' => [],
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.products_retrieved_successfully'),
+            'data' => $bestSellers,
+        ];
+    }
 }
