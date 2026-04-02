@@ -19,6 +19,11 @@ class InformationService
 
     public function getSettings()
     {
-        return Setting::pluck('value', 'key')->all();
+        $settings = Setting::all();
+        return [
+            'status' => true,
+            'message' => 'success',
+            'data' => new \App\Http\Resources\SettingCollection($settings),
+        ];
     }
 }

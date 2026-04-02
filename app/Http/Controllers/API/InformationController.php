@@ -36,7 +36,7 @@ class InformationController extends Controller
 
     public function settings()
     {
-        $settings = $this->infoService->getSettings();
-        return $this->success($settings);
+        $result = $this->infoService->getSettings();
+        return $this->success($result['data'], $result['message']);
     }
 }
