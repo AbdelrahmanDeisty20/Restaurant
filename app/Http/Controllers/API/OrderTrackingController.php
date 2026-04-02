@@ -39,8 +39,14 @@ class OrderTrackingController extends Controller
      */
     public function updateLocation(\App\Http\Requests\API\UpdateDriverLocationRequest $request)
     {
+        $driver = $request->user()->driver;
+
+        if (!$driver) {
+            return $this->error('User is not registered as a driver', 403);
+        }
+
         $success = $this->trackingService->updateDriverLocation(
-            $request->driver_id,
+            $driver->id,
             $request->lat,
             $request->lng
         );

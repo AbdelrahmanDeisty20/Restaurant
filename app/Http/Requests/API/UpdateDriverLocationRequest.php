@@ -20,7 +20,6 @@ class UpdateDriverLocationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'driver_id' => 'required|exists:drivers,id',
             'lat' => 'required|numeric',
             'lng' => 'required|numeric',
         ];
@@ -32,8 +31,6 @@ class UpdateDriverLocationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'driver_id.required' => __('messages.driver_id_required'),
-            'driver_id.exists' => __('messages.driver_not_found'),
             'lat.required' => __('messages.lat_required'),
             'lat.numeric' => __('messages.lat_numeric'),
             'lng.required' => __('messages.lng_required'),

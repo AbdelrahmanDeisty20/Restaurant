@@ -140,4 +140,9 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->full_name;
     }
+
+    public function driver()
+    {
+        return $this->hasOne(Driver::class);
+    }
 }
