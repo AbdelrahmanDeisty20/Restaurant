@@ -14,17 +14,15 @@ class SettingResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $value = $this->value;
+        return $this->resource->mapWithKeys(function ($setting) {
+            $value = $setting->value;
 
-        // إذا كان الإعداد من نوع صورة، نستخدم الرابط الكامل
-        if ($this->type === 'image' && $this->value) {
-            $value = asset('storage/settings/' . $this->value);
-        }
+            // تطبيق منطق الصور إذا كان النوع صورة
+            if ($setting->type === 'image' && $setting->value) {
+                $value = asset('storage/settings/' . $setting->value);
+            }
 
-        return [
-            'key' => $this->key,
-            'value' => $value,
-            'type' => $this->type,
-        ];
+            return [$setting->key => $value];
+        })->toArray();
     }
 }
