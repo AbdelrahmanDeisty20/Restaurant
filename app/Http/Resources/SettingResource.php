@@ -14,16 +14,9 @@ class SettingResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $value = $this->value;
-
-        // تحويل الصورة لرابط كامل إذا كانت من نوع image
-        if ($this->type === 'image' && $this->value) {
-            $value = asset('storage/settings/' . $this->value);
-        }
-
         return [
             'key' => $this->key,
-            'value' => $value,
+            'value' => $this->value,
             'type' => $this->type,
         ];
     }
