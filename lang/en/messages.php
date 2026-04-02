@@ -127,5 +127,7 @@ return [
     'coupon_valid' => 'Coupon applied successfully',
     'order_cancelled_successfully' => 'Order cancelled successfully',
     'order_deleted_successfully' => 'Order deleted successfully',
-    'cannot_cancel_or_delete_order' => 'Cannot cancel or delete order in its current status',
+    'cannot_cancel_order' => 'Cannot cancel order in its current status',
+    'cannot_delete_order_unless_delivered_or_cancelled' => 'Order can only be deleted if its status is delivered or cancelled',
+    'cannot_cancel_or_delete_order' => 'Cannot cancel or delete the order at this stage',
 ];

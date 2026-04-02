@@ -168,6 +168,7 @@ class OrderService
             ];
         }
 
+        // 1. إذا كان الطلب جديد (pending) -> نقوم بإلغائه
         if ($order->status === 'pending') {
             $order->update(['status' => 'cancelled']);
             $order->statusHistories()->create([
@@ -181,7 +182,8 @@ class OrderService
             ];
         }
 
-        if ($order->status === 'accepted') {
+        // 2. إذا كان الطلب منتهي (delivered) أو ملغي بالفعل (cancelled) -> نقوم بحذفه
+        if (in_array($order->status, ['delivered', 'cancelled'])) {
             $order->delete();
             return [
                 'status' => true,
@@ -190,6 +192,7 @@ class OrderService
             ];
         }
 
+        // 3. أي حالة أخرى (مثل ON THE WAY) لا يمكن فعل شيء
         return [
             'status' => false,
             'message' => __('messages.cannot_cancel_or_delete_order'),
