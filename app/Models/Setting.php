@@ -11,20 +11,12 @@ class Setting extends Model
         'value',
         'type',
     ];
-    public function getValueAttribute($value)
+    public function getImageUrlAttribute()
     {
-        if ($this->type == 'image') {
-            return asset('storage/settings/' . $value);
+        if ($this->type == 'image' && $this->value) {
+            return asset('storage/settings/' . $this->value);
         }
-        return $value;
-    }
-    public function setValueAttribute($value)
-    {
-        if ($this->type == 'image') {
-            $this->attributes['value'] = $value;
-        } else {
-            $this->attributes['value'] = $value;
-        }
+        return null;
     }
     /**
      * Get setting value by key.
