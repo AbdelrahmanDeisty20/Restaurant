@@ -63,7 +63,18 @@ class OrderController extends Controller
 
     public function cancel(Request $request, $id)
     {
-        $result = $this->orderService->cancelOrDeleteOrder($request->user()->id, $id);
+        $result = $this->orderService->cancelOrder($request->user()->id, $id);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 400);
+        }
+
+        return $this->success($result['data'], $result['message']);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $result = $this->orderService->deleteOrder($request->user()->id, $id);
 
         if (!$result['status']) {
             return $this->error($result['message'], 400);

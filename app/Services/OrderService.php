@@ -156,7 +156,7 @@ class OrderService
         ];
     }
 
-    public function cancelOrDeleteOrder(int $userId, int $orderId)
+    public function cancelOrder(int $userId, int $orderId)
     {
         $order = Order::where('user_id', $userId)->find($orderId);
 
@@ -168,7 +168,6 @@ class OrderService
             ];
         }
 
-        // 1. إذا كان الطلب جديد (pending) -> نقوم بإلغائه
         if ($order->status === 'pending') {
             $order->update(['status' => 'cancelled']);
             $order->statusHistories()->create([
@@ -182,7 +181,25 @@ class OrderService
             ];
         }
 
-        // 2. إذا كان الطلب منتهي (delivered) أو ملغي بالفعل (cancelled) -> نقوم بحذفه
+        return [
+            'status' => false,
+            'message' => __('messages.cannot_cancel_order'),
+            'data' => [],
+        ];
+    }
+
+    public function deleteOrder(int $userId, int $orderId)
+    {
+        $order = Order::where('user_id', $userId)->find($orderId);
+
+        if (!$order) {
+            return [
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+                'data' => [],
+            ];
+        }
+
         if (in_array($order->status, ['delivered', 'cancelled'])) {
             $order->delete();
             return [
@@ -192,10 +209,9 @@ class OrderService
             ];
         }
 
-        // 3. أي حالة أخرى (مثل ON THE WAY) لا يمكن فعل شيء
         return [
             'status' => false,
-            'message' => __('messages.cannot_cancel_or_delete_order'),
+            'message' => __('messages.cannot_delete_order_unless_delivered_or_cancelled'),
             'data' => [],
         ];
     }
