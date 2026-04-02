@@ -125,4 +125,7 @@ return [
     'coupon_user_usage_limit_reached' => 'لقد استخدمت هذا الكوبون من قبل',
     'coupon_min_order_value_not_reached' => 'الحد الأدنى للطلب لاستخدام هذا الكوبون هو :min',
     'coupon_valid' => 'تم تطبيق الكوبون بنجاح',
+    'order_cancelled_successfully' => 'تم إلغاء الطلب بنجاح',
+    'order_deleted_successfully' => 'تم حذف الطلب بنجاح',
+    'cannot_cancel_or_delete_order' => 'لا يمكن إلغاء أو حذف الطلب في حالته الحالية',
 ];

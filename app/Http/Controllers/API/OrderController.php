@@ -60,4 +60,15 @@ class OrderController extends Controller
 
         return $this->paginated(OrderResource::class, $result['data'], $result['message']);
     }
+
+    public function cancel(Request $request, $id)
+    {
+        $result = $this->orderService->cancelOrDeleteOrder($request->user()->id, $id);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 400);
+        }
+
+        return $this->success($result['data'], $result['message']);
+    }
 }

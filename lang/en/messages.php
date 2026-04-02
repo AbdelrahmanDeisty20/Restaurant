@@ -125,4 +125,7 @@ return [
     'coupon_user_usage_limit_reached' => 'You have already used this coupon',
     'coupon_min_order_value_not_reached' => 'Minimum order value for this coupon is :min',
     'coupon_valid' => 'Coupon applied successfully',
+    'order_cancelled_successfully' => 'Order cancelled successfully',
+    'order_deleted_successfully' => 'Order deleted successfully',
+    'cannot_cancel_or_delete_order' => 'Cannot cancel or delete order in its current status',
 ];

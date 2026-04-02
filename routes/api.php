@@ -70,6 +70,7 @@ Route::group(['middleware' => setLang::class], function () {
         Route::get('orders', [OrderController::class, 'index']);
         Route::get('orders/search', [OrderController::class, 'search']);
         Route::get('orders/{id}', [OrderController::class, 'show']);
+        Route::post('orders/{id}/cancel', [OrderController::class, 'cancel']);
         // Favorites
         Route::get('favorites', [FavoriteController::class, 'index']);
         Route::post('favorites/toggle', [FavoriteController::class, 'toggle']);

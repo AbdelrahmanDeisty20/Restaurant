@@ -155,4 +155,45 @@ class OrderService
             'data' => $orders,
         ];
     }
+
+    public function cancelOrDeleteOrder(int $userId, int $orderId)
+    {
+        $order = Order::where('user_id', $userId)->find($orderId);
+
+        if (!$order) {
+            return [
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+                'data' => [],
+            ];
+        }
+
+        if ($order->status === 'pending') {
+            $order->update(['status' => 'cancelled']);
+            $order->statusHistories()->create([
+                'status' => 'cancelled',
+                'notes' => 'Order cancelled by user',
+            ]);
+            return [
+                'status' => true,
+                'message' => __('messages.order_cancelled_successfully'),
+                'data' => new OrderResource($order->load(['items.category', 'items.images', 'items.offers', 'driver'])),
+            ];
+        }
+
+        if ($order->status === 'accepted') {
+            $order->delete();
+            return [
+                'status' => true,
+                'message' => __('messages.order_deleted_successfully'),
+                'data' => [],
+            ];
+        }
+
+        return [
+            'status' => false,
+            'message' => __('messages.cannot_cancel_or_delete_order'),
+            'data' => [],
+        ];
+    }
 }
