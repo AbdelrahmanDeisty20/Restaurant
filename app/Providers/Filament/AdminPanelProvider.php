@@ -60,6 +60,7 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->databaseNotifications()
             ->renderHook(
                 PanelsRenderHook::USER_MENU_BEFORE,
                 fn(): string => Blade::render('

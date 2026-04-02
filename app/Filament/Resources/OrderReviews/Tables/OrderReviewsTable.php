@@ -15,13 +15,13 @@ class OrderReviewsTable
     {
         return $table
             ->columns([
-                TextColumn::make('order_id')
-                    ->label(__('Order'))
-                    ->numeric()
+                TextColumn::make('order.order_number')
+                    ->label(__('Order Number'))
+                    ->searchable()
                     ->sortable(),
-                TextColumn::make('user_id')
+                TextColumn::make('user.name')
                     ->label(__('User'))
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('rating')
                     ->label(__('Rating'))

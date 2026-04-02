@@ -18,34 +18,27 @@ class UserForm
             ->components([
                 TextInput::make('full_name')
                     ->label(__('Full Name'))
-                    ->required()
-                    ->disabled(fn(?User $record) => $record && $record->id !== auth()->id()),
+                    ->required(),
                 TextInput::make('phone')
                     ->label(__('Phone'))
                     ->tel()
-                    ->required()
-                    ->disabled(fn(?User $record) => $record && $record->id !== auth()->id()),
+                    ->required(),
                 FileUpload::make('avatar')
                     ->label(__('Avatar'))
                     ->disk('public')
                     ->directory('users/avatars')
-                    ->image()
-                    ->disabled(fn(?User $record) => $record && $record->id !== auth()->id()),
+                    ->image(),
                 TextInput::make('email')
                     ->label(__('Email address'))
                     ->email()
-                    ->required()
-                    ->disabled(fn(?User $record) => $record && $record->id !== auth()->id()),
+                    ->required(),
                 DateTimePicker::make('email_verified_at')
-                    ->label(__('Email Verified At'))
-                    ->disabled(fn(?User $record) => $record && $record->id !== auth()->id()),
+                    ->label(__('Email Verified At')),
                 TextInput::make('password')
                     ->label(__('Password'))
                     ->password()
                     ->required(fn(string $context): bool => $context === 'create')
-                    ->dehydrated(fn($state) => filled($state))
-                    ->disabled(fn(?User $record) => $record && $record->id !== auth()->id())
-                    ->hidden(fn(?User $record) => $record && $record->id !== auth()->id()),
+                    ->dehydrated(fn($state) => filled($state)),
                 Toggle::make('is_active')
                     ->label(__('Is Active'))
                     ->required(),

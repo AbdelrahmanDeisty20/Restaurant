@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\Coupons\Schemas;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Str;
 
 class CouponForm
 {
@@ -18,7 +21,14 @@ class CouponForm
                     ->label(__('Code'))
                     ->required()
                     ->unique('coupons', 'code', ignoreRecord: true)
-                    ->maxLength(50),
+                    ->maxLength(50)
+                    ->suffixAction(
+                        Action::make('generateCode')
+                            ->icon('heroicon-m-sparkles')
+                            ->action(function (Set $set) {
+                                $set('code', strtoupper(Str::random(10)));
+                            })
+                    ),
                 TextInput::make('value')
                     ->label(__('Discount Percentage'))
                     ->required()

@@ -28,6 +28,11 @@ class UsersTable
                     ->label(__('Email Verified At'))
                     ->dateTime()
                     ->sortable(),
+                TextColumn::make('roles.name')
+                    ->label(__('Roles'))
+                    ->badge()
+                    ->color('primary')
+                    ->searchable(),
                 IconColumn::make('is_active')
                     ->label(__('Is Active'))
                     ->boolean(),
