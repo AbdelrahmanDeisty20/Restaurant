@@ -23,7 +23,7 @@ class InformationService
         return [
             'status' => true,
             'message' => 'success',
-            'data' => \App\Http\Resources\SettingResource::collection($settings),
+            'data' => new \App\Http\Resources\SettingCollection($settings),
         ];
     }
 }
