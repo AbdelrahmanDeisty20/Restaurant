@@ -58,6 +58,24 @@ class StatsOverview extends BaseWidget
                 ->color('success')
                 ->chart([1000, 1500, 1200, 2000, 1800, 2500, 3000])
                 ->url(OrderResource::getUrl('index')),
+
+            // Row 3
+            Stat::make(__('Active Coupons'), \App\Models\Coupon::where('is_active', true)->count())
+                ->description(__('Validated discount codes'))
+                ->descriptionIcon('heroicon-m-ticket')
+                ->color('success')
+                ->url(CouponResource::getUrl('index')),
+
+            Stat::make(__('Total Coupon Usage'), \App\Models\Coupon::sum('used_count'))
+                ->description(__('Times coupons were applied'))
+                ->descriptionIcon('heroicon-m-check-badge')
+                ->color('info'),
+
+            Stat::make(__('Active Offers'), \App\Models\Offer::where('is_active', true)->count())
+                ->description(__('Active discounts on products'))
+                ->descriptionIcon('heroicon-m-gift')
+                ->color('primary')
+                ->url(\App\Filament\Resources\Offers\OfferResource::getUrl('index')),
         ];
     }
 
