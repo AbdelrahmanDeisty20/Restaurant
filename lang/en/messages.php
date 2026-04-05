@@ -143,4 +143,6 @@ return [
     'order_status_on_the_way_body' => 'Your order #:order_number is on its way to you',
     'order_status_cancelled_title' => 'Order Cancelled ❌',
     'order_status_cancelled_body' => 'Sorry, your order #:order_number has been cancelled',
+    'no_notifications' => 'No notifications found',
+    'notifications_retrieved_successfully' => 'Notifications retrieved successfully',
 ];

@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Order;
+use App\Models\AppNotification;
 use App\Services\NotificationService;
 
 class OrderObserver
@@ -39,6 +40,18 @@ class OrderObserver
                         'status' => $status,
                     ]
                 );
+
+                // Save notification to database
+                AppNotification::create([
+                    'user_id' => $order->user_id,
+                    'title' => __($titleKey),
+                    'body' => __($bodyKey, ['order_number' => $orderNumber]),
+                    'type' => 'order_status_update',
+                    'data' => [
+                        'order_id' => $order->id,
+                        'status' => $status,
+                    ],
+                ]);
             }
         }
     }

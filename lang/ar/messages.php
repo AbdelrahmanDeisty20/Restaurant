@@ -143,4 +143,6 @@ return [
     'order_status_on_the_way_body' => 'طلبك رقم :order_number في الطريق إليك',
     'order_status_cancelled_title' => 'تم إلغاء الطلب ❌',
     'order_status_cancelled_body' => 'عذراً، تم إلغاء طلبك رقم :order_number',
+    'no_notifications' => 'لا يوجد إشعارات',
+    'notifications_retrieved_successfully' => 'تم استرجاع الإشعارات بنجاح',
 ];

@@ -58,6 +58,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::post('test-notification-users', [NotificationController::class, 'sendTestNotificationToUsers']);
  
     Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::get('notifications', [NotificationController::class, 'index']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);
         Route::post('update-profile', [AuthController::class, 'updateProfile']);

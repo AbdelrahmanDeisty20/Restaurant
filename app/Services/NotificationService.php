@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Http\Resources\NotificationResource;
+use App\Models\AppNotification;
 use App\Models\UserFcmToken;
 use App\Services\FirebaseNotificationService;
 
@@ -100,6 +102,28 @@ class NotificationService
             'message' => 'Notification sent to specific user',
             'count' => count($tokens),
             'details' => $results,
+        ];
+    }
+    public function notifications()
+    {
+        $notifications = AppNotification::where(function ($query) {
+                $query->where('user_id', auth()->id())
+                    ->orWhereNull('user_id');
+            })
+            ->latest()
+            ->get();
+
+        if ($notifications->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.no_notifications'),
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.notifications_retrieved_successfully'),
+            'data' => NotificationResource::collection($notifications),
         ];
     }
 }

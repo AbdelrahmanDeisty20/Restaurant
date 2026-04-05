@@ -51,4 +51,15 @@ class NotificationController extends Controller
 
         return $this->success($result, $result['message']);
     }
+
+    public function index()
+    {
+        $result = $this->notificationService->notifications();
+        
+        if (!$result['status']) {
+            return $this->success([], $result['message']);
+        }
+
+        return $this->success($result['data'], $result['message']);
+    }
 }

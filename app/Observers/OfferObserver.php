@@ -3,6 +3,7 @@
  namespace App\Observers;
  
  use App\Models\Offer;
+ use App\Models\AppNotification;
  use App\Services\NotificationService;
  
  class OfferObserver
@@ -30,5 +31,17 @@
                  'product_id' => $offer->product_id,
              ]
          );
+ 
+         // Save notification to database
+         AppNotification::create([
+             'user_id' => null, // Broadcast
+             'title' => __('messages.new_offer_title'),
+             'body' => __('messages.new_offer_body', ['product_name' => $productName]),
+             'type' => 'new_offer',
+             'data' => [
+                 'offer_id' => $offer->id,
+                 'product_id' => $offer->product_id,
+             ],
+         ]);
      }
  }
