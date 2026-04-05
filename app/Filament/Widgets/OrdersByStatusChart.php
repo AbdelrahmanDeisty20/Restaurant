@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class OrdersByStatusChart extends ChartWidget
 {
-    protected static ?string $heading = 'Orders Distribution by Status';
+    protected ?string $heading = 'Orders Distribution by Status';
 
     protected static ?int $sort = 3;
 

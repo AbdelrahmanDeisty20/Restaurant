@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class MonthlyOrdersChart extends ChartWidget
 {
-    protected static ?string $heading = 'Monthly Orders Trend';
+    protected ?string $heading = 'Monthly Orders Trend';
 
     protected static ?int $sort = 4;
 

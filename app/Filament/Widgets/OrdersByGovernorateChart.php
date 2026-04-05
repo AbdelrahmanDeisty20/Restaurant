@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class OrdersByGovernorateChart extends ChartWidget
 {
-    protected static ?string $heading = 'Orders Distribution by Governorate';
+    protected ?string $heading = 'Orders Distribution by Governorate';
 
     protected static ?int $sort = 2;
 
