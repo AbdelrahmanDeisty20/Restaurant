@@ -15,6 +15,11 @@ class LatestOrdersTable extends BaseWidget
 
     protected int | string | array $columnSpan = 'full';
 
+    public function getTableHeading(): ?string
+    {
+        return __('Latest Orders');
+    }
+
     public function table(Table $table): Table
     {
         return $table
