@@ -21,9 +21,22 @@ class DriverResource extends Resource
 {
     protected static ?string $model = Driver::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $recordTitleAttribute = 'Driver';
+    public static function getLabel(): string
+    {
+        return __('Driver');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('Drivers');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Drivers');
+    }
 
     public static function form(Schema $schema): Schema
     {

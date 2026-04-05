@@ -31,6 +31,11 @@ class BestProductSellerResource extends Resource
         return __('Best Sellers');
     }
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Best Sellers');
+    }
+
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedSparkles;
 
     public static function form(Schema $schema): Schema

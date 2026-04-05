@@ -15,6 +15,8 @@ class OrdersByStatusChart extends ChartWidget
 
     protected static ?int $sort = 3;
 
+    protected int | string | array $columnSpan = 1;
+
     protected function getData(): array
     {
         $data = Order::query()

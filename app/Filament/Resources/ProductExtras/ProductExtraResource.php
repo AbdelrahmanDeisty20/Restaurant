@@ -35,6 +35,11 @@ class ProductExtraResource extends Resource
         return __('Product Extras');
     }
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Product Extras');
+    }
+
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::OutlinedPuzzlePiece;
 
     public static function form(Schema $schema): Schema
