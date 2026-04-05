@@ -11,19 +11,17 @@ class MonthlyOrdersChart extends ChartWidget
 {
     protected ?string $heading = 'Monthly Orders Trend';
 
-    protected static ?int $sort = 4;
+    protected ?int $sort = 4;
 
     protected function getData(): array
     {
         $data = Order::query()
-            ->select(DB::raw('count(*) as count'), DB::raw('strftime("%Y-%m", created_at) as month')) // SQLite format, use different for MySQL if needed
+            ->select(DB::raw('count(*) as count'), DB::raw('strftime("%Y-%m", created_at) as month')) 
             ->where('created_at', '>=', now()->subMonths(12))
             ->groupBy('month')
             ->orderBy('month')
             ->pluck('count', 'month')
             ->toArray();
-
-        // If using MySQL/PostgreSQL, change to DATE_FORMAT(created_at, "%Y-%m")
 
         return [
             'datasets' => [

@@ -11,7 +11,7 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestOrdersTable extends BaseWidget
 {
-    protected static ?int $sort = 5;
+    protected ?int $sort = 5;
 
     protected int | string | array $columnSpan = 'full';
 
@@ -25,7 +25,7 @@ class LatestOrdersTable extends BaseWidget
                 TextColumn::make('order_number')
                     ->label(__('Order Number'))
                     ->searchable(),
-                TextColumn::make('user.full_name') // Assuming User model has full_name
+                TextColumn::make('user.full_name') 
                     ->label(__('Customer')),
                 TextColumn::make('total_price')
                     ->label(__('Total Price'))
