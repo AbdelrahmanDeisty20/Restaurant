@@ -53,6 +53,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::post('verify-otp', [ForgetPasswordController::class, 'verifyOtp']);
     Route::post('reset-password', [ForgetPasswordController::class, 'resetPassword']);
     Route::post('resend-otp-password', [ForgetPasswordController::class, 'resendOtp']);
+    Route::post('fcm-token', [NotificationController::class, 'sendToken']);
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);
@@ -98,6 +99,6 @@ Route::group(['middleware' => setLang::class], function () {
         Route::post('driver/location', [OrderTrackingController::class, 'updateLocation']);
 
         // Notifications
-        Route::post('fcm-token', [NotificationController::class, 'sendToken']);
+        Route::post('fcm-token-user', [NotificationController::class, 'sendToken']);
     });
 });
