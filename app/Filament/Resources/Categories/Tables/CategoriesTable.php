@@ -20,7 +20,6 @@ class CategoriesTable
                 ImageColumn::make('image')
                     ->label(__('Image'))
                     ->disk('public')
-                    ->directory('categories')
                     ->circular(),
                 TextColumn::make('name')
                     ->label(__('Name'))
