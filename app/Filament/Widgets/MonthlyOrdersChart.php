@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class MonthlyOrdersChart extends ChartWidget
 {
-    protected ?string $heading = 'Monthly Orders Trend';
+    public function getHeading(): ?string
+    {
+        return __('Monthly Orders Trend');
+    }
 
     protected static ?int $sort = 4;
 
@@ -26,7 +29,7 @@ class MonthlyOrdersChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Orders',
+                    'label' => __('Orders'),
                     'data' => array_values($data),
                     'fill' => 'start',
                     'borderColor' => '#6366f1',

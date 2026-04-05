@@ -10,7 +10,7 @@
                         {{ __('Welcome') }}, {{ auth()->user()->full_name }}
                     </h2>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                        {{ auth()->user()->roles->pluck('name')->join(', ') ?: __('User') }}
+                        {{ auth()->user()->roles->pluck('name')->map(fn($role) => __($role))->join(', ') ?: __('User') }}
                     </p>
                 </div>
             </div>

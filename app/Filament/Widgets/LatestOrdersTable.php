@@ -25,17 +25,20 @@ class LatestOrdersTable extends BaseWidget
                 TextColumn::make('order_number')
                     ->label(__('Order Number'))
                     ->searchable(),
-                TextColumn::make('user.full_name') 
-                    ->label(__('Customer')),
+                TextColumn::make('customer')
+                    ->label(__('Customer'))
+                    ->state(fn(Order $record): string => $record->user?->full_name ?? $record->customer_name ?? __('Guest')),
                 TextColumn::make('total_price')
                     ->label(__('Total Price'))
                     ->money('EGP'),
                 TextColumn::make('status')
                     ->label(__('Status'))
                     ->badge()
+                    ->formatStateUsing(fn(string $state): string => __($state))
                     ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
-                        'processing' => 'info',
+                        'processing', 'preparing' => 'info',
+                        'on_the_way' => 'primary',
                         'delivered' => 'success',
                         'cancelled' => 'danger',
                         default => 'gray',

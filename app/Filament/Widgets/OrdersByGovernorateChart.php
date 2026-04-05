@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class OrdersByGovernorateChart extends ChartWidget
 {
-    protected ?string $heading = 'Orders Distribution by Governorate';
+    public function getHeading(): ?string
+    {
+        return __('Orders Distribution by Governorate');
+    }
 
     protected static ?int $sort = 2;
 
@@ -17,15 +20,15 @@ class OrdersByGovernorateChart extends ChartWidget
     {
         $data = Order::query()
             ->join('governorates', 'orders.governorate_id', '=', 'governorates.id')
-            ->select('governorates.name_en', DB::raw('count(*) as count'))
-            ->groupBy('governorates.name_en')
-            ->pluck('count', 'name_en')
+            ->select('governorates.name_ar as name', DB::raw('count(*) as count'))
+            ->groupBy('governorates.name_ar')
+            ->pluck('count', 'name')
             ->toArray();
 
         return [
             'datasets' => [
                 [
-                    'label' => 'Orders',
+                    'label' => __('Orders'),
                     'data' => array_values($data),
                     'backgroundColor' => '#6366f1',
                 ],
