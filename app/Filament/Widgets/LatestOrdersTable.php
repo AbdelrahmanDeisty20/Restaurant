@@ -52,4 +52,3 @@ class LatestOrdersTable extends BaseWidget
             ]);
     }
 }
-
