@@ -68,4 +68,38 @@ class NotificationService
             'details' => $results,
         ];
     }
+
+    public function broadcastNotification($title, $body, $data = [])
+    {
+        $tokens = UserFcmToken::pluck('fcm_token')->toArray();
+
+        $results = [];
+        foreach ($tokens as $token) {
+            $results[] = $this->firebaseService->sendToToken($token, $title, $body, $data);
+        }
+
+        return [
+            'status' => true,
+            'message' => 'Broadcast notification sent to all tokens',
+            'count' => count($tokens),
+            'details' => $results,
+        ];
+    }
+
+    public function sendToUser($userId, $title, $body, $data = [])
+    {
+        $tokens = UserFcmToken::where('user_id', $userId)->pluck('fcm_token')->toArray();
+
+        $results = [];
+        foreach ($tokens as $token) {
+            $results[] = $this->firebaseService->sendToToken($token, $title, $body, $data);
+        }
+
+        return [
+            'status' => true,
+            'message' => 'Notification sent to specific user',
+            'count' => count($tokens),
+            'details' => $results,
+        ];
+    }
 }

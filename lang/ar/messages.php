@@ -135,4 +135,12 @@ return [
     'test_notification_guest_body' => 'هذا إشعار تجريبي مرسل لجميع المستخدمين غير المسجلين.',
     'test_notification_user_title' => 'إشعار تجريبي للمستخدمين',
     'test_notification_user_body' => 'هذا إشعار تجريبي مرسل لجميع المستخدمين المسجلين.',
+    'new_offer_title' => 'عرض جديد! 🎁',
+    'new_offer_body' => 'تحقق من العرض الجديد على :product_name',
+    'order_status_preparing_title' => 'جاري تحضير طلبك 👨‍🍳',
+    'order_status_preparing_body' => 'بدأنا في تحضير طلبك رقم :order_number',
+    'order_status_on_the_way_title' => 'طلبك في الطريق 🛵',
+    'order_status_on_the_way_body' => 'طلبك رقم :order_number في الطريق إليك',
+    'order_status_cancelled_title' => 'تم إلغاء الطلب ❌',
+    'order_status_cancelled_body' => 'عذراً، تم إلغاء طلبك رقم :order_number',
 ];

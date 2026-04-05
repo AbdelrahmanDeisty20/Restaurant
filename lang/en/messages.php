@@ -135,4 +135,12 @@ return [
     'test_notification_guest_body' => 'This is a test notification sent to all non-registered users.',
     'test_notification_user_title' => 'Test Notification for Users',
     'test_notification_user_body' => 'This is a test notification sent to all registered users.',
+    'new_offer_title' => 'New Offer! 🎁',
+    'new_offer_body' => 'Check out the new offer on :product_name',
+    'order_status_preparing_title' => 'Preparing your order 👨‍🍳',
+    'order_status_preparing_body' => 'We have started preparing your order #:order_number',
+    'order_status_on_the_way_title' => 'Order on the way 🛵',
+    'order_status_on_the_way_body' => 'Your order #:order_number is on its way to you',
+    'order_status_cancelled_title' => 'Order Cancelled ❌',
+    'order_status_cancelled_body' => 'Sorry, your order #:order_number has been cancelled',
 ];

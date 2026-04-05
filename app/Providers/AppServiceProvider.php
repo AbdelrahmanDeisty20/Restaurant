@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Offer;
+use App\Models\Order;
+use App\Observers\OfferObserver;
+use App\Observers\OrderObserver;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
             return $user->hasRole('super_admin') ? true : null;
         });
+
+        Offer::observe(OfferObserver::class);
+        Order::observe(OrderObserver::class);
     }
 }
