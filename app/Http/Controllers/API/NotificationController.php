@@ -71,6 +71,6 @@ class NotificationController extends Controller
             return $this->error($result['message'], 404);
         }
 
-        return $this->success([], $result['message']);
+        return $this->success($result['data'], $result['message']);
     }
 }

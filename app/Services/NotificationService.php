@@ -150,6 +150,7 @@ class NotificationService
         return [
             'status' => true,
             'message' => __('messages.notification_marked_as_read'),
+            'data' => new NotificationResource($notification),
         ];
     }
 }
