@@ -17,11 +17,14 @@ class CategoriesTable
     {
         return $table
             ->columns([
+                ImageColumn::make('image')
+                    ->label(__('Image'))
+                    ->disk('public')
+                    ->directory('categories')
+                    ->circular(),
                 TextColumn::make('name')
                     ->label(__('Name'))
                     ->searchable(['name_ar', 'name_en']),
-                ImageColumn::make('image')
-                    ->label(__('Image')),
                 IconColumn::make('is_active')
                     ->label(__('Is Active'))
                     ->boolean(),

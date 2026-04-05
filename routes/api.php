@@ -15,6 +15,7 @@ use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderTrackingController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\ReviewController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Middleware\setLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -95,5 +96,8 @@ Route::group(['middleware' => setLang::class], function () {
         // Order Tracking
         Route::get('orders/{id}/track', [OrderTrackingController::class, 'show']);
         Route::post('driver/location', [OrderTrackingController::class, 'updateLocation']);
+
+        // Notifications
+        Route::post('fcm-token', [NotificationController::class, 'sendToken']);
     });
 });

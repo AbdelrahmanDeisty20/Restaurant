@@ -130,4 +130,5 @@ return [
     'cannot_cancel_order' => 'Cannot cancel order in its current status',
     'cannot_delete_order_unless_delivered_or_cancelled' => 'Order can only be deleted if its status is delivered or cancelled',
     'cannot_cancel_or_delete_order' => 'Cannot cancel or delete the order at this stage',
+    'fcm_token_stored_successfully' => 'FCM Token stored successfully',
 ];

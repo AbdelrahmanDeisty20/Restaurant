@@ -13,14 +13,16 @@ class CategoryInfolist
     {
         return $schema
             ->components([
+                ImageEntry::make('image')
+                    ->label(__('Image'))
+                    ->disk('public')
+                    ->directory('categories')
+                    ->circular()
+                    ->height(100),
                 TextEntry::make('name_ar')
                     ->label(__('Name AR')),
                 TextEntry::make('name_en')
                     ->label(__('Name EN')),
-                ImageEntry::make('image')
-                    ->label(__('Image'))
-                    ->disk('public')
-                    ->formatStateUsing(fn($state) => $state ? "categories/{$state}" : null),
                 IconEntry::make('is_active')
                     ->label(__('Is Active'))
                     ->boolean(),

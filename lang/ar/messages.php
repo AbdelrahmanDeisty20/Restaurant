@@ -130,4 +130,5 @@ return [
     'cannot_cancel_order' => 'لا يمكن إلغاء الطلب في حالته الحالية',
     'cannot_delete_order_unless_delivered_or_cancelled' => 'لا يمكن حذف الطلب إلا إذا تم توصيله أو إلغاؤه',
     'cannot_cancel_or_delete_order' => 'لا يمكن إلغاء أو حذف الطلب في هذه المرحلة',
+    'fcm_token_stored_successfully' => 'تم تخزين توكن FCM بنجاح',
 ];
