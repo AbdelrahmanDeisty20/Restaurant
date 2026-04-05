@@ -55,6 +55,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::post('resend-otp-password', [ForgetPasswordController::class, 'resendOtp']);
     Route::post('fcm-token', [NotificationController::class, 'sendToken']);
     Route::post('test-notification', [NotificationController::class, 'sendTestNotification']);
+    Route::post('test-notification-users', [NotificationController::class, 'sendTestNotificationToUsers']);
  
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', [AuthController::class, 'logout']);

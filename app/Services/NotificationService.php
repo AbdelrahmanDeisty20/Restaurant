@@ -51,4 +51,21 @@ class NotificationService
             'details' => $results,
         ];
     }
+
+    public function sendNotificationToUsers($title, $body, $data = [])
+    {
+        $tokens = UserFcmToken::whereNotNull('user_id')->pluck('fcm_token')->toArray();
+
+        $results = [];
+        foreach ($tokens as $token) {
+            $results[] = $this->firebaseService->sendToToken($token, $title, $body, $data);
+        }
+
+        return [
+            'status' => true,
+            'message' => 'Test notifications sent to all registered users',
+            'count' => count($tokens),
+            'details' => $results,
+        ];
+    }
 }
