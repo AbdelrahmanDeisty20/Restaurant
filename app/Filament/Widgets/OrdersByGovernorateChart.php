@@ -11,7 +11,7 @@ class OrdersByGovernorateChart extends ChartWidget
 {
     protected ?string $heading = 'Orders Distribution by Governorate';
 
-    protected ?int $sort = 2;
+    protected static ?int $sort = 2;
 
     protected function getData(): array
     {

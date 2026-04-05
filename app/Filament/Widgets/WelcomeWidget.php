@@ -10,5 +10,5 @@ class WelcomeWidget extends Widget
 
     protected int | string | array $columnSpan = 'full';
 
-    protected ?int $sort = 0;
+    protected static ?int $sort = 0;
 }

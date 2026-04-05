@@ -11,7 +11,7 @@ class MonthlyOrdersChart extends ChartWidget
 {
     protected ?string $heading = 'Monthly Orders Trend';
 
-    protected ?int $sort = 4;
+    protected static ?int $sort = 4;
 
     protected function getData(): array
     {

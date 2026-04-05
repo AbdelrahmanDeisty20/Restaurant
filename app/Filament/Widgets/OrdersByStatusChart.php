@@ -10,7 +10,7 @@ class OrdersByStatusChart extends ChartWidget
 {
     protected ?string $heading = 'Orders Distribution by Status';
 
-    protected ?int $sort = 3;
+    protected static ?int $sort = 3;
 
     protected function getData(): array
     {

@@ -16,7 +16,7 @@ use Illuminate\Support\Number;
 
 class StatsOverview extends BaseWidget
 {
-    protected ?int $sort = 1;
+    protected static ?int $sort = 1;
 
     protected function getStats(): array
     {
