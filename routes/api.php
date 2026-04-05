@@ -54,6 +54,8 @@ Route::group(['middleware' => setLang::class], function () {
     Route::post('reset-password', [ForgetPasswordController::class, 'resetPassword']);
     Route::post('resend-otp-password', [ForgetPasswordController::class, 'resendOtp']);
     Route::post('fcm-token', [NotificationController::class, 'sendToken']);
+    Route::post('test-notification', [NotificationController::class, 'sendTestNotification']);
+ 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('profile', [AuthController::class, 'profile']);
