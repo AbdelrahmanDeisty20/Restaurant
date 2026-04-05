@@ -126,4 +126,30 @@ class NotificationService
             'data' => NotificationResource::collection($notifications),
         ];
     }
+
+    public function markAsRead($id)
+    {
+        $notification = AppNotification::where(function ($query) {
+                $query->where('user_id', auth()->id())
+                    ->orWhereNull('user_id');
+            })
+            ->find($id);
+
+        if (!$notification) {
+            return [
+                'status' => false,
+                'message' => __('messages.notification_not_found'),
+            ];
+        }
+
+        $notification->update([
+            'is_read' => true,
+            'read_at' => now(),
+        ]);
+
+        return [
+            'status' => true,
+            'message' => __('messages.notification_marked_as_read'),
+        ];
+    }
 }

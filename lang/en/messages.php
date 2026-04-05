@@ -145,4 +145,6 @@ return [
     'order_status_cancelled_body' => 'Sorry, your order #:order_number has been cancelled',
     'no_notifications' => 'No notifications found',
     'notifications_retrieved_successfully' => 'Notifications retrieved successfully',
+    'notification_not_found' => 'Notification not found',
+    'notification_marked_as_read' => 'Notification marked as read',
 ];

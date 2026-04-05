@@ -145,4 +145,6 @@ return [
     'order_status_cancelled_body' => 'عذراً، تم إلغاء طلبك رقم :order_number',
     'no_notifications' => 'لا يوجد إشعارات',
     'notifications_retrieved_successfully' => 'تم استرجاع الإشعارات بنجاح',
+    'notification_not_found' => 'الإشعار غير موجود',
+    'notification_marked_as_read' => 'تم تحديد الإشعار كمقروء',
 ];

@@ -62,4 +62,15 @@ class NotificationController extends Controller
 
         return $this->success($result['data'], $result['message']);
     }
+
+    public function markAsRead($id)
+    {
+        $result = $this->notificationService->markAsRead($id);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 404);
+        }
+
+        return $this->success([], $result['message']);
+    }
 }
