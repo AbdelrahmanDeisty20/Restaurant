@@ -15,6 +15,12 @@ class AppNotification extends Model
         'is_read',
         'read_at',
     ];
+
+    protected $casts = [
+        'data' => 'array',
+        'is_read' => 'boolean',
+        'read_at' => 'datetime',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
