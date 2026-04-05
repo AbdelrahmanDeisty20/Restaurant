@@ -131,4 +131,8 @@ return [
     'cannot_delete_order_unless_delivered_or_cancelled' => 'لا يمكن حذف الطلب إلا إذا تم توصيله أو إلغاؤه',
     'cannot_cancel_or_delete_order' => 'لا يمكن إلغاء أو حذف الطلب في هذه المرحلة',
     'fcm_token_stored_successfully' => 'تم تخزين توكن FCM بنجاح',
+    'test_notification_guest_title' => 'إشعار تجريبي للزوار',
+    'test_notification_guest_body' => 'هذا إشعار تجريبي مرسل لجميع المستخدمين غير المسجلين.',
+    'test_notification_user_title' => 'إشعار تجريبي للمستخدمين',
+    'test_notification_user_body' => 'هذا إشعار تجريبي مرسل لجميع المستخدمين المسجلين.',
 ];

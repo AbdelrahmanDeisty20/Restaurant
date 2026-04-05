@@ -131,4 +131,8 @@ return [
     'cannot_delete_order_unless_delivered_or_cancelled' => 'Order can only be deleted if its status is delivered or cancelled',
     'cannot_cancel_or_delete_order' => 'Cannot cancel or delete the order at this stage',
     'fcm_token_stored_successfully' => 'FCM Token stored successfully',
+    'test_notification_guest_title' => 'Test Notification for Guests',
+    'test_notification_guest_body' => 'This is a test notification sent to all non-registered users.',
+    'test_notification_user_title' => 'Test Notification for Users',
+    'test_notification_user_body' => 'This is a test notification sent to all registered users.',
 ];

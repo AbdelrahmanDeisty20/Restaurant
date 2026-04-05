@@ -32,8 +32,8 @@ class NotificationController extends Controller
 
     public function sendTestNotification(Request $request)
     {
-        $title = $request->title ?? 'Test Notification';
-        $body = $request->body ?? 'This is a test notification for guest users.';
+        $title = $request->title ?? __('messages.test_notification_guest_title');
+        $body = $request->body ?? __('messages.test_notification_guest_body');
         $data = $request->data ?? ['type' => 'test'];
 
         $result = $this->notificationService->sendNotificationToGuests($title, $body, $data);
@@ -43,8 +43,8 @@ class NotificationController extends Controller
 
     public function sendTestNotificationToUsers(Request $request)
     {
-        $title = $request->title ?? 'Test Notification for Users';
-        $body = $request->body ?? 'This is a test notification for registered users.';
+        $title = $request->title ?? __('messages.test_notification_user_title');
+        $body = $request->body ?? __('messages.test_notification_user_body');
         $data = $request->data ?? ['type' => 'test_user'];
 
         $result = $this->notificationService->sendNotificationToUsers($title, $body, $data);
