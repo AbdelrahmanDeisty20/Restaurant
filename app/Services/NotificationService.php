@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\UserFcmToken;
-use App\Service\FirebaseNotificationService;
+use App\Services\FirebaseNotificationService;
 
 class NotificationService
 {
