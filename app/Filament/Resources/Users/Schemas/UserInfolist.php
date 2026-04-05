@@ -15,13 +15,13 @@ class UserInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('full_name'),
-                TextEntry::make('phone'),
                 ImageEntry::make('avatar')
                     ->label(__('Avatar'))
                     ->disk('public')
                     ->circular()
                     ->height(100),
+                TextEntry::make('full_name'),
+                TextEntry::make('phone'),
                 TextEntry::make('email')
                     ->label(__('Email address')),
                 TextEntry::make('email_verified_at')
