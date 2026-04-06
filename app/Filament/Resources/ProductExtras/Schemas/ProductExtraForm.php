@@ -22,17 +22,17 @@ class ProductExtraForm
                                 TextInput::make('name_ar')
                                     ->label(__('Name AR'))
                                     ->required()
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                                 TextInput::make('name_en')
                                     ->label(__('Name EN'))
                                     ->required()
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                                 TextInput::make('price')
                                     ->label(__('Price'))
                                     ->required()
                                     ->numeric()
                                     ->prefix('EGP')
-                                    ->icon('heroicon-m-banknotes'),
+                                    ->prefixIcon('heroicon-m-banknotes'),
                             ]),
                     ]),
             ]);

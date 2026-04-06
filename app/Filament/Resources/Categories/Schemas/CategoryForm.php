@@ -24,11 +24,11 @@ class CategoryForm
                                 TextInput::make('name_ar')
                                     ->label(__('Name AR'))
                                     ->required()
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                                 TextInput::make('name_en')
                                     ->label(__('Name EN'))
                                     ->required()
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                             ]),
                         FileUpload::make('image')
                             ->label(__('Image'))

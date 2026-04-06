@@ -23,17 +23,17 @@ class SettingForm
                                     ->label(__('Key'))
                                     ->required()
                                     ->disabled(fn(string $context): bool => $context !== 'create')
-                                    ->icon('heroicon-m-key'),
+                                    ->prefixIcon('heroicon-m-key'),
                                 TextInput::make('type')
                                     ->label(__('Type'))
                                     ->required()
                                     ->default('text')
-                                    ->icon('heroicon-m-variable'),
+                                    ->prefixIcon('heroicon-m-variable'),
                                 TextInput::make('value')
                                     ->label(__('Value'))
                                     ->required()
                                     ->columnSpanFull()
-                                    ->icon('heroicon-m-adjustments-vertical'),
+                                    ->prefixIcon('heroicon-m-adjustments-vertical'),
                             ]),
                     ]),
             ]);

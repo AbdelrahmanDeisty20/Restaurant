@@ -41,7 +41,7 @@ class BestProductSellerForm
                             })
                             ->searchable()
                             ->required()
-                            ->icon('heroicon-m-shopping-bag'),
+                            ->prefixIcon('heroicon-m-shopping-bag'),
                     ]),
 
                 Section::make(__('Content Overrides'))
@@ -55,11 +55,11 @@ class BestProductSellerForm
                                 TextInput::make('name_ar')
                                     ->label(__('Name AR (Override)'))
                                     ->placeholder(__('Leave empty to use product name'))
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                                 TextInput::make('name_en')
                                     ->label(__('Name EN (Override)'))
                                     ->placeholder(__('Leave empty to use product name'))
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                                 Textarea::make('description_ar')
                                     ->label(__('Description AR (Override)'))
                                     ->placeholder(__('Leave empty to use product description'))

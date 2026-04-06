@@ -61,6 +61,9 @@ class OrderInfolist
                                     ->label(__('Customer Phone'))
                                     ->icon('heroicon-m-phone')
                                     ->copyable(),
+                                TextEntry::make('governorate.name')
+                                    ->label(__('Governorate'))
+                                    ->icon('heroicon-m-map'),
                             ]),
                         TextEntry::make('delivery_address')
                             ->label(__('Delivery Address'))

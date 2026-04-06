@@ -28,11 +28,11 @@ class AddressForm
                                     ->searchable()
                                     ->preload()
                                     ->required()
-                                    ->icon('heroicon-m-user'),
+                                    ->prefixIcon('heroicon-m-user'),
                                 TextInput::make('title')
                                     ->label(__('Label (e.g. Home, Office)'))
                                     ->required()
-                                    ->icon('heroicon-m-bookmark'),
+                                    ->prefixIcon('heroicon-m-bookmark'),
                             ]),
                     ]),
 

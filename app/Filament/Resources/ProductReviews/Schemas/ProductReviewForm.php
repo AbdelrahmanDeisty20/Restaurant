@@ -25,14 +25,14 @@ class ProductReviewForm
                             ->label(__('Customer'))
                             ->searchable()
                             ->preload()
-                            ->icon('heroicon-m-user'),
+                            ->prefixIcon('heroicon-m-user'),
                         Select::make('product_id')
                             ->relationship('product', 'name_ar') // Fixed relationship or default
                             ->label(__('Product'))
                             ->required()
                             ->searchable()
                             ->preload()
-                            ->icon('heroicon-m-cube'),
+                            ->prefixIcon('heroicon-m-cube'),
                     ]),
 
                 Section::make(__('Feedback Content'))
@@ -50,7 +50,7 @@ class ProductReviewForm
                             ->label(__('Comment'))
                             ->columnSpanFull()
                             ->rows(4)
-                            ->icon('heroicon-m-chat-bubble-left'),
+                            ->prefixIcon('heroicon-m-chat-bubble-left'),
                     ]),
             ]);
     }

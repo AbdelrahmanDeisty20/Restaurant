@@ -26,14 +26,14 @@ class DriverReviewForm
                             ->required()
                             ->searchable()
                             ->preload()
-                            ->icon('heroicon-m-identification'),
+                            ->prefixIcon('heroicon-m-identification'),
                         Select::make('order_review_id')
                             ->label(__('Order Review'))
                             ->relationship('orderReview', 'id') // Assuming id is the best label here
                             ->required()
                             ->searchable()
                             ->preload()
-                            ->icon('heroicon-m-hashtag'),
+                            ->prefixIcon('heroicon-m-hashtag'),
                     ]),
 
                 Section::make(__('Feedback Details'))
@@ -46,7 +46,7 @@ class DriverReviewForm
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(5)
-                            ->icon('heroicon-m-star'),
+                            ->prefixIcon('heroicon-m-star'),
                         Textarea::make('comment')
                             ->label(__('Comment'))
                             ->rows(4)

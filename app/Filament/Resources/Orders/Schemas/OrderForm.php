@@ -21,18 +21,18 @@ class OrderForm
                         TextInput::make('order_number')
                             ->disabled()
                             ->label(__('Order Number'))
-                            ->icon('heroicon-m-hashtag'),
+                            ->prefixIcon('heroicon-m-hashtag'),
                         Select::make('user_id')
                             ->relationship('user', 'full_name')
                             ->disabled()
                             ->label(__('Customer Account'))
-                            ->icon('heroicon-m-user-circle'),
+                            ->prefixIcon('heroicon-m-user-circle'),
                         TextInput::make('total_price')
                             ->label(__('Total Price'))
                             ->required()
                             ->numeric()
                             ->prefix('EGP')
-                            ->icon('heroicon-m-banknotes'),
+                            ->prefixIcon('heroicon-m-banknotes'),
                         Select::make('status')
                             ->label(__('Status'))
                             ->options([
@@ -45,7 +45,7 @@ class OrderForm
                             ])
                             ->required()
                             ->native(false)
-                            ->icon('heroicon-m-flag'),
+                            ->prefixIcon('heroicon-m-flag'),
                     ]),
                 Section::make(__('Delivery & Customer Details'))
                     ->icon('heroicon-o-truck')
@@ -55,27 +55,27 @@ class OrderForm
                         TextInput::make('customer_name')
                             ->required()
                             ->label(__('Customer Name'))
-                            ->icon('heroicon-m-user'),
+                            ->prefixIcon('heroicon-m-user'),
                         TextInput::make('customer_phone')
                             ->required()
                             ->label(__('Customer Phone'))
-                            ->icon('heroicon-m-phone'),
+                            ->prefixIcon('heroicon-m-phone'),
                         TextInput::make('delivery_address')
                             ->required()
                             ->columnSpanFull()
                             ->label(__('Delivery Address'))
-                            ->icon('heroicon-m-map-pin'),
+                            ->prefixIcon('heroicon-m-map-pin'),
                         Select::make('driver_id')
                             ->relationship('driver', 'name')
                             ->searchable()
                             ->preload()
                             ->label(__('Assign Driver'))
                             ->hint(__('Choose a driver to start tracking'))
-                            ->icon('heroicon-m-truck'),
+                            ->prefixIcon('heroicon-m-truck'),
                         TextInput::make('notes')
                             ->label(__('Order Notes'))
                             ->columnSpanFull()
-                            ->icon('heroicon-m-document-text'),
+                            ->prefixIcon('heroicon-m-document-text'),
                     ]),
             ]);
     }

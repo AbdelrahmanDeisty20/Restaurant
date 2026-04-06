@@ -29,11 +29,11 @@ class ProductForm
                         TextInput::make("name_ar")
                             ->label(__('Name AR'))
                             ->required()
-                            ->icon('heroicon-m-language'),
+                            ->prefixIcon('heroicon-m-language'),
                         TextInput::make("name_en")
                             ->label(__('Name EN'))
                             ->required()
-                            ->icon('heroicon-m-language'),
+                            ->prefixIcon('heroicon-m-language'),
                         Textarea::make("description_ar")
                             ->label(__('Description AR'))
                             ->required()
@@ -53,7 +53,7 @@ class ProductForm
                             ->label(__('Category'))
                             ->required()
                             ->options(fn() => \App\Models\Category::all()->pluck('name', 'id'))
-                            ->icon('heroicon-m-tag')
+                            ->prefixIcon('heroicon-m-tag')
                             ->searchable()
                             ->preload(),
                         TextInput::make('price')
@@ -61,12 +61,12 @@ class ProductForm
                             ->required()
                             ->numeric()
                             ->prefix('EGP')
-                            ->icon('heroicon-m-banknotes'),
+                            ->prefixIcon('heroicon-m-banknotes'),
                         TextInput::make('discount_price')
                             ->label(__('Discount Price'))
                             ->numeric()
                             ->prefix('EGP')
-                            ->icon('heroicon-m-receipt-percent'),
+                            ->prefixIcon('heroicon-m-receipt-percent'),
                         Toggle::make('is_active')
                             ->label(__('Is Active'))
                             ->required()

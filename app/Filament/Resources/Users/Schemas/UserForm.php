@@ -35,7 +35,7 @@ class UserForm
                         TextInput::make('full_name')
                             ->label(__('Full Name'))
                             ->required()
-                            ->icon('heroicon-m-user')
+                            ->prefixIcon('heroicon-m-user')
                             ->columnSpan(1),
                     ]),
 
@@ -48,12 +48,12 @@ class UserForm
                             ->label(__('Email address'))
                             ->email()
                             ->required()
-                            ->icon('heroicon-m-envelope'),
+                            ->prefixIcon('heroicon-m-envelope'),
                         TextInput::make('phone')
                             ->label(__('Phone'))
                             ->tel()
                             ->required()
-                            ->icon('heroicon-m-phone'),
+                            ->prefixIcon('heroicon-m-phone'),
                     ]),
 
                 Section::make(__('Security & Access'))

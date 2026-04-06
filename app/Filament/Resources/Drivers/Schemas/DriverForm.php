@@ -32,7 +32,7 @@ class DriverForm
                         TextInput::make('name')
                             ->label(__('Name'))
                             ->required()
-                            ->icon('heroicon-m-user')
+                            ->prefixIcon('heroicon-m-user')
                             ->columnSpan(1),
                     ]),
 
@@ -45,7 +45,7 @@ class DriverForm
                             ->label(__('Phone'))
                             ->tel()
                             ->required()
-                            ->icon('heroicon-m-phone'),
+                            ->prefixIcon('heroicon-m-phone'),
                         Select::make('status')
                             ->label(__('Status'))
                             ->options([
@@ -56,7 +56,7 @@ class DriverForm
                             ->required()
                             ->default('available')
                             ->native(false)
-                            ->icon('heroicon-m-flag'),
+                            ->prefixIcon('heroicon-m-flag'),
                     ]),
             ]);
     }

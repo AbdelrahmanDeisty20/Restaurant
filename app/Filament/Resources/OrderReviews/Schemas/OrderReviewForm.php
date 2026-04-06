@@ -26,14 +26,14 @@ class OrderReviewForm
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->icon('heroicon-m-user'),
+                            ->prefixIcon('heroicon-m-user'),
                         Select::make('order_id')
                             ->label(__('Order'))
                             ->relationship('order', 'id') // Correct relation
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->icon('heroicon-m-hashtag'),
+                            ->prefixIcon('heroicon-m-hashtag'),
                     ]),
 
                 Section::make(__('Feedback Content'))
@@ -46,12 +46,12 @@ class OrderReviewForm
                             ->numeric()
                             ->minValue(1)
                             ->maxValue(5)
-                            ->icon('heroicon-m-star'),
+                            ->prefixIcon('heroicon-m-star'),
                         Textarea::make('comment')
                             ->label(__('Comment'))
                             ->rows(4)
                             ->columnSpanFull()
-                            ->icon('heroicon-m-chat-bubble-left'),
+                            ->prefixIcon('heroicon-m-chat-bubble-left'),
                     ]),
             ]);
     }

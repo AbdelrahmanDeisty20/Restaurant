@@ -23,11 +23,11 @@ class PageForm
                                 TextInput::make('title_ar')
                                     ->label(__('Title (Arabic)'))
                                     ->required()
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                                 TextInput::make('title_en')
                                     ->label(__('Title (English)'))
                                     ->required()
-                                    ->icon('heroicon-m-language'),
+                                    ->prefixIcon('heroicon-m-language'),
                             ]),
                     ]),
 

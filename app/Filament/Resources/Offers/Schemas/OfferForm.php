@@ -26,7 +26,7 @@ class OfferForm
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->icon('heroicon-m-cube'),
+                            ->prefixIcon('heroicon-m-cube'),
                     ]),
 
                 Section::make(__('Discount Rules'))
@@ -40,7 +40,7 @@ class OfferForm
                             ->prefix('%')
                             ->minValue(0)
                             ->maxValue(100)
-                            ->icon('heroicon-m-receipt-percent'),
+                            ->prefixIcon('heroicon-m-receipt-percent'),
                     ]),
 
                 Section::make(__('Campaign Timeline'))
@@ -50,10 +50,10 @@ class OfferForm
                     ->schema([
                         DateTimePicker::make('start_date')
                             ->label(__('Start Date'))
-                            ->icon('heroicon-m-calendar-days'),
+                            ->prefixIcon('heroicon-m-calendar-days'),
                         DateTimePicker::make('end_date')
                             ->label(__('End Date'))
-                            ->icon('heroicon-m-calendar-days'),
+                            ->prefixIcon('heroicon-m-calendar-days'),
                     ]),
 
                 Section::make(__('Offer Status'))
