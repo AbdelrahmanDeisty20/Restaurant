@@ -21,16 +21,14 @@ class OrderObserver
 
     public function created(Order $order): void
     {
-        \Illuminate\Support\Facades\Log::info('OrderObserver: Triggered for order ID ' . $order->id);
-
         $admins = User::role(['super_admin', 'admin'])->get();
-        \Illuminate\Support\Facades\Log::info('OrderObserver: Found ' . $admins->count() . ' admins');
+        $userName = $order->user?->full_name ?? ($order->customer_name ?? __('Guest'));
 
         Notification::make()
             ->title(__('New Order Received'))
             ->body(__('Order #:order_number from :name', [
                 'order_number' => $order->order_number,
-                'name' => $userName ?? ($order->user?->full_name ?? __('Guest')),
+                'name' => $userName,
             ]))
             ->icon('heroicon-o-shopping-bag')
             ->iconColor('success')
@@ -40,8 +38,6 @@ class OrderObserver
                     ->url(OrderResource::getUrl('view', ['record' => $order->id])),
             ])
             ->sendToDatabase($admins);
-            
-        \Illuminate\Support\Facades\Log::info('OrderObserver: Notification sent to database');
     }
 
     /**
