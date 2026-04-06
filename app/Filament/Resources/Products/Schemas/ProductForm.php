@@ -120,8 +120,7 @@ class ProductForm
                         Textarea::make('included_extras')
                             ->label(__('Included Extras'))
                             ->placeholder(__('e.g. Ranch Sauce, Pepsi, ...'))
-                            ->columnSpanFull()
-                            ->icon('heroicon-m-list-bullet'),
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

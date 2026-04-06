@@ -49,8 +49,7 @@ class ProductReviewForm
                         Textarea::make('comment')
                             ->label(__('Comment'))
                             ->columnSpanFull()
-                            ->rows(4)
-                            ->prefixIcon('heroicon-m-chat-bubble-left'),
+                            ->rows(4),
                     ]),
             ]);
     }

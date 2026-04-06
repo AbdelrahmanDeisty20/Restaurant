@@ -50,8 +50,7 @@ class OrderReviewForm
                         Textarea::make('comment')
                             ->label(__('Comment'))
                             ->rows(4)
-                            ->columnSpanFull()
-                            ->prefixIcon('heroicon-m-chat-bubble-left'),
+                            ->columnSpanFull(),
                     ]),
             ]);
     }
