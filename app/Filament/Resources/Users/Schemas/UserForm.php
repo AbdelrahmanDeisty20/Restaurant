@@ -29,7 +29,6 @@ class UserForm
                             ->directory('users/avatars')
                             ->image()
                             ->avatar()
-                            ->circular()
                             ->imageEditor()
                             ->columnSpan(1),
                         TextInput::make('full_name')

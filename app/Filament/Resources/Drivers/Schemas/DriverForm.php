@@ -26,7 +26,6 @@ class DriverForm
                             ->directory('drivers/avatars')
                             ->image()
                             ->avatar()
-                            ->circular()
                             ->imageEditor()
                             ->columnSpan(1),
                         TextInput::make('name')
