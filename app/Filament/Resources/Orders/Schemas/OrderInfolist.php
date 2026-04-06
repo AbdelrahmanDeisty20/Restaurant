@@ -11,7 +11,7 @@ class OrderInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('user_id')
+                TextEntry::make('user.full_name')
                     ->label(__('User'))
                     ->numeric(),
                 TextEntry::make('total_price')
