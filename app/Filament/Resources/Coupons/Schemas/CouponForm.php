@@ -30,7 +30,7 @@ class CouponForm
                             ->readOnly()
                             ->unique('coupons', 'code', ignoreRecord: true)
                             ->maxLength(50)
-                            ->icon('heroicon-m-qr-code')
+                            ->prefixIcon('heroicon-m-qr-code')
                             ->suffixAction(
                                 Action::make('generateCode')
                                     ->label(__('Generate'))
@@ -46,7 +46,7 @@ class CouponForm
                             ->prefix('%')
                             ->minValue(0)
                             ->maxValue(100)
-                            ->icon('heroicon-m-receipt-percent'),
+                            ->prefixIcon('heroicon-m-receipt-percent'),
                     ]),
 
                 Section::make(__('Usage Constraints'))
@@ -60,25 +60,25 @@ class CouponForm
                             ->default(0)
                             ->minValue(0)
                             ->prefix('EGP')
-                            ->icon('heroicon-m-shopping-cart'),
+                            ->prefixIcon('heroicon-m-shopping-cart'),
                         TextInput::make('max_discount')
                             ->label(__('Max Discount Amount'))
                             ->numeric()
                             ->helperText(__('Only for percentage type'))
                             ->minValue(0)
                             ->prefix('EGP')
-                            ->icon('heroicon-m-banknotes'),
+                            ->prefixIcon('heroicon-m-banknotes'),
                         TextInput::make('usage_limit')
                             ->label(__('Total Usage Limit'))
                             ->numeric()
                             ->helperText(__('Leave empty for unlimited'))
-                            ->icon('heroicon-m-user-group'),
+                            ->prefixIcon('heroicon-m-user-group'),
                         TextInput::make('user_usage_limit')
                             ->label(__('Per User Limit'))
                             ->numeric()
                             ->default(1)
                             ->required()
-                            ->icon('heroicon-m-user'),
+                            ->prefixIcon('heroicon-m-user'),
                     ]),
 
                 Section::make(__('Validity Period'))
@@ -88,10 +88,10 @@ class CouponForm
                     ->components([
                         DateTimePicker::make('start_date')
                             ->label(__('Start Date'))
-                            ->icon('heroicon-m-calendar-days'),
+                            ->prefixIcon('heroicon-m-calendar-days'),
                         DateTimePicker::make('end_date')
                             ->label(__('End Date'))
-                            ->icon('heroicon-m-calendar-days'),
+                            ->prefixIcon('heroicon-m-calendar-days'),
                     ]),
 
                 Section::make(__('Activation Status'))
