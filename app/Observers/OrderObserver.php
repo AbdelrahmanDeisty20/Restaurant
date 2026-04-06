@@ -7,7 +7,8 @@ use App\Models\AppNotification;
 use App\Models\User;
 use App\Services\NotificationService;
 use Filament\Notifications\Notification;
-use Filament\Notifications\Actions\Action;
+use Filament\Actions\Action;
+use App\Filament\Resources\Orders\OrderResource;
 
 class OrderObserver
 {
@@ -31,7 +32,11 @@ class OrderObserver
             ]))
             ->icon('heroicon-o-shopping-bag')
             ->iconColor('success')
-            ->url(\App\Filament\Resources\Orders\OrderResource::getUrl('view', ['record' => $order->id]))
+            ->actions([
+                Action::make('view')
+                    ->label(__('View Order'))
+                    ->url(OrderResource::getUrl('view', ['record' => $order->id])),
+            ])
             ->sendToDatabase($admins);
     }
 

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Contact;
 use App\Models\User;
 use Filament\Notifications\Notification;
+use Filament\Actions\Action;
 use App\Filament\Resources\Contacts\ContactResource;
 
 class ContactObserver
@@ -24,7 +25,11 @@ class ContactObserver
             ]))
             ->icon('heroicon-o-envelope')
             ->iconColor('success')
-            ->url(ContactResource::getUrl('view', ['record' => $contact->id]))
+            ->actions([
+                Action::make('view')
+                    ->label(__('View'))
+                    ->url(ContactResource::getUrl('view', ['record' => $contact->id])),
+            ])
             ->sendToDatabase($admins);
     }
 }
