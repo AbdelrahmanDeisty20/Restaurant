@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Contact;
 use App\Models\User;
 use Filament\Notifications\Notification;
+use App\Filament\Resources\Contacts\ContactResource;
 
 class ContactObserver
 {
@@ -21,13 +22,9 @@ class ContactObserver
                 'name' => $contact->name,
                 'subject' => $contact->subject,
             ]))
-            ->icon('heroicon-o-chat-bubble-left-right')
+            ->icon('heroicon-o-envelope')
             ->iconColor('success')
-            ->actions([
-                \Filament\Notifications\Actions\Action::make('view')
-                    ->label(__('View'))
-                    ->url(fn (): string => \App\Filament\Resources\Contacts\ContactResource::getUrl('view', ['record' => $contact->id])),
-            ])
+            ->url(ContactResource::getUrl('view', ['record' => $contact->id]))
             ->sendToDatabase($admins);
     }
 }

@@ -18,9 +18,6 @@ class OrderObserver
         $this->notificationService = $notificationService;
     }
 
-    /**
-     * Handle the Order "created" event.
-     */
     public function created(Order $order): void
     {
         $admins = User::role(['super_admin', 'admin'])->get();
@@ -34,11 +31,7 @@ class OrderObserver
             ]))
             ->icon('heroicon-o-shopping-bag')
             ->iconColor('success')
-            ->actions([
-                Action::make('view')
-                    ->label(__('View Order'))
-                    ->url(fn (): string => \App\Filament\Resources\Orders\OrderResource::getUrl('view', ['record' => $order->id])),
-            ])
+            ->url(\App\Filament\Resources\Orders\OrderResource::getUrl('view', ['record' => $order->id]))
             ->sendToDatabase($admins);
     }
 
