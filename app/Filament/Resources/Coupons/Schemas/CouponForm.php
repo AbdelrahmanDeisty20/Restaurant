@@ -20,13 +20,14 @@ class CouponForm
                 TextInput::make('code')
                     ->label(__('Code'))
                     ->required()
+                    ->numeric()
                     ->unique('coupons', 'code', ignoreRecord: true)
                     ->maxLength(50)
                     ->suffixAction(
                         Action::make('generateCode')
                             ->icon('heroicon-m-sparkles')
                             ->action(function (Set $set) {
-                                $set('code', strtoupper(Str::random(10)));
+                                $set('code', rand(10000000, 99999999));
                             })
                     ),
                 TextInput::make('value')
