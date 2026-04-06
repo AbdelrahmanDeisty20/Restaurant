@@ -2,9 +2,7 @@
     <x-filament::section>
         <div class="flex items-center justify-between gap-x-3">
             <div class="flex items-center gap-x-3">
-                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-bold text-lg">
-                    {{ substr(auth()->user()->full_name, 0, 1) }}{{ substr(strrchr(auth()->user()->full_name, ' '), 1, 1) ?: '' }}
-                </div>
+                <img src="{{ asset('images/logo.webp') }}" alt="Mandi & Grill" class="h-16 w-16 rounded-full object-cover shadow-lg border-2 border-amber-500/20">
                 <div>
                     <h2 class="text-xl font-bold tracking-tight text-gray-950 dark:text-white">
                         {{ __('Welcome') }}, {{ auth()->user()->full_name }}
