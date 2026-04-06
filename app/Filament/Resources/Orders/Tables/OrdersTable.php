@@ -15,19 +15,37 @@ class OrdersTable
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->label(__('User'))
-                    ->numeric()
+                TextColumn::make('order_number')
+                    ->label(__('Order Number'))
+                    ->icon('heroicon-m-hashtag')
+                    ->searchable()
                     ->sortable(),
+                TextColumn::make('user.full_name') // Relationship name
+                    ->label(__('Account User'))
+                    ->icon('heroicon-m-user-circle')
+                    ->default(__('Guest'))
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('customer_name') // Specific order field
+                    ->label(__('Customer Name'))
+                    ->icon('heroicon-m-user')
+                    ->searchable(),
                 TextColumn::make('total_price')
                     ->label(__('Total Price'))
-                    ->numeric()
+                    ->money('EGP')
+                    ->color('success')
+                    ->weight('bold')
                     ->sortable(),
                 TextColumn::make('status')
                     ->label(__('Status'))
-                    ->searchable(),
-                TextColumn::make('notes')
-                    ->label(__('Notes'))
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'accepted', 'preparing', 'on_the_way' => 'info',
+                        'delivered' => 'success',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    })
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->label(__('Created At'))
