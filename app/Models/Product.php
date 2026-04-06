@@ -23,6 +23,9 @@ class Product extends Model
         'time',
         'included_extras',
     ];
+    protected $casts = [
+        'included_extras' => 'json',
+    ];
     /*
     protected $appends = [
         'image_path',

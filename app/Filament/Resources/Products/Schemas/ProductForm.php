@@ -117,9 +117,12 @@ class ProductForm
                     ->icon('heroicon-o-plus-circle')
                     ->collapsed()
                     ->components([
-                        Textarea::make('included_extras')
+                        Select::make('included_extras')
                             ->label(__('Included Extras'))
-                            ->placeholder(__('e.g. Ranch Sauce, Pepsi, ...'))
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->options(\App\Models\ProductExtra::all()->pluck('name_' . app()->getLocale(), 'id'))
                             ->columnSpanFull(),
                     ]),
             ]);
