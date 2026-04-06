@@ -4,6 +4,9 @@ namespace App\Filament\Resources\OrderReviews\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Select;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 class OrderReviewForm
@@ -12,20 +15,44 @@ class OrderReviewForm
     {
         return $schema
             ->components([
-                TextInput::make('order_id')
-                    ->label(__('Order'))
-                    ->required()
-                    ->numeric(),
-                TextInput::make('user_id')
-                    ->label(__('User'))
-                    ->required()
-                    ->numeric(),
-                TextInput::make('rating')
-                    ->label(__('Rating'))
-                    ->required(),
-                Textarea::make('comment')
-                    ->label(__('Comment'))
-                    ->columnSpanFull(),
+                Section::make(__('Order Review Context'))
+                    ->icon('heroicon-o-shopping-cart')
+                    ->description(__('Identification of the customer and the specific order.'))
+                    ->columns(2)
+                    ->components([
+                        Select::make('user_id')
+                            ->label(__('Customer'))
+                            ->relationship('user', 'full_name') // Correct relation
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->icon('heroicon-m-user'),
+                        Select::make('order_id')
+                            ->label(__('Order'))
+                            ->relationship('order', 'id') // Correct relation
+                            ->searchable()
+                            ->preload()
+                            ->required()
+                            ->icon('heroicon-m-hashtag'),
+                    ]),
+
+                Section::make(__('Feedback Content'))
+                    ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                    ->description(__('How the customer rated their overall experience.'))
+                    ->schema([
+                        TextInput::make('rating')
+                            ->label(__('Rating'))
+                            ->required()
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(5)
+                            ->icon('heroicon-m-star'),
+                        Textarea::make('comment')
+                            ->label(__('Comment'))
+                            ->rows(4)
+                            ->columnSpanFull()
+                            ->icon('heroicon-m-chat-bubble-left'),
+                    ]),
             ]);
     }
 }
