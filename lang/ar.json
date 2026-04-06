@@ -147,5 +147,16 @@
     "Active Offers": "العروض النشطة",
     "Active discounts on products": "الخصومات النشطة على المنتجات",
     "Latest Orders": "أحدث الطلبات",
-    "Latest Orders Table": "جدول الطلبات الأخيرة"
+    "Latest Orders Table": "جدول الطلبات الأخيرة",
+    "Contact Information": "معلومات التواصل",
+    "Basic details of the person who contacted us.": "التفاصيل الأساسية للشخص الذي اتصل بنا.",
+    "Message Content": "محتوى الرسالة",
+    "The specific details and message received.": "التفاصيل المحددة والرسالة المستلمة.",
+    "Sent At": "تم الإرسال في",
+    "New Contact Message": "رسالة تواصل جديدة",
+    "From: :name - Subject: :subject": "من: :name - الموضوع: :subject",
+    "New Order Received": "تم استلام طلب جديد",
+    "Order #:order_number from :name": "طلب رقم #:order_number من :name",
+    "View Order": "عرض الطلب",
+    "View": "عرض"
 }
