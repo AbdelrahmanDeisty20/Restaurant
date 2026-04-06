@@ -10,12 +10,12 @@ use App\Filament\Resources\Contacts\ContactResource;
 
 class ContactObserver
 {
-    /**
-     * Handle the Contact "created" event.
-     */
     public function created(Contact $contact): void
     {
+        \Illuminate\Support\Facades\Log::info('ContactObserver: Triggered for contact ID ' . $contact->id);
+
         $admins = User::role(['super_admin', 'admin'])->get();
+        \Illuminate\Support\Facades\Log::info('ContactObserver: Found ' . $admins->count() . ' admins');
 
         Notification::make()
             ->title(__('New Contact Message'))
@@ -31,5 +31,7 @@ class ContactObserver
                     ->url(ContactResource::getUrl('view', ['record' => $contact->id])),
             ])
             ->sendToDatabase($admins);
+
+        \Illuminate\Support\Facades\Log::info('ContactObserver: Notification sent to database');
     }
 }
