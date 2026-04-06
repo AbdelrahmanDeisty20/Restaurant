@@ -66,20 +66,21 @@ class UserForm
                             ->password()
                             ->required(fn(string $context): bool => $context === 'create')
                             ->dehydrated(fn($state) => filled($state))
-                            ->icon('heroicon-m-key'),
+                            ->prefixIcon('heroicon-m-key'),
                         DateTimePicker::make('email_verified_at')
                             ->label(__('Email Verified At'))
-                            ->icon('heroicon-m-check-badge'),
+                            ->prefixIcon('heroicon-m-check-badge'),
                         Select::make('roles')
                             ->label(__('Roles'))
                             ->multiple()
                             ->relationship('roles', 'name')
                             ->preload()
                             ->visible(fn() => auth()->user()->can('Update:Role'))
-                            ->icon('heroicon-m-user-group'),
+                            ->prefixIcon('heroicon-m-user-group'),
                         Toggle::make('is_active')
                             ->label(__('Is Active'))
                             ->required()
+                            ->default(true)
                             ->inline(false)
                             ->onIcon('heroicon-m-check')
                             ->offIcon('heroicon-m-x-mark'),

@@ -78,7 +78,7 @@ class ProductForm
                             ->required()
                             ->default(false)
                             ->onIcon('heroicon-m-star')
-                            ->offIcon('heroicon-m-star-slash'),
+                            ->offIcon('heroicon-o-star'),
                     ]),
 
                 Section::make(__('Product Media'))
