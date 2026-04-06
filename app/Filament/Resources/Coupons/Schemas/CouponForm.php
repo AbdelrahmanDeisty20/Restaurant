@@ -21,6 +21,7 @@ class CouponForm
                     ->label(__('Code'))
                     ->required()
                     ->numeric()
+                    ->readOnly()
                     ->unique('coupons', 'code', ignoreRecord: true)
                     ->maxLength(50)
                     ->suffixAction(
