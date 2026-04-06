@@ -4,7 +4,10 @@ namespace App\Observers;
 
 use App\Models\Order;
 use App\Models\AppNotification;
+use App\Models\User;
 use App\Services\NotificationService;
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
 
 class OrderObserver
 {
@@ -13,6 +16,30 @@ class OrderObserver
     public function __construct(NotificationService $notificationService)
     {
         $this->notificationService = $notificationService;
+    }
+
+    /**
+     * Handle the Order "created" event.
+     */
+    public function created(Order $order): void
+    {
+        $admins = User::role(['super_admin', 'admin'])->get();
+        $userName = $order->user?->full_name ?? __('Guest');
+
+        Notification::make()
+            ->title(__('New Order Received'))
+            ->body(__('Order #:order_number from :name', [
+                'order_number' => $order->order_number,
+                'name' => $userName,
+            ]))
+            ->icon('heroicon-o-shopping-bag')
+            ->iconColor('success')
+            ->actions([
+                Action::make('view')
+                    ->label(__('View Order'))
+                    ->url(fn (): string => \App\Filament\Resources\Orders\OrderResource::getUrl('view', ['record' => $order->id])),
+            ])
+            ->sendToDatabase($admins);
     }
 
     /**

@@ -28,7 +28,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasRole('super_admin') ? true : null;
         });
 
-        Offer::observe(OfferObserver::class);
-        Order::observe(OrderObserver::class);
+        \App\Models\Offer::observe(\App\Observers\OfferObserver::class);
+        \App\Models\Order::observe(\App\Observers\OrderObserver::class);
+        \App\Models\Contact::observe(\App\Observers\ContactObserver::class);
     }
 }
