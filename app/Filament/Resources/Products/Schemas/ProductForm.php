@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -58,15 +59,17 @@ class ProductForm
                             ->preload(),
                         TextInput::make('price')
                             ->label(__('Price'))
-                            ->required()
+                            ->required(fn($get) => count($get('sizes') ?? []) === 0)
                             ->numeric()
                             ->prefix('EGP')
-                            ->prefixIcon('heroicon-m-banknotes'),
+                            ->prefixIcon('heroicon-m-banknotes')
+                            ->hidden(fn($get) => count($get('sizes') ?? []) > 0),
                         TextInput::make('discount_price')
                             ->label(__('Discount Price'))
                             ->numeric()
                             ->prefix('EGP')
-                            ->prefixIcon('heroicon-m-receipt-percent'),
+                            ->prefixIcon('heroicon-m-receipt-percent')
+                            ->hidden(fn($get) => count($get('sizes') ?? []) > 0),
                         Toggle::make('is_active')
                             ->label(__('Is Active'))
                             ->required()
@@ -79,6 +82,41 @@ class ProductForm
                             ->default(false)
                             ->onIcon('heroicon-m-star')
                             ->offIcon('heroicon-o-star'),
+                    ]),
+
+                Section::make(__('Product Sizes'))
+                    ->icon('heroicon-o-arrows-right-left')
+                    ->description(__('Define different variants and their specific prices.'))
+                    ->collapsible()
+                    ->collapsed(fn($record) => $record?->sizes()->count() === 0)
+                    ->components([
+                        Repeater::make('sizes')
+                            ->relationship('sizes')
+                            ->label(__('Sizes & Variations'))
+                            ->live()
+                            ->itemLabel(fn(array $state): ?string => ($state['name_ar'] ?? $state['name_en'] ?? null) 
+                                ? ($state['name_ar'] . ' / ' . $state['name_en'] . ' (' . ($state['price'] ?? 0) . ' EGP)') 
+                                : null)
+                            ->columns(3)
+                            ->grid(['default' => 1])
+                            ->cloneable()
+                            ->addActionLabel(__('Add Size Variation'))
+                            ->components([
+                                TextInput::make('name_ar')
+                                    ->label(__('Name AR'))
+                                    ->required()
+                                    ->prefixIcon('heroicon-m-language'),
+                                TextInput::make('name_en')
+                                    ->label(__('Name EN'))
+                                    ->required()
+                                    ->prefixIcon('heroicon-m-language'),
+                                TextInput::make('price')
+                                    ->label(__('Price'))
+                                    ->required()
+                                    ->numeric()
+                                    ->prefix('EGP')
+                                    ->prefixIcon('heroicon-m-banknotes'),
+                            ]),
                     ]),
 
                 Section::make(__('Product Media'))
