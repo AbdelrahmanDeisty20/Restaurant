@@ -26,14 +26,14 @@ class ProductController extends Controller
         $this->searchProductService = $searchProductService;
     }
 
-    public function index()
-    {
-        $products = $this->productService->getAllProducts();
-        if (!$products['status']) {
-            return $this->error($products['message'], 404);
-        }
-        return $this->paginated(ProductResource::class, $products['data'], $products['message']);
-    }
+    // public function index()
+    // {
+    //     $products = $this->productService->getAllProducts();
+    //     if (!$products['status']) {
+    //         return $this->error($products['message'], 404);
+    //     }
+    //     return $this->paginated(ProductResource::class, $products['data'], $products['message']);
+    // }
 
     public function filter(FilterProductRequest $request)
     {
