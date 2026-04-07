@@ -18,4 +18,15 @@ class EditProduct extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (isset($data['has_sizes']) && ! $data['has_sizes']) {
+            $this->getRecord()->sizes()->delete();
+        }
+
+        unset($data['has_sizes']);
+
+        return $data;
+    }
 }

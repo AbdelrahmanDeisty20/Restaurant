@@ -54,7 +54,7 @@ class ProductForm
                             ->label(__('Product has sizes?'))
                             ->helperText(__('Enable this if you want to define multiple sizes with different prices.'))
                             ->live()
-                            ->dehydrated(false)
+                            ->default(false)
                             ->afterStateHydrated(function ($set, $record) {
                                 if ($record) {
                                     $set('has_sizes', $record->sizes()->exists());
@@ -104,6 +104,7 @@ class ProductForm
                         Repeater::make('sizes')
                             ->relationship('sizes')
                             ->label(__('Sizes & Variations'))
+                            ->required(fn($get) => (bool) $get('has_sizes'))
                             ->live()
                             ->itemLabel(fn(array $state): ?string => ($state['name_ar'] ?? $state['name_en'] ?? null) 
                                 ? ($state['name_ar'] . ' / ' . $state['name_en'] . ' (' . ($state['price'] ?? 0) . ' EGP)') 
