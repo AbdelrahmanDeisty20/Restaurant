@@ -189,9 +189,21 @@ class AuthService
         ];
     }
 
-    public function logout($user): array
+    public function logout(): array
     {
+        $user = auth()->user();
         $user->currentAccessToken()->delete();
+
+        return [
+            'status' => true,
+            'message' => __('messages.user_logged_out_successfully'),
+            'data' => [],
+        ];
+    }
+    public function logoutAll(): array
+    {
+        $user= auth()->user();
+        $user->tokens()->delete();
 
         return [
             'status' => true,

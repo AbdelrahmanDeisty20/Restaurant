@@ -59,17 +59,17 @@ class ProductForm
                             ->preload(),
                         TextInput::make('price')
                             ->label(__('Price'))
-                            ->required(fn($get) => count($get('sizes') ?? []) === 0)
+                            ->required(fn($get) => empty($get('sizes')))
                             ->numeric()
                             ->prefix('EGP')
                             ->prefixIcon('heroicon-m-banknotes')
-                            ->hidden(fn($get) => count($get('sizes') ?? []) > 0),
+                            ->hidden(fn($get) => ! empty($get('sizes'))),
                         TextInput::make('discount_price')
                             ->label(__('Discount Price'))
                             ->numeric()
                             ->prefix('EGP')
                             ->prefixIcon('heroicon-m-receipt-percent')
-                            ->hidden(fn($get) => count($get('sizes') ?? []) > 0),
+                            ->hidden(fn($get) => ! empty($get('sizes'))),
                         Toggle::make('is_active')
                             ->label(__('Is Active'))
                             ->required()
