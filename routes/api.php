@@ -41,7 +41,7 @@ Route::group(['middleware' => setLang::class], function () {
     Route::get('pages', [InformationController::class, 'pages']);
     Route::get('pages/{slug}', [InformationController::class, 'page']);
     Route::get('settings', [InformationController::class, 'settings']);
-    Route::post('contact', [ContactController::class, 'store']);
+    // Route::post('contact', [ContactController::class, 'store']);
 
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
