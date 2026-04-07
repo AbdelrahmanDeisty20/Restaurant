@@ -20,9 +20,9 @@ class ContactController extends Controller
         $this->contactService = $contactService;
     }
 
-    // public function store(StoreContactRequest $request)
-    // {
-    //     $this->contactService->store($request->validated());
-    //     return $this->messageOnly(__('messages.contact_message_sent_successfully'));
-    // }
+    public function store(StoreContactRequest $request)
+    {
+        $this->contactService->store($request->validated());
+        return $this->messageOnly(__('messages.contact_message_sent_successfully'));
+    }
 }
