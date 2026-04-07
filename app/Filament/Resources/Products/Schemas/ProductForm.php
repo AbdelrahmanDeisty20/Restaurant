@@ -50,6 +50,17 @@ class ProductForm
                     ->description(__('Manage the financial details and availability.'))
                     ->columns(3)
                     ->components([
+                        Toggle::make('has_sizes')
+                            ->label(__('Product has sizes?'))
+                            ->helperText(__('Enable this if you want to define multiple sizes with different prices.'))
+                            ->live()
+                            ->dehydrated(false)
+                            ->afterStateHydrated(function ($set, $record) {
+                                if ($record) {
+                                    $set('has_sizes', $record->sizes()->exists());
+                                }
+                            })
+                            ->columnSpanFull(),
                         Select::make('category_id')
                             ->label(__('Category'))
                             ->required()
@@ -59,17 +70,17 @@ class ProductForm
                             ->preload(),
                         TextInput::make('price')
                             ->label(__('Price'))
-                            ->required(fn($get) => empty($get('sizes')))
+                            ->required(fn($get) => ! $get('has_sizes'))
                             ->numeric()
                             ->prefix('EGP')
                             ->prefixIcon('heroicon-m-banknotes')
-                            ->hidden(fn($get) => ! empty($get('sizes'))),
+                            ->hidden(fn($get) => $get('has_sizes')),
                         TextInput::make('discount_price')
                             ->label(__('Discount Price'))
                             ->numeric()
                             ->prefix('EGP')
                             ->prefixIcon('heroicon-m-receipt-percent')
-                            ->hidden(fn($get) => ! empty($get('sizes'))),
+                            ->hidden(fn($get) => $get('has_sizes')),
                         Toggle::make('is_active')
                             ->label(__('Is Active'))
                             ->required()
@@ -88,7 +99,7 @@ class ProductForm
                     ->icon('heroicon-o-arrows-right-left')
                     ->description(__('Define different variants and their specific prices.'))
                     ->collapsible()
-                    ->collapsed(fn($record) => $record?->sizes()->count() === 0)
+                    ->hidden(fn($get) => ! $get('has_sizes'))
                     ->components([
                         Repeater::make('sizes')
                             ->relationship('sizes')
