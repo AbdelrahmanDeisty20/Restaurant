@@ -9,9 +9,9 @@ DirectoryIndex index.html index.php
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # استثناء للأدمن والـ API عشان يفتحوا لارافل
-    RewriteCond %{REQUEST_URI} ^/(admin|api|storage|login|logout|livewire|filament) [NC]
-    RewriteRule ^ index.php [L]
+   # استثناء مسارات الباك إند واللغة عشان ميروحوش للريأكت
+    RewriteCond %{REQUEST_URI} ^/(admin|api|storage|login|logout|livewire|filament|language|lang) [NC]
+RewriteRule ^ index.php [L]
 
     # أي حاجة تانية (زي /menu أو /about) ابعتها للريأكت
     RewriteRule ^ index.html [L]
