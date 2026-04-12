@@ -4,17 +4,20 @@ DirectoryIndex index.html index.php
     RewriteEngine On
     RewriteBase /
 
-    # 1. لو الملف موجود فعلياً (صورة أو ملف CSS/JS) شغله واطلع
+    # 1. استثناء الملفات الحقيقية (صور، CSS، JS)
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 2. القاعدة الجامعة: أي طلب يخص الأدمين، اللغة، الـ API، أو الـ Livewire
-    # السطر ده هيخلي السيرفر يبعتهم للارافل غصب عنه
-    RewriteCond %{REQUEST_URI} ^/(admin|api|livewire|filament|lang|language|set-locale) [NC]
+    # 2. توجيه إجباري: أي رابط فيه كلمة /lang/ يروح للداشبورد فوراً
+    # لأنك قلت إن الموقع ملوش روت للترجمة، يبقى السكة دي ملك للباك إند بس
+    RewriteCond %{REQUEST_URI} ^/lang/ [NC]
     RewriteRule ^ index.php [L]
 
-    # 3. أي حاجة تانية "أياً كانت" ابعتها للريأكت
-    # تأكد إن ملف index.html موجود فعلاً في نفس الفولدر
+    # 3. توجيه الأدمن والـ API والـ Livewire
+    RewriteCond %{REQUEST_URI} ^/(admin|api|livewire|filament) [NC]
+    RewriteRule ^ index.php [L]
+
+    # 4. أي حاجة تانية للموقع (React)
     RewriteRule ^ index.html [L]
 </IfModule>
