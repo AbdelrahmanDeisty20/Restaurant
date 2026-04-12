@@ -1,22 +1,17 @@
-DirectoryIndex index.html index.php
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
 
-    # 1. استثناءات الصور والـ Assets (مهم جداً تكون في الأول)
+    # أي طلب يبدأ بـ admin يروح فوراً للارافل (index.php)
+    # ده هيضمن إن أي تحويل لغة جواه يشتغل صح
+    RewriteCond %{REQUEST_URI} ^/admin [NC]
+    RewriteRule ^ index.php [L]
+
+    # استثناءات الصور والملفات
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 2. أي طلب يبدأ بـ admin أو livewire أو filament يروح للارافل
-    RewriteCond %{REQUEST_URI} ^/(admin|livewire|filament|api) [NC]
-    RewriteRule ^ index.php [L]
-
-    # 3. الحل لمشكلتك: لقط مسار اللغة سواء بدأ بـ / أو لا
-    RewriteCond %{REQUEST_URI} (lang|language|localization|set-locale) [NC]
-    RewriteRule ^ index.php [L]
-
-    # 4. أي حاجة تانية تروح للريأكت
+    # أي حاجة تانية تروح للريأكت
     RewriteRule ^ index.html [L]
 </IfModule>
