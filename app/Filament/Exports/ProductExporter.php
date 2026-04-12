@@ -14,6 +14,7 @@ class ProductExporter extends Exporter
 
     public static function getColumns(): array
     {
+        return [
             ExportColumn::make('id')
                 ->label('ID'),
             ExportColumn::make('name_ar')
@@ -38,6 +39,7 @@ class ProductExporter extends Exporter
                 ->label(__('Preparation Time')),
             ExportColumn::make('created_at')
                 ->label(__('Created At')),
+        ];
     }
 
     public static function getCompletedNotificationBody(Export $export): string
