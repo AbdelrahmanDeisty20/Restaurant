@@ -13,9 +13,9 @@ DirectoryIndex index.html index.php
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 3. استثناءات تانية ضرورية للباك إند (Livewire واللغات)
-    RewriteCond %{REQUEST_URI} ^/(api|storage|login|logout|livewire|filament|lang|language) [NC]
-    RewriteRule ^ index.php [L]
+   # استثناء صريح لأي رابط فيه تغيير لغة عشان ميروحش للريأكت
+RewriteCond %{REQUEST_URI} ^/(lang|language|localization|set-locale) [NC]
+RewriteRule ^ index.php [L]
 
     # 4. أي حاجة تانية غير اللي فوق.. ابعتها للريأكت (index.html)
     RewriteRule ^ index.html [L]
