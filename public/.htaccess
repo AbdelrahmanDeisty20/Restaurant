@@ -1,26 +1,17 @@
 <IfModule mod_rewrite.c>
-DirectoryIndex index.html index.php
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
     RewriteEngine On
+    RewriteBase /
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # 1. لو المسار هو ملف موجود فعلاً (صورة، CSS، JS) افتحه عادي
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
 
-    # Handle X-XSRF-Token Header
-    RewriteCond %{HTTP:x-xsrf-token} .
-    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
-
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
+    # 2. استثناء مسارات الباك إند (الأدمين والـ API) عشان ميروحوش للريأكت
+    RewriteCond %{REQUEST_URI} ^/(admin|api|storage|login|logout|livewire|filament) [NC]
     RewriteRule ^ index.php [L]
+
+    # 3. الحل السحري: أي مسار تاني (زي /menu) ابعته لـ index.html
+    # السطر ده هو اللي هيخلي الريفريش يشتغل
+    RewriteRule ^ index.html [L]
 </IfModule>
