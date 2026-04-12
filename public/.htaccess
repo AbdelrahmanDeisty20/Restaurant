@@ -1,17 +1,18 @@
+DirectoryIndex index.html index.php
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
 
-    # 1. لو المسار هو ملف موجود فعلاً (صورة، CSS، JS) افتحه عادي
+    # لو الملف موجود فعلياً (صورة، CSS، JS) شغله فوراً
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # 2. استثناء مسارات الباك إند (الأدمين والـ API) عشان ميروحوش للريأكت
+    # استثناء للأدمن والـ API عشان يفتحوا لارافل
     RewriteCond %{REQUEST_URI} ^/(admin|api|storage|login|logout|livewire|filament) [NC]
     RewriteRule ^ index.php [L]
 
-    # 3. الحل السحري: أي مسار تاني (زي /menu) ابعته لـ index.html
-    # السطر ده هو اللي هيخلي الريفريش يشتغل
+    # أي حاجة تانية (زي /menu أو /about) ابعتها للريأكت
     RewriteRule ^ index.html [L]
 </IfModule>
