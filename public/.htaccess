@@ -4,15 +4,19 @@ DirectoryIndex index.html index.php
     RewriteEngine On
     RewriteBase /
 
-    # لو الملف موجود فعلياً (صورة، CSS، JS) شغله فوراً
+    # 1. لو الطلب رايح لأي حاجة جوه الأدمين.. ابعته فوراً لـ index.php ومتبصش تحت
+    RewriteCond %{REQUEST_URI} ^/admin [NC]
+    RewriteRule ^ index.php [L]
+
+    # 2. استثناءات الصور والـ Assets عشان تظهر في الطرفين
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-   # استثناء مسارات الباك إند واللغة عشان ميروحوش للريأكت
-    RewriteCond %{REQUEST_URI} ^/(admin|api|storage|login|logout|livewire|filament|language|lang) [NC]
-RewriteRule ^ index.php [L]
+    # 3. استثناءات تانية ضرورية للباك إند (Livewire واللغات)
+    RewriteCond %{REQUEST_URI} ^/(api|storage|login|logout|livewire|filament|lang|language) [NC]
+    RewriteRule ^ index.php [L]
 
-    # أي حاجة تانية (زي /menu أو /about) ابعتها للريأكت
+    # 4. أي حاجة تانية غير اللي فوق.. ابعتها للريأكت (index.html)
     RewriteRule ^ index.html [L]
 </IfModule>
