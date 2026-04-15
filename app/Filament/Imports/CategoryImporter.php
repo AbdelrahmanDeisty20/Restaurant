@@ -25,21 +25,25 @@ class CategoryImporter extends Importer
                 ->rules(['required', 'max:255']),
             ImportColumn::make('is_active')
                 ->label(__('Active'))
-                ->requiredMapping()
                 ->boolean()
-                ->rules(['required', 'boolean']),
+                ->rules(['boolean']),
         ];
     }
 
     public function resolveRecord(): Category
     {
+        $category = null;
         if ($this->options['updateExisting'] ?? false) {
-             return Category::firstOrNew([
+             $category = Category::firstOrNew([
                  'name_en' => $this->data['name_en'],
              ]);
+        } else {
+            $category = new Category();
         }
 
-        return new Category();
+        $category->is_active = $this->data['is_active'] ?? true;
+
+        return $category;
     }
 
     public static function getCompletedNotificationBody(Import $import): string

@@ -25,18 +25,39 @@ class ProductExporter extends Exporter
                 ->label(__('Description (Arabic)')),
             ExportColumn::make('description_en')
                 ->label(__('Description (English)')),
+            ExportColumn::make('main_image')
+                ->label(__('Main Image')),
             ExportColumn::make('price')
                 ->label(__('Price')),
             ExportColumn::make('discount_price')
                 ->label(__('Discount Price')),
             ExportColumn::make('category.name')
                 ->label(__('Category')),
+            ExportColumn::make('category_id')
+                ->label(__('Category ID')),
             ExportColumn::make('is_active')
                 ->label(__('Active')),
             ExportColumn::make('is_featured')
                 ->label(__('Featured')),
             ExportColumn::make('time')
                 ->label(__('Preparation Time')),
+            ExportColumn::make('sizes')
+                ->label(__('Sizes (AR|EN|Price)'))
+                ->state(function (Product $record): string {
+                    return $record->sizes->map(function ($size) {
+                        return "{$size->name_ar}|{$size->name_en}|{$size->price}";
+                    })->implode('; ');
+                }),
+            ExportColumn::make('extras')
+                ->label(__('Extras'))
+                ->state(function (Product $record): string {
+                    if (empty($record->included_extras)) {
+                        return '';
+                    }
+                    return \App\Models\ProductExtra::whereIn('id', $record->included_extras)
+                        ->pluck('name_ar')
+                        ->implode(', ');
+                }),
             ExportColumn::make('created_at')
                 ->label(__('Created At')),
         ];
