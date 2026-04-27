@@ -21,23 +21,27 @@ class OrderObserver
 
     public function created(Order $order): void
     {
-        $admins = User::role(['super_admin', 'admin'])->get();
-        $userName = $order->user?->full_name ?? ($order->customer_name ?? __('Guest'));
+        try {
+            $admins = User::role(['super_admin', 'admin'])->get();
+            $userName = $order->user?->full_name ?? ($order->customer_name ?? __('Guest'));
 
-        Notification::make()
-            ->title(__('New Order Received'))
-            ->body(__('Order #:order_number from :name', [
-                'order_number' => $order->order_number,
-                'name' => $userName,
-            ]))
-            ->icon('heroicon-o-shopping-bag')
-            ->iconColor('success')
-            ->actions([
-                Action::make('view')
-                    ->label(__('View Order'))
-                    ->url(OrderResource::getUrl('view', ['record' => $order->id])),
-            ])
-            ->sendToDatabase($admins);
+            Notification::make()
+                ->title(__('New Order Received'))
+                ->body(__('Order #:order_number from :name', [
+                    'order_number' => $order->order_number,
+                    'name' => $userName,
+                ]))
+                ->icon('heroicon-o-shopping-bag')
+                ->iconColor('success')
+                ->actions([
+                    Action::make('view')
+                        ->label(__('View Order'))
+                        ->url(OrderResource::getUrl('view', ['record' => $order->id])),
+                ])
+                ->sendToDatabase($admins);
+        } catch (\Exception $e) {
+            \Log::error("Failed to send admin notification for order: " . $e->getMessage());
+        }
     }
 
     /**
